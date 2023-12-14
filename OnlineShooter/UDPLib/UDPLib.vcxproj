@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\protobuffers\packet\packet.pb.h" />
+    <ClInclude Include="utils\Buffer.h" />
+    <ClInclude Include="utils\common.h" />
+    <ClInclude Include="UDP\UDPBase.h" />
+    <ClInclude Include="UDP\UDPClient.h" />
+    <ClInclude Include="UDP\UDPServer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\protobuffers\packet\packet.pb.cc" />
+    <ClCompile Include="utils\Buffer.cpp" />
+    <ClCompile Include="UDP\UDPBase.cpp" />
+    <ClCompile Include="UDP\UDPClient.cpp" />
+    <ClCompile Include="UDP\UDPServer.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -70,6 +85,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)Extern\include\;$(SolutionDir)protobuffers\packet\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)protobuffers\packet\;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)Extern\include\;$(SolutionDir)protobuffers\packet\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)protobuffers\packet\;$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>

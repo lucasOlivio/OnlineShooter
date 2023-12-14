@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package packet;
+
+message PacketData {
+  required string dataType = 1;
+  required bytes data = 2;
+}
