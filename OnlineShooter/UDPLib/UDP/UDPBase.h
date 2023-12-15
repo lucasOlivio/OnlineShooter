@@ -1,5 +1,8 @@
 #pragma once
 
+// For simplicity we keep the "inet_addr" for now so we need this flag
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 // WinSock2 Windows Sockets
 #define WIN32_LEAN_AND_MEAN
 
