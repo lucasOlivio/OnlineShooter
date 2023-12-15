@@ -3,7 +3,7 @@ syntax = "proto2";
 package shooter;
 
 message UserInput {
-  required int32 id = 1;
+  required int32 requestId = 1;
   required int32 input = 2; // [FORWARD, BACKWARD, TURN_LEFT, TURN_RIGHT, FIRE]
 }
 
@@ -14,20 +14,22 @@ message Vector3 {
 }
 
 message Player {
-  required int32 state = 1; // [IS_ACTIVE, IS_CONNECTED, HAS_AMMO, IS_DEAD]
-  required Vector3 position = 2;
-  required Vector3 velocity = 3;
-  required Vector3 orientation = 4; // In quaternions
+  required int32 playerId = 1;
+  required int32 state = 2; // [IS_ACTIVE, IS_CONNECTED, HAS_AMMO, IS_DEAD]
+  required Vector3 position = 3;
+  required Vector3 velocity = 4;
+  required Vector3 orientation = 5; // In quaternions
 }
 
-message Bullet {
-  required int32 state = 1; // [ACTIVE]
-  required Vector3 position = 2;
-  required Vector3 velocity = 3;
+message Bullet { 
+  required int32 playerId = 1;
+  required int32 state = 2; // [ACTIVE]
+  required Vector3 position = 3;
+  required Vector3 velocity = 4;
 }
 
 message GameScene {
-  required int32 id = 1;
+  required int32 requestId = 1;
   repeated Player players = 2;
   repeated Bullet bullets = 3;
 }
