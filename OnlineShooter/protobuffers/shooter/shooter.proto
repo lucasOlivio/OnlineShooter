@@ -14,7 +14,7 @@ message Vector3 {
 }
 
 message Player {
-  required int32 state = 1; // [IS_ACTIVE, IS_CONNECTED, HAS_AMMO]
+  required int32 state = 1; // [IS_ACTIVE, IS_CONNECTED, HAS_AMMO, IS_DEAD]
   required Vector3 position = 2;
   required Vector3 velocity = 3;
   required Vector3 orientation = 4; // In quaternions

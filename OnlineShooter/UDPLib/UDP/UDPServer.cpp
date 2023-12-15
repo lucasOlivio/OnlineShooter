@@ -48,30 +48,17 @@ void UDPServer::StartListening()
 
 void UDPServer::AddClient(sockaddr_in& addr, int& addrLen)
 {
-	// Compare to see if the addr is already registered
-	// If it is not registered, we add it
-	for (int i = 0; i < m_connectedClients.size(); i++)
+	if (m_GetClientId(addr, addrLen) > -1)
 	{
-		sClientInfo* pClient = m_connectedClients[i];
-
-		if (pClient->addr.sin_addr.s_addr != addr.sin_addr.s_addr ||
-			pClient->addr.sin_port        != addr.sin_port)
-		{
-			continue;
-		}
-
-		// Add the client
-		sClientInfo* pNewClient = new sClientInfo();
-		pNewClient->addr = addr;
-		pNewClient->addrLen = sizeof(addr);
-		m_connectedClients.push_back(pNewClient);
-
-		// Client added so we can stop and return function
+		// Client already on list
 		return;
 	}
 
-	// No new client added
-	return;
+	// New connected client
+	sClientInfo* pNewClient = new sClientInfo();
+	pNewClient->addr = addr;
+	pNewClient->addrLen = sizeof(addr);
+	m_connectedClients.push_back(pNewClient);
 }
 
 void UDPServer::ReadNewMsgs()
@@ -83,4 +70,22 @@ void UDPServer::ReadNewMsgs()
 
     // Now we add the client to our list if its not there
 	AddClient(addr, addrLen);
+}
+
+int UDPServer::m_GetClientId(sockaddr_in& addr, int& addrLen)
+{
+	// Compare to see if the addr is already registered
+	// If it is not registered, we add it
+	for (int i = 0; i < m_connectedClients.size(); i++)
+	{
+		sClientInfo* pClient = m_connectedClients[i];
+
+		if (pClient->IsEqualTo(addr))
+		{
+			return i;
+		}
+	}
+
+	// Client not found
+	return -1;
 }
