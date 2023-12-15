@@ -3,11 +3,8 @@
 
 UDPBase::UDPBase()
 {
-    this->m_serverSocket = INVALID_SOCKET;
-    this->m_pInfo = nullptr;
-	this->m_isInitialized = false;
-	this->m_tv.tv_sec = 1;
-	this->m_tv.tv_usec = 0;
+    m_serverSocket = INVALID_SOCKET;
+	m_isInitialized = false;
 }
 
 UDPBase::~UDPBase()
@@ -16,12 +13,12 @@ UDPBase::~UDPBase()
 
 SOCKET& UDPBase::GetSocket()
 {
-    return this->m_serverSocket;
+    return m_serverSocket;
 }
 
-bool UDPBase::Initialize(const char* host, const char* port)
+bool UDPBase::Initialize(const char* host, int port)
 {
-	if (this->m_isInitialized)
+	if (m_isInitialized)
 	{
 		// Already initialized
 		return true;
@@ -34,76 +31,85 @@ bool UDPBase::Initialize(const char* host, const char* port)
 	// Set version 2.2 with MAKEWORD(2,2)
 	result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != 0) {
-		this->m_ResultError("WSAStartup", result, true);
+		m_ResultError("WSAStartup", result, true);
 		return false;
 	}
 	printf("WSAStartup successfully!\n");
 
-	struct addrinfo hints;
-	ZeroMemory(&hints, sizeof(hints));	// ensure we don't have garbage data 
-	hints.ai_family = AF_INET;			// IPv4
-	hints.ai_socktype = SOCK_STREAM;	// Stream
-	hints.ai_protocol = IPPROTO_UDP;	// UDP
-	hints.ai_flags = AI_PASSIVE;
-
-	// Set all address info 
-	result = getaddrinfo(host, port, &hints, &this->m_pInfo);
-	if (result != 0) {
-		this->m_ResultError("getaddrinfo", result, true);
-		return false;
-	}
-	printf("getaddrinfo successfully!\n");
+	m_info.sin_family = AF_INET;
+	m_info.sin_port = htons(port);
+	m_info.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	// Creates new socket
-	this->m_serverSocket = socket(this->m_pInfo->ai_family, this->m_pInfo->ai_socktype, this->m_pInfo->ai_protocol);
-	if (this->m_serverSocket == INVALID_SOCKET) {
-		this->m_SocketError("socket", this->m_serverSocket, true);
+	m_serverSocket = socket(AF_INET,      // IPv4
+							SOCK_DGRAM,   // Datagram
+							IPPROTO_UDP); // UDP
+	if (m_serverSocket == INVALID_SOCKET) {
+		m_SocketError("socket", m_serverSocket, true);
 		return false;
 	}
 	printf("socket created successfully!\n");
 
-	this->m_isInitialized = true;
+	m_isInitialized = true;
+
     return true;
 }
 
 void UDPBase::Destroy()
 {
-	if (this->m_serverSocket != INVALID_SOCKET)
+	if (m_serverSocket != INVALID_SOCKET)
 	{
-		closesocket(this->m_serverSocket);
-	}
-	if (this->m_pInfo)
-	{
-		freeaddrinfo(this->m_pInfo);
+		closesocket(m_serverSocket);
 	}
 	WSACleanup();
-	this->m_isInitialized = false;
+	m_isInitialized = false;
+
+	for (myUDP::sPacketData* pPacket : m_lastPackets)
+	{
+		delete pPacket;
+	}
+	m_lastPackets.clear();
+
 	return;
+}
+
+bool UDPBase::SetBlocking(u_long mode)
+{
+	int result = ioctlsocket(m_serverSocket, FIONBIO, &mode);
+	if (result != NO_ERROR)
+	{
+		std::string errorMsg = "ioctlsocket failed with error: " + std::to_string(result);
+		m_SocketError(errorMsg.c_str(), m_serverSocket, true);
+		return false;
+	}
+
+	return true;
 }
 
 void UDPBase::SendRequest(SOCKET& destSocket, const std::string& dataTypeIn, const std::string& dataIn)
 {
-	if (!this->m_isInitialized)
+	if (!m_isInitialized)
 	{
 		return;
 	}
 
 	// Build string packet to send
 	Buffer buffer(BUFFER_SIZE);
-	int packetSize = this->m_SerializePacket(dataTypeIn, dataIn, buffer);
+	int packetSize = m_SerializePacket(dataTypeIn, dataIn, buffer);
 
 	// Send data and validate if succesfull
 	int result = send(destSocket, (const char*)(&buffer.vecBufferData[0]), packetSize, 0);
 	if (result == SOCKET_ERROR) {
-		this->m_SocketError("send", result, false);
+		m_SocketError("send", result, false);
 		return;
 	}
 	return;
 }
 
-bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, std::string& dataOut)
+bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, 
+							 std::string& dataOut, sockaddr_in& addr, int& addrLen)
 {
-	if (!this->m_isInitialized)
+	if (!m_isInitialized)
 	{
 		return false;
 	}
@@ -115,7 +121,8 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, std::
 
 	// Get total packet size first to prepare buffer
 	buffer.vecBufferData.resize(sizeof(packetSize));
-	int result = recv(origSocket, (char*)(&buffer.vecBufferData[0]), sizeof(packetSize), 0);
+	int result = recvfrom(origSocket, (char*)(&buffer.vecBufferData[0]), sizeof(packetSize),
+						  0, (SOCKADDR*)&addr, &addrLen);
 	int ierr = WSAGetLastError();
 	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
 		dataTypeOut = "";
@@ -123,7 +130,7 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, std::
 		return true;
 	}
 	if (result == SOCKET_ERROR) {
-		this->m_SocketError("recv", result, false);
+		m_SocketError("recv", result, false);
 		return false;
 	}
 	if (result == 0)
@@ -138,13 +145,13 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, std::
 	// Now we can get the rest of the message, with the rest total size
 	result = recv(origSocket, (char*)(&buffer.vecBufferData[0]), packetSize, 0);
 	if (result == SOCKET_ERROR) {
-		this->m_SocketError("recv", result, false);
+		m_SocketError("recv", result, false);
 		return false;
 	}
 
 	// Transform the data into our readable string
 	strPacket = buffer.ReadString(0, packetSize - 1);
-	bool isDeserialized = this->m_DeserializePacket(strPacket, dataTypeOut, dataOut);
+	bool isDeserialized = m_DeserializePacket(strPacket, dataTypeOut, dataOut);
 	if (!isDeserialized)
 	{
 		return false;
@@ -153,13 +160,27 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, std::
 	return true;
 }
 
+void UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
+{
+	// Get any waiting msg from socket
+	myUDP::sPacketData* pPacketOut = new myUDP::sPacketData();
+	int result = ReceiveRequest(m_serverSocket, pPacketOut->dataType, pPacketOut->data,
+		addr, addrLen);
+	if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
+	{
+		m_ResultError("recvfrom failed", result, true);
+	}
+
+	m_lastPackets.push_back(pPacketOut);
+}
+
 void UDPBase::m_SocketError(const char* function, SOCKET socket, bool isFatalError)
 {
 	printf("%s failed with error %d\n", function, WSAGetLastError());
 
 	if (isFatalError)
 	{
-		this->Destroy();
+		Destroy();
 	}
 	return;
 }
@@ -170,7 +191,7 @@ void UDPBase::m_ResultError(const char* function, int result, bool isFatalError)
 
 	if (isFatalError)
 	{
-		this->Destroy();
+		Destroy();
 	}
 	return;
 }

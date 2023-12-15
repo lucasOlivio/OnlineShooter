@@ -2,41 +2,28 @@
 
 UDPServer::UDPServer()
 {
-    this->m_activeSockets = {};
-    this->m_socketsToRead = {};
 }
 
 UDPServer::~UDPServer()
 {
 }
 
-bool UDPServer::Initialize(const char* host, const char* port)
-{
-    bool UDPInitialized = UDPBase::Initialize(host, port);
-    if (!UDPInitialized)
-    {
-        return false;
-    }
-
-    // Initialize the sets
-    FD_ZERO(&this->m_activeSockets);
-    FD_ZERO(&this->m_socketsToRead);
-
-    // Start listening to connections
-    this->StartListening();
-
-    return true;
-}
-
 void UDPServer::Destroy()
 {
     UDPBase::Destroy();
+
+	for (sClientInfo* pClient : m_connectedClients)
+	{
+		delete pClient;
+	}
+	m_connectedClients.clear();
+
     return;
 }
 
 void UDPServer::StartListening()
 {
-	if (!this->m_isInitialized)
+	if (!m_isInitialized)
 	{
 		return;
 	}
@@ -44,112 +31,56 @@ void UDPServer::StartListening()
 	int result;
 
 	// Binds socket to address
-	result = bind(this->m_serverSocket, this->m_pInfo->ai_addr, (int)this->m_pInfo->ai_addrlen);
+	result = bind(m_serverSocket, (SOCKADDR*)&m_info, sizeof(m_info));
 	if (result == SOCKET_ERROR) {
-		this->m_ResultError("bind", result, true);
+		m_ResultError("bind", result, true);
 		return;
 	}
 	printf("bind was successful!\n");
 
-	// Start listening to any new connection
-	result = listen(this->m_serverSocket, SOMAXCONN);
-	if (result == SOCKET_ERROR) {
-		this->m_ResultError("listen", result, true);
-		return;
-	}
+	// Set recv as non-blocking
+	this->SetBlocking(1);
+
 	printf("listen successful\n");
 
 	return;
 }
 
-void UDPServer::UpdateSocketsToRead()
+void UDPServer::AddClient(sockaddr_in& addr, int& addrLen)
 {
-    if (!this->m_isInitialized)
-    {
-        return;
-    }
-
-    // Resets sockets to read
-    FD_ZERO(&this->m_socketsToRead);
-
-    // Add our server socket to our set to check for new connections
-    FD_SET(this->m_serverSocket, &this->m_socketsToRead);
-
-    // Add all of our active connections to our sockets to read
-    for (uint i = 0; i < this->m_activeSockets.fd_count; i++)
-    {
-        FD_SET(this->m_activeSockets.fd_array[i], &this->m_socketsToRead);
-    }
-
-    // Non-blocking way of checking if there is any new msg from the sockets
-    int count = select(0, &this->m_socketsToRead, NULL, NULL, &this->m_tv);
-    if (count == 0)
-    {
-        // Timevalue expired
-        return;
-    }
-    if (count == SOCKET_ERROR)
-    {
-        printf("select had an error %d\n", WSAGetLastError());
-        return;
-    }
-}
-
-void UDPServer::AddSocket()
-{
-	if (this->m_socketsToRead.fd_count <= 0 || !FD_ISSET(this->m_serverSocket, &this->m_socketsToRead))
+	// Compare to see if the addr is already registered
+	// If it is not registered, we add it
+	for (int i = 0; i < m_connectedClients.size(); i++)
 	{
-		// No new connections
+		sClientInfo* pClient = m_connectedClients[i];
+
+		if (pClient->addr.sin_addr.s_addr != addr.sin_addr.s_addr ||
+			pClient->addr.sin_port        != addr.sin_port)
+		{
+			continue;
+		}
+
+		// Add the client
+		sClientInfo* pNewClient = new sClientInfo();
+		pNewClient->addr = addr;
+		pNewClient->addrLen = sizeof(addr);
+		m_connectedClients.push_back(pNewClient);
+
+		// Client added so we can stop and return function
 		return;
 	}
 
-	// Set the incoming connection to a new socket
-	SOCKET newConnection = accept(this->m_serverSocket, NULL, NULL);
-	if (newConnection == INVALID_SOCKET)
-	{
-		// Handle errors
-		printf("accept failed with error: %d\n", WSAGetLastError());
-	}
-	else
-	{
-		// Handle successful connection
-		FD_SET(newConnection, &this->m_activeSockets);
-		FD_CLR(this->m_serverSocket, &this->m_socketsToRead);
-
-		printf("Client connected with Socket: %d\n", (int)newConnection);
-	}
+	// No new client added
+	return;
 }
 
-void UDPServer::ReadNewMsgs(std::map<SOCKET, myTcp::sPacketData>& mapNewMsgsOut)
+void UDPServer::ReadNewMsgs()
 {
-    // First use a non-blocking way to check which sockets have messages
-    this->UpdateSocketsToRead();
+	sockaddr_in addr;
+	int addrLen;
 
-    // Now loop through all the sockets with messages
-    for (uint i = 0; i < this->m_activeSockets.fd_count; i++)
-    {
-        SOCKET socket = this->m_activeSockets.fd_array[i];
-        if (!FD_ISSET(socket, &this->m_socketsToRead))
-        {
-            // Socket doesn't have any msg
-            continue;
-        }
+	UDPBase::ReadNewMsgs(addr, addrLen);
 
-        // Get the user message, along with the room id he is in
-        myTcp::sPacketData* pPacketOut = new myTcp::sPacketData();
-        bool received = this->ReceiveRequest(socket, pPacketOut->dataType, pPacketOut->data);
-
-        mapNewMsgsOut[socket] = *pPacketOut;
-
-        FD_CLR(socket, &this->m_socketsToRead);
-
-        if (!received)
-        {
-            printf("Client disconnected from socket %d...\n", (int)socket);
-            FD_CLR(socket, &this->m_activeSockets);
-        }
-    }
-
-    // Now if there is any messages remaining, they are to accept new connections
-    this->AddSocket();
+    // Now we add the client to our list if its not there
+	AddClient(addr, addrLen);
 }

@@ -9,14 +9,11 @@ public:
 	UDPClient();
 	virtual ~UDPClient();
 
-	bool Initialize(const char* host, const char* port);
-	void Destroy();
+	bool Initialize(const char* host, int port);
 
-	bool Connect();
+	// Read all messages incomming from server
+	void ReadNewMsgs();
 
-	// Set the socket to be blocking or not
-	bool SetBlocking(u_long mode);
-
-	// Wait "tv_sec" for msg from server
-	bool CheckMsgFromServer(int tv_sec);
+protected:
+	int m_infoLen;
 };
