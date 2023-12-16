@@ -122,8 +122,7 @@
       <AdditionalDependencies>UDPLib.lib;Engine.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\glew32d.dll" "$(OutDir)glew32d.dll"
-copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglutd.dll" "$(OutDir)freeglutd.dll"</Command>
+      <Command>msbuild $(ProjectName).vcxproj /t:AfterBuild</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,8 +143,7 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglutd.dll" "$(OutDir)free
       <AdditionalDependencies>UDPLib.lib;Engine.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\glew32.dll" "$(OutDir)glew32.dll"
-copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeglut.dll"</Command>
+      <Command>msbuild $(ProjectName).vcxproj /t:AfterBuild</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,7 +163,7 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeg
     <AssetsFiles Include="..\assets\**" />
   </ItemGroup>
   <PropertyGroup>
-    <DeploymentPath>..\bin\</DeploymentPath>
+    <DeploymentPath>..\bin\shooter\</DeploymentPath>
     <AssetsDeploymentPath>..\bin\assets\</AssetsDeploymentPath>
     <DeployZip>..\Shooter.zip</DeployZip>
   </PropertyGroup>

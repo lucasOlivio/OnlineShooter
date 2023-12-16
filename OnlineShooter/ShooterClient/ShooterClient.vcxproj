@@ -164,7 +164,7 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeg
     <AssetsFiles Include="..\assets\**" />
   </ItemGroup>
   <PropertyGroup>
-    <DeploymentPath>..\bin\</DeploymentPath>
+    <DeploymentPath>..\bin\shooter\</DeploymentPath>
     <AssetsDeploymentPath>..\bin\assets\</AssetsDeploymentPath>
     <DeployZip>..\Shooter.zip</DeployZip>
   </PropertyGroup>

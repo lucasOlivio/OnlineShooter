@@ -6,10 +6,6 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-    for (auto& entity : m_Entities)
-    {
-        delete entity;
-    }
 }
 
 void EntityManager::GetEntities(std::vector<Entity*>& entities) const

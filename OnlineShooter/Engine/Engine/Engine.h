@@ -8,6 +8,8 @@
 #include <common.h>
 #include <chrono>
 
+const std::string ASSETS_PATH = "../assets/";
+
 class Engine
 {
 public:
@@ -38,6 +40,9 @@ public:
 
 	// Engine
 	void AddSystem(iSystem* system);
+	EntityManager* GetEntityManager();
+
+	std::map<std::string, Model> models;
 
 private:
 	void LoadMeshes();
@@ -63,9 +68,6 @@ private:
 	int m_WindowHeight = 0;
 	int m_WindowRatio = 0;
 
-	// Model stuff
-	std::vector<Model> m_Models;
-
 	// Shader stuff
 	std::vector<ShaderProgram> m_ShaderPrograms;
 	GLuint m_ViewMatrixUL;
@@ -77,7 +79,7 @@ private:
 	Input m_Input;
 
 	// Entity manager
-	EntityManager m_EntityManager;
+	EntityManager* m_pEntityManager;
 
 	// Camera
 	Entity* m_CameraEntity;

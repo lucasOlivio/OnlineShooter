@@ -17,5 +17,5 @@ public:
     void RemoveEntity(Entity* entity);
 
 private:
-    std::vector<Entity*> m_Entities;
+    std::vector<Entity*> m_Entities = {};
 };
