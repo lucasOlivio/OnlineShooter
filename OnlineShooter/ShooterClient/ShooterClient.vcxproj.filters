@@ -21,6 +21,9 @@
     <ClCompile Include="..\protobuffers\shooter\shooter.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Network\NetworkClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\protobuffers\shooter\shooter.pb.h">

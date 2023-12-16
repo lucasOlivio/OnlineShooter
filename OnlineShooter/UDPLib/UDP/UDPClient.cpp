@@ -22,12 +22,12 @@ bool UDPClient::Initialize(const char* host, int port)
 
     // Set server addr info
     m_info.sin_addr.s_addr = inet_addr(host);
-    m_infoLen = sizeof(m_info);
 
     return true;
 }
 
 void UDPClient::ReadNewMsgs()
 {
+    m_infoLen = sizeof(m_info);
     UDPBase::ReadNewMsgs(m_info, m_infoLen);
 }

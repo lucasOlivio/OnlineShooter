@@ -151,6 +151,7 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeg
   <ItemGroup>
     <ClCompile Include="..\protobuffers\shooter\shooter.pb.cc" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Network\NetworkClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\protobuffers\shooter\shooter.pb.h" />
@@ -159,7 +160,7 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeg
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-    <!-- CUSTOM MSBUILD FOR ZIP -->
+  <!-- CUSTOM MSBUILD FOR ZIP -->
   <ItemGroup>
     <AssetsFiles Include="..\assets\**" />
   </ItemGroup>
