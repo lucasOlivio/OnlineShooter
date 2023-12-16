@@ -1,0 +1,32 @@
+syntax = "proto2";
+
+package shooter;
+
+message GetId {
+  required int32 playerId = 1;
+}
+
+message UserInput {
+  required int32 requestId = 1;
+  required int32 playerId = 2;
+  required int32 input = 3; // [FORWARD, BACKWARD, TURN_LEFT, TURN_RIGHT, FIRE]
+}
+
+message Vector3 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+}
+
+message Entity {
+  required int32 entityId = 1;
+  required int32 state = 2; // [NOT_ACTIVE, IS_ACTIVE, IS_CONNECTED, HAS_AMMO, IS_DEAD]
+  required Vector3 position = 3;
+  required Vector3 velocity = 4;
+  required Vector3 orientation = 5; // In quaternions
+}
+
+message GameScene {
+  required int32 requestId = 1;
+  repeated Entity entities = 2;
+}
