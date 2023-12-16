@@ -10,7 +10,7 @@ public:
 	PhysicsSystem() {};
 	virtual ~PhysicsSystem() { };
 
-	virtual bool Start(const std::vector<Entity*>& entities);
+	virtual bool Start(const std::vector<Entity*>& entities, int argc, char** argv);
 
 	virtual void Execute(const std::vector<Entity*>& entities, float dt);
 

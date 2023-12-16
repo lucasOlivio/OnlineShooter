@@ -1,6 +1,6 @@
 #include "PhysicsSystem.h"
 
-bool PhysicsSystem::Start(const std::vector<Entity*>& entities)
+bool PhysicsSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
     return false;
 }

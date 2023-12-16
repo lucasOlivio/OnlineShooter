@@ -9,7 +9,7 @@ public:
 	iSystem() = default;
 	virtual ~iSystem() { }
 
-	virtual bool Start(const std::vector<Entity*>& entities) = 0;
+	virtual bool Start(const std::vector<Entity*>& entities, int argc, char** argv) = 0;
 
 	virtual void Execute(const std::vector<Entity*>& entities, float dt) = 0;
 
