@@ -4,11 +4,13 @@
 #include "Graphics/ShaderProgram.h"
 #include "Graphics/Model.h"
 
-class RenderSystem : iSystem
+class RenderSystem : public iSystem
 {
 public:
+	~RenderSystem() {};
+
 	// Singleton
-	static RenderSystem& GetInstance();
+	static RenderSystem* GetInstance();
 
 	virtual bool Start(const std::vector<Entity*>& entities, int argc, char** argv);
 
@@ -23,10 +25,10 @@ public:
 	std::map<std::string, Model> models;
 private:
 	// Singleton
-	RenderSystem();
-	~RenderSystem() {};
+	RenderSystem() {};
 	RenderSystem(const RenderSystem&) = delete;
 	RenderSystem& operator=(const RenderSystem&) = delete;
+	static RenderSystem* m_pInstance;
 
 	void LoadShaders();
 	void LoadCamera();
@@ -56,8 +58,6 @@ private:
 void PressKey_Callback(unsigned char key, int x, int y);
 
 void ReleaseKey_Callback(unsigned char key, int x, int y);
-
-void Idle_Callback();
 
 void Reshape_Callback(int w, int h);
 

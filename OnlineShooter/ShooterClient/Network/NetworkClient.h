@@ -31,6 +31,9 @@ public:
 private:
 	UDPClient* m_pUDPClient;
 
+	// Player id to define which entity to control
+	int m_playerId = -1;
+
 	// Request id for user inputs
 	int m_nextRequestId;
 

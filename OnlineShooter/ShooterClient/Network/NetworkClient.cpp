@@ -4,6 +4,7 @@
 #include <System/Components/RigidBody.h>
 #include <System/Components/Transform.h>
 #include <System/Components/Network.h>
+#include <System/Components/PlayerController.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
 
@@ -20,6 +21,16 @@ bool ClientSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
     }
 
     // Get player id from server
+    shooter::GetId getid;
+    getid.set_playerid(m_playerId);
+
+    sockaddr_in addrServer = m_pUDPClient->GetInfo();
+    std::string getidSerialized;
+    getid.SerializeToString(&getidSerialized);
+
+    m_pUDPClient->SendRequest("getid", getidSerialized, 
+                              addrServer, sizeof(addrServer));
+    printf("waiting for id...");
 
     return true;
 }
@@ -89,8 +100,22 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
 void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities, 
 						            const std::string& dataIn)
 {
+    printf("Received id, setting playable entity...");
+
+    shooter::GetId getit;
+    bool isDeserialized = getit.ParseFromString(dataIn);
+    if (!isDeserialized)
+    {
+        printf("ClientSystem: Error deserializing getid!");
+        return;
+    }
+
     // Search the entity id for this player
+    Entity* pEntity = entities[getit.playerid()];
+    
     // set owner to true and add player controller
+    pEntity->AddComponent<NetworkComponent>(true);
+    pEntity->AddComponent<PlayerControllerComponent>();
 }
 
 bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,

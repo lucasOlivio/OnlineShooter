@@ -10,8 +10,10 @@ int main(int argc, char** argv)
 
 	// Setup systems
 	ClientSystem* pClient = new ClientSystem();
+	RenderSystem* pRender = GetRenderSystem();
 
 	GetEngine().AddSystem(pClient);
+	GetEngine().AddSystem(pRender);
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
@@ -28,6 +30,8 @@ int main(int argc, char** argv)
 	GetEngine().Run(argc, argv);
 
 	GetEngine().Destroy();
+
+	system("pause");
 
 	return 0;
 }

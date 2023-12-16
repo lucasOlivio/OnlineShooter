@@ -14,6 +14,7 @@ public:
 
     // Getters
     SOCKET& GetSocket();
+    sockaddr_in& GetInfo();
 
     // Initializes WSA, addres info and socket
     bool Initialize(const char* host, int port);
