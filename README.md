@@ -13,8 +13,9 @@ Project 3 for "Network programming" class. Creating a game server and game clien
 ## How to run
 
 1. Unzip all libs from the .zip file in the "extern/lib/" folder
-2. Open the solution in VS
-3. Build the Startup project and run the executable inside the bin folder or inside the Application/Application.zip
+2. Unzip all dlls from the .zip file in the "extern/bin/" folder
+3. Open the solution in VS
+4. Build the Startup project and run the executable inside the bin folder or inside the Application/Application.zip
 
 ## How to play
 
