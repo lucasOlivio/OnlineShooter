@@ -60,10 +60,7 @@
     <ClInclude Include="System\Components\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Network\NetworkClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Network\NetworkServer.h">
+    <ClInclude Include="System\Components\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
