@@ -34,7 +34,8 @@ private:
 	// Request id for game scene updates
 	int m_nextRequestId;
 
-	int m_nextAvailableId = 0;
+	// Index 0 will always be the camera
+	int m_nextAvailableId = 1;
 	std::chrono::high_resolution_clock::time_point m_nextSendTime;
 
 	void m_HandleMsgs(const std::vector<Entity*>& entities, float dt);

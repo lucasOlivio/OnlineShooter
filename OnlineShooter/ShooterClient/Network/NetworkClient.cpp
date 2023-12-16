@@ -30,7 +30,7 @@ bool ClientSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
     m_pUDPClient->SendRequest("getid", getidSerialized, 
                               addrServer, sizeof(addrServer));
-    printf("waiting for id...");
+    printf("waiting for id...\n");
 
     return true;
 }
@@ -60,7 +60,7 @@ void ClientSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
             m_UpdatePlayerId(entities, pPacket->data);
             continue;
         }
-        else if (pPacket->dataType == "userinput")
+        else if (pPacket->dataType == "gamescene")
         {
             bool isHandled = m_HandleGameScene(entities, dt, pPacket->data);
             if (!isHandled)
@@ -110,7 +110,7 @@ void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities,
 
     m_playerId = getit.playerid();
 
-    printf("Received id %d, setting playable entity...", m_playerId);
+    printf("Received id %d, setting playable entity...\n", m_playerId);
 
     // Search the entity id for this player
     Entity* pEntity = entities[m_playerId];

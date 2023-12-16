@@ -166,57 +166,85 @@ int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 		return false;
 	}
 
-	std::string strPacket = "";
-	char packetSize[sizeof(int32)];
-
-	// Get the packet size first to resize the buffer accordingly
-	int result = recvfrom(m_serverSocket, packetSize, sizeof(int32) + 1,
-						  0, (SOCKADDR*)&addrOut, &addrLenOut);
-	int ierr = WSAGetLastError();
-	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
-		dataTypeOut = "";
-		dataOut = "";
-		return 0;
-	}
-	if (result == SOCKET_ERROR) {
-		m_SocketError("recv", result, false);
-		return result;
-	}
-	if (result == 0)
+	int result = 0;
+	if (m_waitingpacketsize == 0)
 	{
-		// User disconnected
-		return result;
-	}
+		int packetSize = sizeof(int32) + 1;
 
-	Buffer buffer(BUFFER_SIZE);
+		Buffer bufferheader(BUFFER_SIZE);
 
-	buffer.vecBufferData.resize((int32)packetSize + 1);
+		bufferheader.vecBufferData.resize(packetSize);
 
-	// Now we can get the rest of the message, with the rest total size
-	result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), (int32)packetSize + 1,
-						  0, (SOCKADDR*)&addrOut, &addrLenOut);
-	ierr = WSAGetLastError();
-	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
-		dataTypeOut = "";
-		dataOut = "";
-		return 0;
+		// Get the packet size first to resize the buffer accordingly
+		result = recvfrom(m_serverSocket, (char*)(&bufferheader.vecBufferData[0]), packetSize,
+			0, (SOCKADDR*)&addrOut, &addrLenOut);
+		int ierr = WSAGetLastError();
+		if (ierr == WSAEWOULDBLOCK) {  // currently no data available
+			dataTypeOut = "";
+			dataOut = "";
+			return 0;
+		}
+		if (ierr == WSAECONNRESET)
+		{
+			// Client/Server disconnected
+			dataTypeOut = "";
+			dataOut = "";
+			return ierr;
+		}
+		if (result == SOCKET_ERROR) {
+			m_SocketError("recv", result, false);
+			return result;
+		}
+		if (result == 0)
+		{
+			return result;
+		}
+
+		m_waitingpacketsize = bufferheader.ReadUInt32LE();
+
+		result = 0;
 	}
-	if (result == SOCKET_ERROR) {
-		m_SocketError("recv", result, false);
-		return result;
-	}
-	if (result == 0)
+	else
 	{
-		// User disconnected
-		return result;
-	}
+		Buffer buffer(BUFFER_SIZE);
 
-	// Transform the data into our readable string
-	strPacket = buffer.ReadString(0, (int32)packetSize - 1);
-	bool isDeserialized = m_DeserializePacket(strPacket, dataTypeOut, dataOut);
-	if (!isDeserialized)
-	{
-		return result;
+		buffer.vecBufferData.resize(m_waitingpacketsize);
+
+		// Now we can get the rest of the message, with the rest total size
+		result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), m_waitingpacketsize + 1,
+			0, (SOCKADDR*)&addrOut, &addrLenOut);
+		int ierr = WSAGetLastError();
+		if (ierr == WSAEWOULDBLOCK) {  // currently no data available
+			dataTypeOut = "";
+			dataOut = "";
+			return 0;
+		}
+		if (ierr == WSAECONNRESET)
+		{
+			// Client/Server disconnected
+			dataTypeOut = "";
+			dataOut = "";
+			return ierr;
+		}
+		if (result == SOCKET_ERROR) {
+			m_SocketError("recv", result, false);
+			return result;
+		}
+		if (result == 0)
+		{
+			// User disconnected
+			return result;
+		}
+
+		// Transform the data into our readable string
+		std::string strPacket = buffer.ReadString(0, m_waitingpacketsize - 1);
+		bool isDeserialized = m_DeserializePacket(strPacket, dataTypeOut, dataOut);
+		if (!isDeserialized)
+		{
+			return result;
+		}
+
+		m_waitingpacketsize = 0;
 	}
 
 	return result;
@@ -227,6 +255,12 @@ int UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 	// Get any waiting msg from socket
 	myUDP::sPacketData* pPacketOut = new myUDP::sPacketData();
 	int result = ReceiveRequest(pPacketOut->dataType, pPacketOut->data, addr, addrLen);
+	if (pPacketOut->dataType == "")
+	{
+		delete pPacketOut;
+
+		return 0;
+	}
 	if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
 	{
 		m_ResultError("recvfrom failed", result, true);
@@ -234,13 +268,6 @@ int UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 		delete pPacketOut;
 
 		return -1;
-	}
-
-	if (result == 0)
-	{
-		delete pPacketOut;
-
-		return 0;
 	}
 
 	pPacketOut->addr = addr;

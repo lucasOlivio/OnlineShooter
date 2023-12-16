@@ -9,10 +9,10 @@ int main(int argc, char** argv)
 	GetEngine().Initialize();
 
 	// Setup systems
-	//ClientSystem* pClient = new ClientSystem();
+	ClientSystem* pClient = new ClientSystem();
 	RenderSystem* pRender = GetRenderSystem();
 
-	//GetEngine().AddSystem(pClient);
+	GetEngine().AddSystem(pClient);
 	GetEngine().AddSystem(pRender);
 
 	// Setup all players

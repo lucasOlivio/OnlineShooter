@@ -109,6 +109,14 @@ int UDPServer::ReadNewMsgs()
 
 	int result = UDPBase::ReadNewMsgs(addr, addrLen);
 
+	if (result == WSAECONNRESET)
+	{
+		// Client disconnected
+		Removeclient(addr, addrLen);
+
+		return result;
+	}
+
 	if (result > 0)
 	{
 		// Now we add the client to our list if its not there
