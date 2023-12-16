@@ -35,7 +35,7 @@ public:
 	void Destroy();
 
     // Bind address with socket and starts listening
-    void StartListening();
+	bool StartListening();
 
 	// Find specific client id from the list
 	int GetClientId(const sockaddr_in& addrIn, const int& addrLenIn);
@@ -51,7 +51,7 @@ public:
 	void Removeclient(int clientId);
 
 	// Read message in socket and add client if new
-	virtual void ReadNewMsgs();
+	virtual int ReadNewMsgs();
 
 protected:
 	// ConnectedClients

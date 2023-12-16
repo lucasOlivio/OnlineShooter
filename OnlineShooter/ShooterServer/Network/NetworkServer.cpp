@@ -1,18 +1,26 @@
 #include "NetworkServer.h"
 
 #include <System/Input.h>
+#include <System/Components/RigidBody.h>
+#include <System/Components/Transform.h>
+#include <System/Components/Network.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
-
-const int MAX_PLAYERS = 4;
 
 bool ServerSystem::Start(const std::vector<Entity*>& entities)
 {
     m_pUDPServer = new UDPServer();
-    bool udpInitialized = m_pUDPServer->Initialize(LOCALHOST, DEFAULT_PORT);
+    bool udpInitialized = m_pUDPServer->Initialize(INADDR_ANY, DEFAULT_PORT);
     if (!udpInitialized)
     {
         printf("ServerSystem: Failed to initialize UDP server!\n");
+        return false;
+    }
+
+    bool isListening = m_pUDPServer->StartListening();
+    if (!isListening)
+    {
+        printf("ServerSystem: Failed to start listening!\n");
         return false;
     }
 
@@ -57,13 +65,77 @@ void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
             continue;
         }
     }
+
+    m_pUDPServer->ResetMsgs();
 }
 
 void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, float dt)
 {
     // Build game scene proto
+    shooter::GameScene gamescene;
+    gamescene.set_requestid(m_nextRequestId);
 
-    // Iterate over each client and send the updated gamescene  
+    for (int i = 0; i < entities.size(); i++)
+    {
+        Entity* pEntity = entities[i];
+
+        if (!pEntity->HasComponent<NetworkComponent>())
+        {
+            continue;
+        }
+        TransformComponent* pTransform = pEntity->GetComponent<TransformComponent>();
+        NetworkComponent* pNetwork = pEntity->GetComponent<NetworkComponent>();
+
+        // Setup entity
+        shooter::Entity* entity = gamescene.add_entities();
+        entity->set_entityid(i);
+        entity->set_state(pNetwork->state);
+
+        // Setup Position
+        shooter::Vector3* position = entity->mutable_position();
+        position->set_x(pTransform->position.x);
+        position->set_y(pTransform->position.y);
+        position->set_z(pTransform->position.z);
+
+        // Setup orientation
+        shooter::Vector3* orientation = entity->mutable_orientation();
+        orientation->set_x(pTransform->orientation.x);
+        orientation->set_y(pTransform->orientation.y);
+        orientation->set_z(pTransform->orientation.z);
+
+        // Setup velocity
+        // Velocity should not be mandatory but proto2 is bugged with optional fields
+        glm::vec3 enttVel = glm::vec3(0);
+        if (pEntity->HasComponent<RigidBodyComponent>())
+        {
+            RigidBodyComponent* pRigidbody = pEntity->GetComponent<RigidBodyComponent>();
+            enttVel = pRigidbody->velocity;
+        }
+
+        shooter::Vector3* velocity = entity->mutable_velocity();
+        velocity->set_x(enttVel.x);
+        velocity->set_y(enttVel.y);
+        velocity->set_z(enttVel.z);
+    }
+
+    if (gamescene.entities_size() == 0)
+    {
+        return;
+    }
+
+    std::string gsSerialized;
+    gamescene.SerializeToString(&gsSerialized);
+
+    // Iterate over each client and send the updated gamescene
+    std::vector<sClientInfo*> clients;
+    m_pUDPServer->GetConnectedClients(clients);
+    for (sClientInfo* pClient : clients)
+    {
+        m_pUDPServer->SendRequest("gamescene", gsSerialized, pClient->addr, pClient->addrLen);
+    }
+
+    // Request id update
+    m_nextRequestId += 1;
 }
 
 void ServerSystem::m_SendNextId(const sockaddr_in& addrIn, const int& addrLenIn)

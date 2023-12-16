@@ -21,11 +21,11 @@ void UDPServer::Destroy()
     return;
 }
 
-void UDPServer::StartListening()
+bool UDPServer::StartListening()
 {
 	if (!m_isInitialized)
 	{
-		return;
+		return false;
 	}
 
 	int result;
@@ -34,7 +34,7 @@ void UDPServer::StartListening()
 	result = bind(m_serverSocket, (SOCKADDR*)&m_info, sizeof(m_info));
 	if (result == SOCKET_ERROR) {
 		m_ResultError("bind", result, true);
-		return;
+		return false;
 	}
 	printf("bind was successful!\n");
 
@@ -43,7 +43,7 @@ void UDPServer::StartListening()
 
 	printf("listen successful\n");
 
-	return;
+	return true;
 }
 
 int UDPServer::GetClientId(const sockaddr_in& addrIn, const int& addrLenIn)
@@ -102,13 +102,18 @@ void UDPServer::Removeclient(int clientId)
 	m_connectedClients.erase(m_connectedClients.begin() + clientId);
 }
 
-void UDPServer::ReadNewMsgs()
+int UDPServer::ReadNewMsgs()
 {
 	sockaddr_in addr;
-	int addrLen;
+	int addrLen = sizeof(addr);
 
-	UDPBase::ReadNewMsgs(addr, addrLen);
+	int result = UDPBase::ReadNewMsgs(addr, addrLen);
 
-    // Now we add the client to our list if its not there
-	AddClient(addr, addrLen);
+	if (result > 0)
+	{
+		// Now we add the client to our list if its not there
+		AddClient(addr, addrLen);
+	}
+
+	return result;
 }

@@ -159,4 +159,31 @@ copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeg
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <!-- CUSTOM MSBUILD FOR ZIP -->
+  <ItemGroup>
+    <AssetsFiles Include="..\assets\**" />
+  </ItemGroup>
+  <PropertyGroup>
+    <DeploymentPath>..\bin\</DeploymentPath>
+    <AssetsDeploymentPath>..\bin\assets\</AssetsDeploymentPath>
+    <DeployZip>..\Shooter.zip</DeployZip>
+  </PropertyGroup>
+  <Target Name="AfterBuild">
+    <!-- Create item after output folders are created -->
+    <CreateItem Include="..\Extern\bin\$(Configuration)\*.dll">
+      <Output ItemName="DLLFiles" TaskParameter="Include" />
+    </CreateItem>
+    <CreateItem Include="..\x64\$(Configuration)\*.exe">
+      <Output ItemName="ExecFiles" TaskParameter="Include" />
+    </CreateItem>
+    <!-- Remove older build -->
+    <Delete Files="$(DeployZip)" Condition="Exists('$(DeployZip)')" />
+    <Delete Files="$(DeploymentPath)" Condition="Exists('$(DeploymentPath)')" />
+    <!-- Copy all dependency files to the deployment folder -->
+    <MakeDir Directories="$(DeploymentPath)" />
+    <Copy sourceFiles="@(DLLFiles)" DestinationFolder="$(DeploymentPath)" />
+    <Copy sourceFiles="@(ExecFiles)" DestinationFolder="$(DeploymentPath)" />
+    <Copy sourceFiles="@(AssetsFiles)" DestinationFolder="$(AssetsDeploymentPath)%(RecursiveDir)" />
+    <ZipDirectory SourceDirectory="$(DeploymentPath)" DestinationFile="$(DeployZip)" />
+  </Target>
 </Project>
