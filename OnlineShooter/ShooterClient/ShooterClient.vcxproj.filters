@@ -26,5 +26,8 @@
     <ClInclude Include="..\protobuffers\shooter\shooter.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Network\NetworkClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

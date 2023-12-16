@@ -17,9 +17,22 @@
 
 PROTOBUF_PRAGMA_INIT_SEG
 namespace shooter {
+constexpr GetId::GetId(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : playerid_(0){}
+struct GetIdDefaultTypeInternal {
+  constexpr GetIdDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GetIdDefaultTypeInternal() {}
+  union {
+    GetId _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GetIdDefaultTypeInternal _GetId_default_instance_;
 constexpr UserInput::UserInput(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : requestid_(0)
+  , playerid_(0)
   , input_(0){}
 struct UserInputDefaultTypeInternal {
   constexpr UserInputDefaultTypeInternal()
@@ -49,7 +62,7 @@ constexpr Entity::Entity(
   : position_(nullptr)
   , velocity_(nullptr)
   , orientation_(nullptr)
-  , playerid_(0)
+  , entityid_(0)
   , state_(0){}
 struct EntityDefaultTypeInternal {
   constexpr EntityDefaultTypeInternal()
@@ -74,11 +87,19 @@ struct GameSceneDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameSceneDefaultTypeInternal _GameScene_default_instance_;
 }  // namespace shooter
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_shooter_2eproto[4];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_shooter_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_shooter_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_shooter_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  PROTOBUF_FIELD_OFFSET(::shooter::GetId, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::shooter::GetId, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::shooter::GetId, playerid_),
+  0,
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -86,9 +107,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, requestid_),
+  PROTOBUF_FIELD_OFFSET(::shooter::UserInput, playerid_),
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, input_),
   0,
   1,
+  2,
   PROTOBUF_FIELD_OFFSET(::shooter::Vector3, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::shooter::Vector3, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -107,7 +130,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::Entity, playerid_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, entityid_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, state_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, position_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, velocity_),
@@ -129,13 +152,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   ~0u,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, -1, sizeof(::shooter::UserInput)},
-  { 10, 19, -1, sizeof(::shooter::Vector3)},
-  { 22, 33, -1, sizeof(::shooter::Entity)},
-  { 38, 46, -1, sizeof(::shooter::GameScene)},
+  { 0, 7, -1, sizeof(::shooter::GetId)},
+  { 8, 17, -1, sizeof(::shooter::UserInput)},
+  { 20, 29, -1, sizeof(::shooter::Vector3)},
+  { 32, 43, -1, sizeof(::shooter::Entity)},
+  { 48, 56, -1, sizeof(::shooter::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_GetId_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_UserInput_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Vector3_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Entity_default_instance_),
@@ -143,20 +168,21 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_shooter_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rshooter.proto\022\007shooter\"-\n\tUserInput\022\021\n"
-  "\trequestId\030\001 \002(\005\022\r\n\005input\030\002 \002(\005\"*\n\007Vecto"
-  "r3\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\230\001\n\006"
-  "Entity\022\020\n\010playerId\030\001 \002(\005\022\r\n\005state\030\002 \002(\005\022"
-  "\"\n\010position\030\003 \002(\0132\020.shooter.Vector3\022\"\n\010v"
-  "elocity\030\004 \002(\0132\020.shooter.Vector3\022%\n\013orien"
-  "tation\030\005 \002(\0132\020.shooter.Vector3\"A\n\tGameSc"
-  "ene\022\021\n\trequestId\030\001 \002(\005\022!\n\010entities\030\002 \003(\013"
-  "2\017.shooter.Entity"
+  "\n\rshooter.proto\022\007shooter\"\031\n\005GetId\022\020\n\010pla"
+  "yerId\030\001 \002(\005\"\?\n\tUserInput\022\021\n\trequestId\030\001 "
+  "\002(\005\022\020\n\010playerId\030\002 \002(\005\022\r\n\005input\030\003 \002(\005\"*\n\007"
+  "Vector3\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002"
+  "\"\230\001\n\006Entity\022\020\n\010entityId\030\001 \002(\005\022\r\n\005state\030\002"
+  " \002(\005\022\"\n\010position\030\003 \002(\0132\020.shooter.Vector3"
+  "\022\"\n\010velocity\030\004 \002(\0132\020.shooter.Vector3\022%\n\013"
+  "orientation\030\005 \002(\0132\020.shooter.Vector3\"A\n\tG"
+  "ameScene\022\021\n\trequestId\030\001 \002(\005\022!\n\010entities\030"
+  "\002 \003(\0132\017.shooter.Entity"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_shooter_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_shooter_2eproto = {
-  false, false, 337, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
-  &descriptor_table_shooter_2eproto_once, nullptr, 0, 4,
+  false, false, 382, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
+  &descriptor_table_shooter_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_shooter_2eproto::offsets,
   file_level_metadata_shooter_2eproto, file_level_enum_descriptors_shooter_2eproto, file_level_service_descriptors_shooter_2eproto,
 };
@@ -170,17 +196,212 @@ namespace shooter {
 
 // ===================================================================
 
+class GetId::_Internal {
+ public:
+  using HasBits = decltype(std::declval<GetId>()._has_bits_);
+  static void set_has_playerid(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
+  }
+};
+
+GetId::GetId(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor();
+  if (!is_message_owned) {
+    RegisterArenaDtor(arena);
+  }
+  // @@protoc_insertion_point(arena_constructor:shooter.GetId)
+}
+GetId::GetId(const GetId& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  playerid_ = from.playerid_;
+  // @@protoc_insertion_point(copy_constructor:shooter.GetId)
+}
+
+void GetId::SharedCtor() {
+playerid_ = 0;
+}
+
+GetId::~GetId() {
+  // @@protoc_insertion_point(destructor:shooter.GetId)
+  if (GetArenaForAllocation() != nullptr) return;
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+inline void GetId::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GetId::ArenaDtor(void* object) {
+  GetId* _this = reinterpret_cast< GetId* >(object);
+  (void)_this;
+}
+void GetId::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GetId::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GetId::Clear() {
+// @@protoc_insertion_point(message_clear_start:shooter.GetId)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  playerid_ = 0;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetId::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // required int32 playerId = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          _Internal::set_has_playerid(&has_bits);
+          playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GetId::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:shooter.GetId)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required int32 playerId = 1;
+  if (cached_has_bits & 0x00000001u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_playerid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:shooter.GetId)
+  return target;
+}
+
+size_t GetId::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:shooter.GetId)
+  size_t total_size = 0;
+
+  // required int32 playerId = 1;
+  if (_internal_has_playerid()) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GetId::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    GetId::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetId::GetClassData() const { return &_class_data_; }
+
+void GetId::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<GetId *>(to)->MergeFrom(
+      static_cast<const GetId &>(from));
+}
+
+
+void GetId::MergeFrom(const GetId& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:shooter.GetId)
+  GOOGLE_DCHECK_NE(&from, this);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_playerid()) {
+    _internal_set_playerid(from._internal_playerid());
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GetId::CopyFrom(const GetId& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:shooter.GetId)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetId::IsInitialized() const {
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  return true;
+}
+
+void GetId::InternalSwap(GetId* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(playerid_, other->playerid_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetId::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
+      file_level_metadata_shooter_2eproto[0]);
+}
+
+// ===================================================================
+
 class UserInput::_Internal {
  public:
   using HasBits = decltype(std::declval<UserInput>()._has_bits_);
   static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_input(HasBits* has_bits) {
+  static void set_has_playerid(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
+  static void set_has_input(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
+    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
   }
 };
 
@@ -238,7 +459,7 @@ void UserInput::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     ::memset(&requestid_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&input_) -
         reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
@@ -263,9 +484,18 @@ const char* UserInput::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
         } else
           goto handle_unusual;
         continue;
-      // required int32 input = 2;
+      // required int32 playerId = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          _Internal::set_has_playerid(&has_bits);
+          playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // required int32 input = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           _Internal::set_has_input(&has_bits);
           input_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
@@ -309,10 +539,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_requestid(), target);
   }
 
-  // required int32 input = 2;
+  // required int32 playerId = 2;
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_input(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_playerid(), target);
+  }
+
+  // required int32 input = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_input(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -332,8 +568,13 @@ size_t UserInput::RequiredFieldsByteSizeFallback() const {
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
   }
 
+  if (_internal_has_playerid()) {
+    // required int32 playerId = 2;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+  }
+
   if (_internal_has_input()) {
-    // required int32 input = 2;
+    // required int32 input = 3;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_input());
   }
 
@@ -343,11 +584,14 @@ size_t UserInput::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:shooter.UserInput)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
     // required int32 requestId = 1;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
 
-    // required int32 input = 2;
+    // required int32 playerId = 2;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+
+    // required int32 input = 3;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_input());
 
   } else {
@@ -380,11 +624,14 @@ void UserInput::MergeFrom(const UserInput& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
       requestid_ = from.requestid_;
     }
     if (cached_has_bits & 0x00000002u) {
+      playerid_ = from.playerid_;
+    }
+    if (cached_has_bits & 0x00000004u) {
       input_ = from.input_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -419,7 +666,7 @@ void UserInput::InternalSwap(UserInput* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInput::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[0]);
+      file_level_metadata_shooter_2eproto[1]);
 }
 
 // ===================================================================
@@ -702,7 +949,7 @@ void Vector3::InternalSwap(Vector3* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Vector3::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[1]);
+      file_level_metadata_shooter_2eproto[2]);
 }
 
 // ===================================================================
@@ -710,7 +957,7 @@ void Vector3::InternalSwap(Vector3* other) {
 class Entity::_Internal {
  public:
   using HasBits = decltype(std::declval<Entity>()._has_bits_);
-  static void set_has_playerid(HasBits* has_bits) {
+  static void set_has_entityid(HasBits* has_bits) {
     (*has_bits)[0] |= 8u;
   }
   static void set_has_state(HasBits* has_bits) {
@@ -773,9 +1020,9 @@ Entity::Entity(const Entity& from)
   } else {
     orientation_ = nullptr;
   }
-  ::memcpy(&playerid_, &from.playerid_,
+  ::memcpy(&entityid_, &from.entityid_,
     static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&playerid_)) + sizeof(state_));
+    reinterpret_cast<char*>(&entityid_)) + sizeof(state_));
   // @@protoc_insertion_point(copy_constructor:shooter.Entity)
 }
 
@@ -832,9 +1079,9 @@ void Entity::Clear() {
     }
   }
   if (cached_has_bits & 0x00000018u) {
-    ::memset(&playerid_, 0, static_cast<size_t>(
+    ::memset(&entityid_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&state_) -
-        reinterpret_cast<char*>(&playerid_)) + sizeof(state_));
+        reinterpret_cast<char*>(&entityid_)) + sizeof(state_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -847,11 +1094,11 @@ const char* Entity::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 playerId = 1;
+      // required int32 entityId = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_playerid(&has_bits);
-          playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          _Internal::set_has_entityid(&has_bits);
+          entityid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -920,10 +1167,10 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required int32 playerId = 1;
+  // required int32 entityId = 1;
   if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_playerid(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_entityid(), target);
   }
 
   // required int32 state = 2;
@@ -989,9 +1236,9 @@ size_t Entity::RequiredFieldsByteSizeFallback() const {
         *orientation_);
   }
 
-  if (_internal_has_playerid()) {
-    // required int32 playerId = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+  if (_internal_has_entityid()) {
+    // required int32 entityId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_entityid());
   }
 
   if (_internal_has_state()) {
@@ -1021,8 +1268,8 @@ size_t Entity::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *orientation_);
 
-    // required int32 playerId = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+    // required int32 entityId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_entityid());
 
     // required int32 state = 2;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
@@ -1068,7 +1315,7 @@ void Entity::MergeFrom(const Entity& from) {
       _internal_mutable_orientation()->::shooter::Vector3::MergeFrom(from._internal_orientation());
     }
     if (cached_has_bits & 0x00000008u) {
-      playerid_ = from.playerid_;
+      entityid_ = from.entityid_;
     }
     if (cached_has_bits & 0x00000010u) {
       state_ = from.state_;
@@ -1114,7 +1361,7 @@ void Entity::InternalSwap(Entity* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Entity::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[2]);
+      file_level_metadata_shooter_2eproto[3]);
 }
 
 // ===================================================================
@@ -1340,12 +1587,15 @@ void GameScene::InternalSwap(GameScene* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GameScene::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[3]);
+      file_level_metadata_shooter_2eproto[4]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace shooter
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::shooter::GetId* Arena::CreateMaybeMessage< ::shooter::GetId >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::shooter::GetId >(arena);
+}
 template<> PROTOBUF_NOINLINE ::shooter::UserInput* Arena::CreateMaybeMessage< ::shooter::UserInput >(Arena* arena) {
   return Arena::CreateMessageInternal< ::shooter::UserInput >(arena);
 }

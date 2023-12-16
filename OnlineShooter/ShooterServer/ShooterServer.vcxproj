@@ -143,9 +143,11 @@
   <ItemGroup>
     <ClCompile Include="..\protobuffers\shooter\shooter.pb.cc" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Network\NetworkServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\protobuffers\shooter\shooter.pb.h" />
+    <ClInclude Include="Network\NetworkServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
