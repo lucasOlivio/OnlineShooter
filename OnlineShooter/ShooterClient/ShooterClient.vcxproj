@@ -71,13 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)UDPLib\;$(ProjectDir)$(SolutionDir)protobuffers\shooter\;$(SolutionDir)Extern\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)x64\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)UDPLib\;$(ProjectDir);$(SolutionDir)Extern\include\;$(SolutionDir)protobuffers\shooter\;$(SolutionDir)Extern\include\google\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\$(Configuration)\;$(SolutionDir)Extern\lib\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)protobuffers\shooter\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)UDPLib\;$(ProjectDir)$(SolutionDir)protobuffers\shooter\;$(SolutionDir)Extern\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)x64\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)UDPLib\;$(ProjectDir);$(SolutionDir)Extern\include\;$(SolutionDir)protobuffers\shooter\;$(SolutionDir)Extern\include\google\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\$(Configuration)\;$(SolutionDir)Extern\lib\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SolutionDir)protobuffers\shooter\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -114,13 +114,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>UDPLib.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UDPLib.lib;Engine.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\glew32d.dll" "$(OutDir)glew32d.dll"
+copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglutd.dll" "$(OutDir)freeglutd.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,15 +134,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>UDPLib.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UDPLib.lib;Engine.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\glew32.dll" "$(OutDir)glew32.dll"
+copy /Y "$(SolutionDir)Extern\bin\$(Configuration)\freeglut.dll" "$(OutDir)freeglut.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\protobuffers\shooter\shooter.pb.cc" />
