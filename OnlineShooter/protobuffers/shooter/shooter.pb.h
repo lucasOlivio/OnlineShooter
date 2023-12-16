@@ -46,7 +46,7 @@ struct TableStruct_shooter_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -54,15 +54,12 @@ struct TableStruct_shooter_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_shooter_2eproto;
 namespace shooter {
-class Bullet;
-struct BulletDefaultTypeInternal;
-extern BulletDefaultTypeInternal _Bullet_default_instance_;
+class Entity;
+struct EntityDefaultTypeInternal;
+extern EntityDefaultTypeInternal _Entity_default_instance_;
 class GameScene;
 struct GameSceneDefaultTypeInternal;
 extern GameSceneDefaultTypeInternal _GameScene_default_instance_;
-class Player;
-struct PlayerDefaultTypeInternal;
-extern PlayerDefaultTypeInternal _Player_default_instance_;
 class UserInput;
 struct UserInputDefaultTypeInternal;
 extern UserInputDefaultTypeInternal _UserInput_default_instance_;
@@ -71,9 +68,8 @@ struct Vector3DefaultTypeInternal;
 extern Vector3DefaultTypeInternal _Vector3_default_instance_;
 }  // namespace shooter
 PROTOBUF_NAMESPACE_OPEN
-template<> ::shooter::Bullet* Arena::CreateMaybeMessage<::shooter::Bullet>(Arena*);
+template<> ::shooter::Entity* Arena::CreateMaybeMessage<::shooter::Entity>(Arena*);
 template<> ::shooter::GameScene* Arena::CreateMaybeMessage<::shooter::GameScene>(Arena*);
-template<> ::shooter::Player* Arena::CreateMaybeMessage<::shooter::Player>(Arena*);
 template<> ::shooter::UserInput* Arena::CreateMaybeMessage<::shooter::UserInput>(Arena*);
 template<> ::shooter::Vector3* Arena::CreateMaybeMessage<::shooter::Vector3>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -207,20 +203,20 @@ class UserInput final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIdFieldNumber = 1,
+    kRequestIdFieldNumber = 1,
     kInputFieldNumber = 2,
   };
-  // required int32 id = 1;
-  bool has_id() const;
+  // required int32 requestId = 1;
+  bool has_requestid() const;
   private:
-  bool _internal_has_id() const;
+  bool _internal_has_requestid() const;
   public:
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  void clear_requestid();
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid() const;
+  void set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_requestid() const;
+  void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // required int32 input = 2;
@@ -248,7 +244,7 @@ class UserInput final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
   ::PROTOBUF_NAMESPACE_ID::int32 input_;
   friend struct ::TableStruct_shooter_2eproto;
 };
@@ -442,24 +438,24 @@ class Vector3 final :
 };
 // -------------------------------------------------------------------
 
-class Player final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:shooter.Player) */ {
+class Entity final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:shooter.Entity) */ {
  public:
-  inline Player() : Player(nullptr) {}
-  ~Player() override;
-  explicit constexpr Player(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline Entity() : Entity(nullptr) {}
+  ~Entity() override;
+  explicit constexpr Entity(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  Player(const Player& from);
-  Player(Player&& from) noexcept
-    : Player() {
+  Entity(const Entity& from);
+  Entity(Entity&& from) noexcept
+    : Entity() {
     *this = ::std::move(from);
   }
 
-  inline Player& operator=(const Player& from) {
+  inline Entity& operator=(const Entity& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Player& operator=(Player&& from) noexcept {
+  inline Entity& operator=(Entity&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -489,20 +485,20 @@ class Player final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const Player& default_instance() {
+  static const Entity& default_instance() {
     return *internal_default_instance();
   }
-  static inline const Player* internal_default_instance() {
-    return reinterpret_cast<const Player*>(
-               &_Player_default_instance_);
+  static inline const Entity* internal_default_instance() {
+    return reinterpret_cast<const Entity*>(
+               &_Entity_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     2;
 
-  friend void swap(Player& a, Player& b) {
+  friend void swap(Entity& a, Entity& b) {
     a.Swap(&b);
   }
-  inline void Swap(Player* other) {
+  inline void Swap(Entity* other) {
     if (other == this) return;
     if (GetOwningArena() == other->GetOwningArena()) {
       InternalSwap(other);
@@ -510,7 +506,7 @@ class Player final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(Player* other) {
+  void UnsafeArenaSwap(Entity* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -518,17 +514,17 @@ class Player final :
 
   // implements Message ----------------------------------------------
 
-  inline Player* New() const final {
-    return new Player();
+  inline Entity* New() const final {
+    return new Entity();
   }
 
-  Player* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Player>(arena);
+  Entity* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Entity>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const Player& from);
+  void CopyFrom(const Entity& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const Player& from);
+  void MergeFrom(const Entity& from);
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
   public:
@@ -545,13 +541,13 @@ class Player final :
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Player* other);
+  void InternalSwap(Entity* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "shooter.Player";
+    return "shooter.Entity";
   }
   protected:
-  explicit Player(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit Entity(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   private:
   static void ArenaDtor(void* object);
@@ -568,12 +564,13 @@ class Player final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 2,
-    kVelocityFieldNumber = 3,
-    kOrientationFieldNumber = 4,
-    kStateFieldNumber = 1,
+    kPositionFieldNumber = 3,
+    kVelocityFieldNumber = 4,
+    kOrientationFieldNumber = 5,
+    kPlayerIdFieldNumber = 1,
+    kStateFieldNumber = 2,
   };
-  // required .shooter.Vector3 position = 2;
+  // required .shooter.Vector3 position = 3;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -591,7 +588,7 @@ class Player final :
       ::shooter::Vector3* position);
   ::shooter::Vector3* unsafe_arena_release_position();
 
-  // required .shooter.Vector3 velocity = 3;
+  // required .shooter.Vector3 velocity = 4;
   bool has_velocity() const;
   private:
   bool _internal_has_velocity() const;
@@ -609,7 +606,7 @@ class Player final :
       ::shooter::Vector3* velocity);
   ::shooter::Vector3* unsafe_arena_release_velocity();
 
-  // required .shooter.Vector3 orientation = 4;
+  // required .shooter.Vector3 orientation = 5;
   bool has_orientation() const;
   private:
   bool _internal_has_orientation() const;
@@ -627,7 +624,20 @@ class Player final :
       ::shooter::Vector3* orientation);
   ::shooter::Vector3* unsafe_arena_release_orientation();
 
-  // required int32 state = 1;
+  // required int32 playerId = 1;
+  bool has_playerid() const;
+  private:
+  bool _internal_has_playerid() const;
+  public:
+  void clear_playerid();
+  ::PROTOBUF_NAMESPACE_ID::int32 playerid() const;
+  void set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_playerid() const;
+  void _internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // required int32 state = 2;
   bool has_state() const;
   private:
   bool _internal_has_state() const;
@@ -640,7 +650,7 @@ class Player final :
   void _internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:shooter.Player)
+  // @@protoc_insertion_point(class_scope:shooter.Entity)
  private:
   class _Internal;
 
@@ -655,204 +665,7 @@ class Player final :
   ::shooter::Vector3* position_;
   ::shooter::Vector3* velocity_;
   ::shooter::Vector3* orientation_;
-  ::PROTOBUF_NAMESPACE_ID::int32 state_;
-  friend struct ::TableStruct_shooter_2eproto;
-};
-// -------------------------------------------------------------------
-
-class Bullet final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:shooter.Bullet) */ {
- public:
-  inline Bullet() : Bullet(nullptr) {}
-  ~Bullet() override;
-  explicit constexpr Bullet(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  Bullet(const Bullet& from);
-  Bullet(Bullet&& from) noexcept
-    : Bullet() {
-    *this = ::std::move(from);
-  }
-
-  inline Bullet& operator=(const Bullet& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Bullet& operator=(Bullet&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Bullet& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Bullet* internal_default_instance() {
-    return reinterpret_cast<const Bullet*>(
-               &_Bullet_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(Bullet& a, Bullet& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(Bullet* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Bullet* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Bullet* New() const final {
-    return new Bullet();
-  }
-
-  Bullet* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Bullet>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const Bullet& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const Bullet& from);
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Bullet* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "shooter.Bullet";
-  }
-  protected:
-  explicit Bullet(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPositionFieldNumber = 2,
-    kVelocityFieldNumber = 3,
-    kStateFieldNumber = 1,
-  };
-  // required .shooter.Vector3 position = 2;
-  bool has_position() const;
-  private:
-  bool _internal_has_position() const;
-  public:
-  void clear_position();
-  const ::shooter::Vector3& position() const;
-  PROTOBUF_MUST_USE_RESULT ::shooter::Vector3* release_position();
-  ::shooter::Vector3* mutable_position();
-  void set_allocated_position(::shooter::Vector3* position);
-  private:
-  const ::shooter::Vector3& _internal_position() const;
-  ::shooter::Vector3* _internal_mutable_position();
-  public:
-  void unsafe_arena_set_allocated_position(
-      ::shooter::Vector3* position);
-  ::shooter::Vector3* unsafe_arena_release_position();
-
-  // required .shooter.Vector3 velocity = 3;
-  bool has_velocity() const;
-  private:
-  bool _internal_has_velocity() const;
-  public:
-  void clear_velocity();
-  const ::shooter::Vector3& velocity() const;
-  PROTOBUF_MUST_USE_RESULT ::shooter::Vector3* release_velocity();
-  ::shooter::Vector3* mutable_velocity();
-  void set_allocated_velocity(::shooter::Vector3* velocity);
-  private:
-  const ::shooter::Vector3& _internal_velocity() const;
-  ::shooter::Vector3* _internal_mutable_velocity();
-  public:
-  void unsafe_arena_set_allocated_velocity(
-      ::shooter::Vector3* velocity);
-  ::shooter::Vector3* unsafe_arena_release_velocity();
-
-  // required int32 state = 1;
-  bool has_state() const;
-  private:
-  bool _internal_has_state() const;
-  public:
-  void clear_state();
-  ::PROTOBUF_NAMESPACE_ID::int32 state() const;
-  void set_state(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_state() const;
-  void _internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:shooter.Bullet)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::shooter::Vector3* position_;
-  ::shooter::Vector3* velocity_;
+  ::PROTOBUF_NAMESPACE_ID::int32 playerid_;
   ::PROTOBUF_NAMESPACE_ID::int32 state_;
   friend struct ::TableStruct_shooter_2eproto;
 };
@@ -913,7 +726,7 @@ class GameScene final :
                &_GameScene_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(GameScene& a, GameScene& b) {
     a.Swap(&b);
@@ -984,57 +797,38 @@ class GameScene final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPlayersFieldNumber = 2,
-    kBulletsFieldNumber = 3,
-    kIdFieldNumber = 1,
+    kEntitiesFieldNumber = 2,
+    kRequestIdFieldNumber = 1,
   };
-  // repeated .shooter.Player players = 2;
-  int players_size() const;
+  // repeated .shooter.Entity entities = 2;
+  int entities_size() const;
   private:
-  int _internal_players_size() const;
+  int _internal_entities_size() const;
   public:
-  void clear_players();
-  ::shooter::Player* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Player >*
-      mutable_players();
+  void clear_entities();
+  ::shooter::Entity* mutable_entities(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity >*
+      mutable_entities();
   private:
-  const ::shooter::Player& _internal_players(int index) const;
-  ::shooter::Player* _internal_add_players();
+  const ::shooter::Entity& _internal_entities(int index) const;
+  ::shooter::Entity* _internal_add_entities();
   public:
-  const ::shooter::Player& players(int index) const;
-  ::shooter::Player* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Player >&
-      players() const;
+  const ::shooter::Entity& entities(int index) const;
+  ::shooter::Entity* add_entities();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity >&
+      entities() const;
 
-  // repeated .shooter.Bullet bullets = 3;
-  int bullets_size() const;
+  // required int32 requestId = 1;
+  bool has_requestid() const;
   private:
-  int _internal_bullets_size() const;
+  bool _internal_has_requestid() const;
   public:
-  void clear_bullets();
-  ::shooter::Bullet* mutable_bullets(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Bullet >*
-      mutable_bullets();
+  void clear_requestid();
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid() const;
+  void set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  const ::shooter::Bullet& _internal_bullets(int index) const;
-  ::shooter::Bullet* _internal_add_bullets();
-  public:
-  const ::shooter::Bullet& bullets(int index) const;
-  ::shooter::Bullet* add_bullets();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Bullet >&
-      bullets() const;
-
-  // required int32 id = 1;
-  bool has_id() const;
-  private:
-  bool _internal_has_id() const;
-  public:
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_requestid() const;
+  void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:shooter.GameScene)
@@ -1046,9 +840,8 @@ class GameScene final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Player > players_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Bullet > bullets_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity > entities_;
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
   friend struct ::TableStruct_shooter_2eproto;
 };
 // ===================================================================
@@ -1062,32 +855,32 @@ class GameScene final :
 #endif  // __GNUC__
 // UserInput
 
-// required int32 id = 1;
-inline bool UserInput::_internal_has_id() const {
+// required int32 requestId = 1;
+inline bool UserInput::_internal_has_requestid() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline bool UserInput::has_id() const {
-  return _internal_has_id();
+inline bool UserInput::has_requestid() const {
+  return _internal_has_requestid();
 }
-inline void UserInput::clear_id() {
-  id_ = 0;
+inline void UserInput::clear_requestid() {
+  requestid_ = 0;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::_internal_id() const {
-  return id_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::_internal_requestid() const {
+  return requestid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::id() const {
-  // @@protoc_insertion_point(field_get:shooter.UserInput.id)
-  return _internal_id();
+inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::requestid() const {
+  // @@protoc_insertion_point(field_get:shooter.UserInput.requestId)
+  return _internal_requestid();
 }
-inline void UserInput::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInput::_internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _has_bits_[0] |= 0x00000001u;
-  id_ = value;
+  requestid_ = value;
 }
-inline void UserInput::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:shooter.UserInput.id)
+inline void UserInput::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:shooter.UserInput.requestId)
 }
 
 // required int32 input = 2;
@@ -1208,59 +1001,87 @@ inline void Vector3::set_z(float value) {
 
 // -------------------------------------------------------------------
 
-// Player
+// Entity
 
-// required int32 state = 1;
-inline bool Player::_internal_has_state() const {
+// required int32 playerId = 1;
+inline bool Entity::_internal_has_playerid() const {
   bool value = (_has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
-inline bool Player::has_state() const {
-  return _internal_has_state();
+inline bool Entity::has_playerid() const {
+  return _internal_has_playerid();
 }
-inline void Player::clear_state() {
-  state_ = 0;
+inline void Entity::clear_playerid() {
+  playerid_ = 0;
   _has_bits_[0] &= ~0x00000008u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Player::_internal_state() const {
-  return state_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::_internal_playerid() const {
+  return playerid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Player::state() const {
-  // @@protoc_insertion_point(field_get:shooter.Player.state)
-  return _internal_state();
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::playerid() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.playerId)
+  return _internal_playerid();
 }
-inline void Player::_internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void Entity::_internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _has_bits_[0] |= 0x00000008u;
-  state_ = value;
+  playerid_ = value;
 }
-inline void Player::set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:shooter.Player.state)
+inline void Entity::set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_playerid(value);
+  // @@protoc_insertion_point(field_set:shooter.Entity.playerId)
 }
 
-// required .shooter.Vector3 position = 2;
-inline bool Player::_internal_has_position() const {
+// required int32 state = 2;
+inline bool Entity::_internal_has_state() const {
+  bool value = (_has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool Entity::has_state() const {
+  return _internal_has_state();
+}
+inline void Entity::clear_state() {
+  state_ = 0;
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::_internal_state() const {
+  return state_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::state() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.state)
+  return _internal_state();
+}
+inline void Entity::_internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000010u;
+  state_ = value;
+}
+inline void Entity::set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:shooter.Entity.state)
+}
+
+// required .shooter.Vector3 position = 3;
+inline bool Entity::_internal_has_position() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || position_ != nullptr);
   return value;
 }
-inline bool Player::has_position() const {
+inline bool Entity::has_position() const {
   return _internal_has_position();
 }
-inline void Player::clear_position() {
+inline void Entity::clear_position() {
   if (position_ != nullptr) position_->Clear();
   _has_bits_[0] &= ~0x00000001u;
 }
-inline const ::shooter::Vector3& Player::_internal_position() const {
+inline const ::shooter::Vector3& Entity::_internal_position() const {
   const ::shooter::Vector3* p = position_;
   return p != nullptr ? *p : reinterpret_cast<const ::shooter::Vector3&>(
       ::shooter::_Vector3_default_instance_);
 }
-inline const ::shooter::Vector3& Player::position() const {
-  // @@protoc_insertion_point(field_get:shooter.Player.position)
+inline const ::shooter::Vector3& Entity::position() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.position)
   return _internal_position();
 }
-inline void Player::unsafe_arena_set_allocated_position(
+inline void Entity::unsafe_arena_set_allocated_position(
     ::shooter::Vector3* position) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position_);
@@ -1271,9 +1092,9 @@ inline void Player::unsafe_arena_set_allocated_position(
   } else {
     _has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Player.position)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Entity.position)
 }
-inline ::shooter::Vector3* Player::release_position() {
+inline ::shooter::Vector3* Entity::release_position() {
   _has_bits_[0] &= ~0x00000001u;
   ::shooter::Vector3* temp = position_;
   position_ = nullptr;
@@ -1288,14 +1109,14 @@ inline ::shooter::Vector3* Player::release_position() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::shooter::Vector3* Player::unsafe_arena_release_position() {
-  // @@protoc_insertion_point(field_release:shooter.Player.position)
+inline ::shooter::Vector3* Entity::unsafe_arena_release_position() {
+  // @@protoc_insertion_point(field_release:shooter.Entity.position)
   _has_bits_[0] &= ~0x00000001u;
   ::shooter::Vector3* temp = position_;
   position_ = nullptr;
   return temp;
 }
-inline ::shooter::Vector3* Player::_internal_mutable_position() {
+inline ::shooter::Vector3* Entity::_internal_mutable_position() {
   _has_bits_[0] |= 0x00000001u;
   if (position_ == nullptr) {
     auto* p = CreateMaybeMessage<::shooter::Vector3>(GetArenaForAllocation());
@@ -1303,12 +1124,12 @@ inline ::shooter::Vector3* Player::_internal_mutable_position() {
   }
   return position_;
 }
-inline ::shooter::Vector3* Player::mutable_position() {
+inline ::shooter::Vector3* Entity::mutable_position() {
   ::shooter::Vector3* _msg = _internal_mutable_position();
-  // @@protoc_insertion_point(field_mutable:shooter.Player.position)
+  // @@protoc_insertion_point(field_mutable:shooter.Entity.position)
   return _msg;
 }
-inline void Player::set_allocated_position(::shooter::Vector3* position) {
+inline void Entity::set_allocated_position(::shooter::Vector3* position) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete position_;
@@ -1325,32 +1146,32 @@ inline void Player::set_allocated_position(::shooter::Vector3* position) {
     _has_bits_[0] &= ~0x00000001u;
   }
   position_ = position;
-  // @@protoc_insertion_point(field_set_allocated:shooter.Player.position)
+  // @@protoc_insertion_point(field_set_allocated:shooter.Entity.position)
 }
 
-// required .shooter.Vector3 velocity = 3;
-inline bool Player::_internal_has_velocity() const {
+// required .shooter.Vector3 velocity = 4;
+inline bool Entity::_internal_has_velocity() const {
   bool value = (_has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || velocity_ != nullptr);
   return value;
 }
-inline bool Player::has_velocity() const {
+inline bool Entity::has_velocity() const {
   return _internal_has_velocity();
 }
-inline void Player::clear_velocity() {
+inline void Entity::clear_velocity() {
   if (velocity_ != nullptr) velocity_->Clear();
   _has_bits_[0] &= ~0x00000002u;
 }
-inline const ::shooter::Vector3& Player::_internal_velocity() const {
+inline const ::shooter::Vector3& Entity::_internal_velocity() const {
   const ::shooter::Vector3* p = velocity_;
   return p != nullptr ? *p : reinterpret_cast<const ::shooter::Vector3&>(
       ::shooter::_Vector3_default_instance_);
 }
-inline const ::shooter::Vector3& Player::velocity() const {
-  // @@protoc_insertion_point(field_get:shooter.Player.velocity)
+inline const ::shooter::Vector3& Entity::velocity() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.velocity)
   return _internal_velocity();
 }
-inline void Player::unsafe_arena_set_allocated_velocity(
+inline void Entity::unsafe_arena_set_allocated_velocity(
     ::shooter::Vector3* velocity) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(velocity_);
@@ -1361,9 +1182,9 @@ inline void Player::unsafe_arena_set_allocated_velocity(
   } else {
     _has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Player.velocity)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Entity.velocity)
 }
-inline ::shooter::Vector3* Player::release_velocity() {
+inline ::shooter::Vector3* Entity::release_velocity() {
   _has_bits_[0] &= ~0x00000002u;
   ::shooter::Vector3* temp = velocity_;
   velocity_ = nullptr;
@@ -1378,14 +1199,14 @@ inline ::shooter::Vector3* Player::release_velocity() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::shooter::Vector3* Player::unsafe_arena_release_velocity() {
-  // @@protoc_insertion_point(field_release:shooter.Player.velocity)
+inline ::shooter::Vector3* Entity::unsafe_arena_release_velocity() {
+  // @@protoc_insertion_point(field_release:shooter.Entity.velocity)
   _has_bits_[0] &= ~0x00000002u;
   ::shooter::Vector3* temp = velocity_;
   velocity_ = nullptr;
   return temp;
 }
-inline ::shooter::Vector3* Player::_internal_mutable_velocity() {
+inline ::shooter::Vector3* Entity::_internal_mutable_velocity() {
   _has_bits_[0] |= 0x00000002u;
   if (velocity_ == nullptr) {
     auto* p = CreateMaybeMessage<::shooter::Vector3>(GetArenaForAllocation());
@@ -1393,12 +1214,12 @@ inline ::shooter::Vector3* Player::_internal_mutable_velocity() {
   }
   return velocity_;
 }
-inline ::shooter::Vector3* Player::mutable_velocity() {
+inline ::shooter::Vector3* Entity::mutable_velocity() {
   ::shooter::Vector3* _msg = _internal_mutable_velocity();
-  // @@protoc_insertion_point(field_mutable:shooter.Player.velocity)
+  // @@protoc_insertion_point(field_mutable:shooter.Entity.velocity)
   return _msg;
 }
-inline void Player::set_allocated_velocity(::shooter::Vector3* velocity) {
+inline void Entity::set_allocated_velocity(::shooter::Vector3* velocity) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete velocity_;
@@ -1415,32 +1236,32 @@ inline void Player::set_allocated_velocity(::shooter::Vector3* velocity) {
     _has_bits_[0] &= ~0x00000002u;
   }
   velocity_ = velocity;
-  // @@protoc_insertion_point(field_set_allocated:shooter.Player.velocity)
+  // @@protoc_insertion_point(field_set_allocated:shooter.Entity.velocity)
 }
 
-// required .shooter.Vector3 orientation = 4;
-inline bool Player::_internal_has_orientation() const {
+// required .shooter.Vector3 orientation = 5;
+inline bool Entity::_internal_has_orientation() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || orientation_ != nullptr);
   return value;
 }
-inline bool Player::has_orientation() const {
+inline bool Entity::has_orientation() const {
   return _internal_has_orientation();
 }
-inline void Player::clear_orientation() {
+inline void Entity::clear_orientation() {
   if (orientation_ != nullptr) orientation_->Clear();
   _has_bits_[0] &= ~0x00000004u;
 }
-inline const ::shooter::Vector3& Player::_internal_orientation() const {
+inline const ::shooter::Vector3& Entity::_internal_orientation() const {
   const ::shooter::Vector3* p = orientation_;
   return p != nullptr ? *p : reinterpret_cast<const ::shooter::Vector3&>(
       ::shooter::_Vector3_default_instance_);
 }
-inline const ::shooter::Vector3& Player::orientation() const {
-  // @@protoc_insertion_point(field_get:shooter.Player.orientation)
+inline const ::shooter::Vector3& Entity::orientation() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.orientation)
   return _internal_orientation();
 }
-inline void Player::unsafe_arena_set_allocated_orientation(
+inline void Entity::unsafe_arena_set_allocated_orientation(
     ::shooter::Vector3* orientation) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(orientation_);
@@ -1451,9 +1272,9 @@ inline void Player::unsafe_arena_set_allocated_orientation(
   } else {
     _has_bits_[0] &= ~0x00000004u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Player.orientation)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Entity.orientation)
 }
-inline ::shooter::Vector3* Player::release_orientation() {
+inline ::shooter::Vector3* Entity::release_orientation() {
   _has_bits_[0] &= ~0x00000004u;
   ::shooter::Vector3* temp = orientation_;
   orientation_ = nullptr;
@@ -1468,14 +1289,14 @@ inline ::shooter::Vector3* Player::release_orientation() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::shooter::Vector3* Player::unsafe_arena_release_orientation() {
-  // @@protoc_insertion_point(field_release:shooter.Player.orientation)
+inline ::shooter::Vector3* Entity::unsafe_arena_release_orientation() {
+  // @@protoc_insertion_point(field_release:shooter.Entity.orientation)
   _has_bits_[0] &= ~0x00000004u;
   ::shooter::Vector3* temp = orientation_;
   orientation_ = nullptr;
   return temp;
 }
-inline ::shooter::Vector3* Player::_internal_mutable_orientation() {
+inline ::shooter::Vector3* Entity::_internal_mutable_orientation() {
   _has_bits_[0] |= 0x00000004u;
   if (orientation_ == nullptr) {
     auto* p = CreateMaybeMessage<::shooter::Vector3>(GetArenaForAllocation());
@@ -1483,12 +1304,12 @@ inline ::shooter::Vector3* Player::_internal_mutable_orientation() {
   }
   return orientation_;
 }
-inline ::shooter::Vector3* Player::mutable_orientation() {
+inline ::shooter::Vector3* Entity::mutable_orientation() {
   ::shooter::Vector3* _msg = _internal_mutable_orientation();
-  // @@protoc_insertion_point(field_mutable:shooter.Player.orientation)
+  // @@protoc_insertion_point(field_mutable:shooter.Entity.orientation)
   return _msg;
 }
-inline void Player::set_allocated_orientation(::shooter::Vector3* orientation) {
+inline void Entity::set_allocated_orientation(::shooter::Vector3* orientation) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete orientation_;
@@ -1505,338 +1326,84 @@ inline void Player::set_allocated_orientation(::shooter::Vector3* orientation) {
     _has_bits_[0] &= ~0x00000004u;
   }
   orientation_ = orientation;
-  // @@protoc_insertion_point(field_set_allocated:shooter.Player.orientation)
-}
-
-// -------------------------------------------------------------------
-
-// Bullet
-
-// required int32 state = 1;
-inline bool Bullet::_internal_has_state() const {
-  bool value = (_has_bits_[0] & 0x00000004u) != 0;
-  return value;
-}
-inline bool Bullet::has_state() const {
-  return _internal_has_state();
-}
-inline void Bullet::clear_state() {
-  state_ = 0;
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 Bullet::_internal_state() const {
-  return state_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 Bullet::state() const {
-  // @@protoc_insertion_point(field_get:shooter.Bullet.state)
-  return _internal_state();
-}
-inline void Bullet::_internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000004u;
-  state_ = value;
-}
-inline void Bullet::set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:shooter.Bullet.state)
-}
-
-// required .shooter.Vector3 position = 2;
-inline bool Bullet::_internal_has_position() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || position_ != nullptr);
-  return value;
-}
-inline bool Bullet::has_position() const {
-  return _internal_has_position();
-}
-inline void Bullet::clear_position() {
-  if (position_ != nullptr) position_->Clear();
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline const ::shooter::Vector3& Bullet::_internal_position() const {
-  const ::shooter::Vector3* p = position_;
-  return p != nullptr ? *p : reinterpret_cast<const ::shooter::Vector3&>(
-      ::shooter::_Vector3_default_instance_);
-}
-inline const ::shooter::Vector3& Bullet::position() const {
-  // @@protoc_insertion_point(field_get:shooter.Bullet.position)
-  return _internal_position();
-}
-inline void Bullet::unsafe_arena_set_allocated_position(
-    ::shooter::Vector3* position) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position_);
-  }
-  position_ = position;
-  if (position) {
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Bullet.position)
-}
-inline ::shooter::Vector3* Bullet::release_position() {
-  _has_bits_[0] &= ~0x00000001u;
-  ::shooter::Vector3* temp = position_;
-  position_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::shooter::Vector3* Bullet::unsafe_arena_release_position() {
-  // @@protoc_insertion_point(field_release:shooter.Bullet.position)
-  _has_bits_[0] &= ~0x00000001u;
-  ::shooter::Vector3* temp = position_;
-  position_ = nullptr;
-  return temp;
-}
-inline ::shooter::Vector3* Bullet::_internal_mutable_position() {
-  _has_bits_[0] |= 0x00000001u;
-  if (position_ == nullptr) {
-    auto* p = CreateMaybeMessage<::shooter::Vector3>(GetArenaForAllocation());
-    position_ = p;
-  }
-  return position_;
-}
-inline ::shooter::Vector3* Bullet::mutable_position() {
-  ::shooter::Vector3* _msg = _internal_mutable_position();
-  // @@protoc_insertion_point(field_mutable:shooter.Bullet.position)
-  return _msg;
-}
-inline void Bullet::set_allocated_position(::shooter::Vector3* position) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete position_;
-  }
-  if (position) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::shooter::Vector3>::GetOwningArena(position);
-    if (message_arena != submessage_arena) {
-      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, position, submessage_arena);
-    }
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  position_ = position;
-  // @@protoc_insertion_point(field_set_allocated:shooter.Bullet.position)
-}
-
-// required .shooter.Vector3 velocity = 3;
-inline bool Bullet::_internal_has_velocity() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || velocity_ != nullptr);
-  return value;
-}
-inline bool Bullet::has_velocity() const {
-  return _internal_has_velocity();
-}
-inline void Bullet::clear_velocity() {
-  if (velocity_ != nullptr) velocity_->Clear();
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline const ::shooter::Vector3& Bullet::_internal_velocity() const {
-  const ::shooter::Vector3* p = velocity_;
-  return p != nullptr ? *p : reinterpret_cast<const ::shooter::Vector3&>(
-      ::shooter::_Vector3_default_instance_);
-}
-inline const ::shooter::Vector3& Bullet::velocity() const {
-  // @@protoc_insertion_point(field_get:shooter.Bullet.velocity)
-  return _internal_velocity();
-}
-inline void Bullet::unsafe_arena_set_allocated_velocity(
-    ::shooter::Vector3* velocity) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(velocity_);
-  }
-  velocity_ = velocity;
-  if (velocity) {
-    _has_bits_[0] |= 0x00000002u;
-  } else {
-    _has_bits_[0] &= ~0x00000002u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:shooter.Bullet.velocity)
-}
-inline ::shooter::Vector3* Bullet::release_velocity() {
-  _has_bits_[0] &= ~0x00000002u;
-  ::shooter::Vector3* temp = velocity_;
-  velocity_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::shooter::Vector3* Bullet::unsafe_arena_release_velocity() {
-  // @@protoc_insertion_point(field_release:shooter.Bullet.velocity)
-  _has_bits_[0] &= ~0x00000002u;
-  ::shooter::Vector3* temp = velocity_;
-  velocity_ = nullptr;
-  return temp;
-}
-inline ::shooter::Vector3* Bullet::_internal_mutable_velocity() {
-  _has_bits_[0] |= 0x00000002u;
-  if (velocity_ == nullptr) {
-    auto* p = CreateMaybeMessage<::shooter::Vector3>(GetArenaForAllocation());
-    velocity_ = p;
-  }
-  return velocity_;
-}
-inline ::shooter::Vector3* Bullet::mutable_velocity() {
-  ::shooter::Vector3* _msg = _internal_mutable_velocity();
-  // @@protoc_insertion_point(field_mutable:shooter.Bullet.velocity)
-  return _msg;
-}
-inline void Bullet::set_allocated_velocity(::shooter::Vector3* velocity) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete velocity_;
-  }
-  if (velocity) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::shooter::Vector3>::GetOwningArena(velocity);
-    if (message_arena != submessage_arena) {
-      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, velocity, submessage_arena);
-    }
-    _has_bits_[0] |= 0x00000002u;
-  } else {
-    _has_bits_[0] &= ~0x00000002u;
-  }
-  velocity_ = velocity;
-  // @@protoc_insertion_point(field_set_allocated:shooter.Bullet.velocity)
+  // @@protoc_insertion_point(field_set_allocated:shooter.Entity.orientation)
 }
 
 // -------------------------------------------------------------------
 
 // GameScene
 
-// required int32 id = 1;
-inline bool GameScene::_internal_has_id() const {
+// required int32 requestId = 1;
+inline bool GameScene::_internal_has_requestid() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline bool GameScene::has_id() const {
-  return _internal_has_id();
+inline bool GameScene::has_requestid() const {
+  return _internal_has_requestid();
 }
-inline void GameScene::clear_id() {
-  id_ = 0;
+inline void GameScene::clear_requestid() {
+  requestid_ = 0;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::_internal_id() const {
-  return id_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::_internal_requestid() const {
+  return requestid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::id() const {
-  // @@protoc_insertion_point(field_get:shooter.GameScene.id)
-  return _internal_id();
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::requestid() const {
+  // @@protoc_insertion_point(field_get:shooter.GameScene.requestId)
+  return _internal_requestid();
 }
-inline void GameScene::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameScene::_internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _has_bits_[0] |= 0x00000001u;
-  id_ = value;
+  requestid_ = value;
 }
-inline void GameScene::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:shooter.GameScene.id)
-}
-
-// repeated .shooter.Player players = 2;
-inline int GameScene::_internal_players_size() const {
-  return players_.size();
-}
-inline int GameScene::players_size() const {
-  return _internal_players_size();
-}
-inline void GameScene::clear_players() {
-  players_.Clear();
-}
-inline ::shooter::Player* GameScene::mutable_players(int index) {
-  // @@protoc_insertion_point(field_mutable:shooter.GameScene.players)
-  return players_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Player >*
-GameScene::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:shooter.GameScene.players)
-  return &players_;
-}
-inline const ::shooter::Player& GameScene::_internal_players(int index) const {
-  return players_.Get(index);
-}
-inline const ::shooter::Player& GameScene::players(int index) const {
-  // @@protoc_insertion_point(field_get:shooter.GameScene.players)
-  return _internal_players(index);
-}
-inline ::shooter::Player* GameScene::_internal_add_players() {
-  return players_.Add();
-}
-inline ::shooter::Player* GameScene::add_players() {
-  ::shooter::Player* _add = _internal_add_players();
-  // @@protoc_insertion_point(field_add:shooter.GameScene.players)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Player >&
-GameScene::players() const {
-  // @@protoc_insertion_point(field_list:shooter.GameScene.players)
-  return players_;
+inline void GameScene::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:shooter.GameScene.requestId)
 }
 
-// repeated .shooter.Bullet bullets = 3;
-inline int GameScene::_internal_bullets_size() const {
-  return bullets_.size();
+// repeated .shooter.Entity entities = 2;
+inline int GameScene::_internal_entities_size() const {
+  return entities_.size();
 }
-inline int GameScene::bullets_size() const {
-  return _internal_bullets_size();
+inline int GameScene::entities_size() const {
+  return _internal_entities_size();
 }
-inline void GameScene::clear_bullets() {
-  bullets_.Clear();
+inline void GameScene::clear_entities() {
+  entities_.Clear();
 }
-inline ::shooter::Bullet* GameScene::mutable_bullets(int index) {
-  // @@protoc_insertion_point(field_mutable:shooter.GameScene.bullets)
-  return bullets_.Mutable(index);
+inline ::shooter::Entity* GameScene::mutable_entities(int index) {
+  // @@protoc_insertion_point(field_mutable:shooter.GameScene.entities)
+  return entities_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Bullet >*
-GameScene::mutable_bullets() {
-  // @@protoc_insertion_point(field_mutable_list:shooter.GameScene.bullets)
-  return &bullets_;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity >*
+GameScene::mutable_entities() {
+  // @@protoc_insertion_point(field_mutable_list:shooter.GameScene.entities)
+  return &entities_;
 }
-inline const ::shooter::Bullet& GameScene::_internal_bullets(int index) const {
-  return bullets_.Get(index);
+inline const ::shooter::Entity& GameScene::_internal_entities(int index) const {
+  return entities_.Get(index);
 }
-inline const ::shooter::Bullet& GameScene::bullets(int index) const {
-  // @@protoc_insertion_point(field_get:shooter.GameScene.bullets)
-  return _internal_bullets(index);
+inline const ::shooter::Entity& GameScene::entities(int index) const {
+  // @@protoc_insertion_point(field_get:shooter.GameScene.entities)
+  return _internal_entities(index);
 }
-inline ::shooter::Bullet* GameScene::_internal_add_bullets() {
-  return bullets_.Add();
+inline ::shooter::Entity* GameScene::_internal_add_entities() {
+  return entities_.Add();
 }
-inline ::shooter::Bullet* GameScene::add_bullets() {
-  ::shooter::Bullet* _add = _internal_add_bullets();
-  // @@protoc_insertion_point(field_add:shooter.GameScene.bullets)
+inline ::shooter::Entity* GameScene::add_entities() {
+  ::shooter::Entity* _add = _internal_add_entities();
+  // @@protoc_insertion_point(field_add:shooter.GameScene.entities)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Bullet >&
-GameScene::bullets() const {
-  // @@protoc_insertion_point(field_list:shooter.GameScene.bullets)
-  return bullets_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity >&
+GameScene::entities() const {
+  // @@protoc_insertion_point(field_list:shooter.GameScene.entities)
+  return entities_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

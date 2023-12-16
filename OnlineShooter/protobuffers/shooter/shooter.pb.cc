@@ -19,7 +19,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace shooter {
 constexpr UserInput::UserInput(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : id_(0)
+  : requestid_(0)
   , input_(0){}
 struct UserInputDefaultTypeInternal {
   constexpr UserInputDefaultTypeInternal()
@@ -44,40 +44,26 @@ struct Vector3DefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT Vector3DefaultTypeInternal _Vector3_default_instance_;
-constexpr Player::Player(
+constexpr Entity::Entity(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : position_(nullptr)
   , velocity_(nullptr)
   , orientation_(nullptr)
+  , playerid_(0)
   , state_(0){}
-struct PlayerDefaultTypeInternal {
-  constexpr PlayerDefaultTypeInternal()
+struct EntityDefaultTypeInternal {
+  constexpr EntityDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~PlayerDefaultTypeInternal() {}
+  ~EntityDefaultTypeInternal() {}
   union {
-    Player _instance;
+    Entity _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PlayerDefaultTypeInternal _Player_default_instance_;
-constexpr Bullet::Bullet(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : position_(nullptr)
-  , velocity_(nullptr)
-  , state_(0){}
-struct BulletDefaultTypeInternal {
-  constexpr BulletDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~BulletDefaultTypeInternal() {}
-  union {
-    Bullet _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT BulletDefaultTypeInternal _Bullet_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT EntityDefaultTypeInternal _Entity_default_instance_;
 constexpr GameScene::GameScene(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : players_()
-  , bullets_()
-  , id_(0){}
+  : entities_()
+  , requestid_(0){}
 struct GameSceneDefaultTypeInternal {
   constexpr GameSceneDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -88,7 +74,7 @@ struct GameSceneDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameSceneDefaultTypeInternal _GameScene_default_instance_;
 }  // namespace shooter
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_shooter_2eproto[5];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_shooter_2eproto[4];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_shooter_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_shooter_2eproto = nullptr;
 
@@ -99,7 +85,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::UserInput, id_),
+  PROTOBUF_FIELD_OFFSET(::shooter::UserInput, requestid_),
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, input_),
   0,
   1,
@@ -115,78 +101,62 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   0,
   1,
   2,
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, state_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, position_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, velocity_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Player, orientation_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, playerid_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, state_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, position_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, velocity_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, orientation_),
   3,
+  4,
   0,
   1,
   2,
-  PROTOBUF_FIELD_OFFSET(::shooter::Bullet, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Bullet, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::Bullet, state_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Bullet, position_),
-  PROTOBUF_FIELD_OFFSET(::shooter::Bullet, velocity_),
-  2,
-  0,
-  1,
   PROTOBUF_FIELD_OFFSET(::shooter::GameScene, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::shooter::GameScene, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, id_),
-  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, players_),
-  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, bullets_),
+  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, requestid_),
+  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, entities_),
   0,
-  ~0u,
   ~0u,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::shooter::UserInput)},
   { 10, 19, -1, sizeof(::shooter::Vector3)},
-  { 22, 32, -1, sizeof(::shooter::Player)},
-  { 36, 45, -1, sizeof(::shooter::Bullet)},
-  { 48, 57, -1, sizeof(::shooter::GameScene)},
+  { 22, 33, -1, sizeof(::shooter::Entity)},
+  { 38, 46, -1, sizeof(::shooter::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_UserInput_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Vector3_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Player_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Bullet_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_Entity_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::shooter::_GameScene_default_instance_),
 };
 
 const char descriptor_table_protodef_shooter_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\rshooter.proto\022\007shooter\"&\n\tUserInput\022\n\n"
-  "\002id\030\001 \002(\005\022\r\n\005input\030\002 \002(\005\"*\n\007Vector3\022\t\n\001x"
-  "\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\206\001\n\006Player\022"
-  "\r\n\005state\030\001 \002(\005\022\"\n\010position\030\002 \002(\0132\020.shoot"
-  "er.Vector3\022\"\n\010velocity\030\003 \002(\0132\020.shooter.V"
-  "ector3\022%\n\013orientation\030\004 \002(\0132\020.shooter.Ve"
-  "ctor3\"_\n\006Bullet\022\r\n\005state\030\001 \002(\005\022\"\n\010positi"
-  "on\030\002 \002(\0132\020.shooter.Vector3\022\"\n\010velocity\030\003"
-  " \002(\0132\020.shooter.Vector3\"[\n\tGameScene\022\n\n\002i"
-  "d\030\001 \002(\005\022 \n\007players\030\002 \003(\0132\017.shooter.Playe"
-  "r\022 \n\007bullets\030\003 \003(\0132\017.shooter.Bullet"
+  "\n\rshooter.proto\022\007shooter\"-\n\tUserInput\022\021\n"
+  "\trequestId\030\001 \002(\005\022\r\n\005input\030\002 \002(\005\"*\n\007Vecto"
+  "r3\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\230\001\n\006"
+  "Entity\022\020\n\010playerId\030\001 \002(\005\022\r\n\005state\030\002 \002(\005\022"
+  "\"\n\010position\030\003 \002(\0132\020.shooter.Vector3\022\"\n\010v"
+  "elocity\030\004 \002(\0132\020.shooter.Vector3\022%\n\013orien"
+  "tation\030\005 \002(\0132\020.shooter.Vector3\"A\n\tGameSc"
+  "ene\022\021\n\trequestId\030\001 \002(\005\022!\n\010entities\030\002 \003(\013"
+  "2\017.shooter.Entity"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_shooter_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_shooter_2eproto = {
-  false, false, 435, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
-  &descriptor_table_shooter_2eproto_once, nullptr, 0, 5,
+  false, false, 337, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
+  &descriptor_table_shooter_2eproto_once, nullptr, 0, 4,
   schemas, file_default_instances, TableStruct_shooter_2eproto::offsets,
   file_level_metadata_shooter_2eproto, file_level_enum_descriptors_shooter_2eproto, file_level_service_descriptors_shooter_2eproto,
 };
@@ -203,7 +173,7 @@ namespace shooter {
 class UserInput::_Internal {
  public:
   using HasBits = decltype(std::declval<UserInput>()._has_bits_);
-  static void set_has_id(HasBits* has_bits) {
+  static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
   static void set_has_input(HasBits* has_bits) {
@@ -227,17 +197,17 @@ UserInput::UserInput(const UserInput& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&id_, &from.id_,
+  ::memcpy(&requestid_, &from.requestid_,
     static_cast<size_t>(reinterpret_cast<char*>(&input_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(input_));
+    reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
   // @@protoc_insertion_point(copy_constructor:shooter.UserInput)
 }
 
 void UserInput::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&id_) - reinterpret_cast<char*>(this)),
+    reinterpret_cast<char*>(&requestid_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&input_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(input_));
+    reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
 }
 
 UserInput::~UserInput() {
@@ -269,9 +239,9 @@ void UserInput::Clear() {
 
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
-    ::memset(&id_, 0, static_cast<size_t>(
+    ::memset(&requestid_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&input_) -
-        reinterpret_cast<char*>(&id_)) + sizeof(input_));
+        reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -284,11 +254,11 @@ const char* UserInput::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 id = 1;
+      // required int32 requestId = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_id(&has_bits);
-          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          _Internal::set_has_requestid(&has_bits);
+          requestid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -333,10 +303,10 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required int32 id = 1;
+  // required int32 requestId = 1;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_requestid(), target);
   }
 
   // required int32 input = 2;
@@ -357,9 +327,9 @@ size_t UserInput::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:shooter.UserInput)
   size_t total_size = 0;
 
-  if (_internal_has_id()) {
-    // required int32 id = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  if (_internal_has_requestid()) {
+    // required int32 requestId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
   }
 
   if (_internal_has_input()) {
@@ -374,8 +344,8 @@ size_t UserInput::ByteSizeLong() const {
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required int32 id = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+    // required int32 requestId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
 
     // required int32 input = 2;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_input());
@@ -412,7 +382,7 @@ void UserInput::MergeFrom(const UserInput& from) {
   cached_has_bits = from._has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
-      id_ = from.id_;
+      requestid_ = from.requestid_;
     }
     if (cached_has_bits & 0x00000002u) {
       input_ = from.input_;
@@ -441,9 +411,9 @@ void UserInput::InternalSwap(UserInput* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(UserInput, input_)
       + sizeof(UserInput::input_)
-      - PROTOBUF_FIELD_OFFSET(UserInput, id_)>(
-          reinterpret_cast<char*>(&id_),
-          reinterpret_cast<char*>(&other->id_));
+      - PROTOBUF_FIELD_OFFSET(UserInput, requestid_)>(
+          reinterpret_cast<char*>(&requestid_),
+          reinterpret_cast<char*>(&other->requestid_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInput::GetMetadata() const {
@@ -737,51 +707,54 @@ void Vector3::InternalSwap(Vector3* other) {
 
 // ===================================================================
 
-class Player::_Internal {
+class Entity::_Internal {
  public:
-  using HasBits = decltype(std::declval<Player>()._has_bits_);
-  static void set_has_state(HasBits* has_bits) {
+  using HasBits = decltype(std::declval<Entity>()._has_bits_);
+  static void set_has_playerid(HasBits* has_bits) {
     (*has_bits)[0] |= 8u;
   }
-  static const ::shooter::Vector3& position(const Player* msg);
+  static void set_has_state(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static const ::shooter::Vector3& position(const Entity* msg);
   static void set_has_position(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static const ::shooter::Vector3& velocity(const Player* msg);
+  static const ::shooter::Vector3& velocity(const Entity* msg);
   static void set_has_velocity(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
-  static const ::shooter::Vector3& orientation(const Player* msg);
+  static const ::shooter::Vector3& orientation(const Entity* msg);
   static void set_has_orientation(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x0000000f) ^ 0x0000000f) != 0;
+    return ((has_bits[0] & 0x0000001f) ^ 0x0000001f) != 0;
   }
 };
 
 const ::shooter::Vector3&
-Player::_Internal::position(const Player* msg) {
+Entity::_Internal::position(const Entity* msg) {
   return *msg->position_;
 }
 const ::shooter::Vector3&
-Player::_Internal::velocity(const Player* msg) {
+Entity::_Internal::velocity(const Entity* msg) {
   return *msg->velocity_;
 }
 const ::shooter::Vector3&
-Player::_Internal::orientation(const Player* msg) {
+Entity::_Internal::orientation(const Entity* msg) {
   return *msg->orientation_;
 }
-Player::Player(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+Entity::Entity(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
   if (!is_message_owned) {
     RegisterArenaDtor(arena);
   }
-  // @@protoc_insertion_point(arena_constructor:shooter.Player)
+  // @@protoc_insertion_point(arena_constructor:shooter.Entity)
 }
-Player::Player(const Player& from)
+Entity::Entity(const Entity& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -800,43 +773,45 @@ Player::Player(const Player& from)
   } else {
     orientation_ = nullptr;
   }
-  state_ = from.state_;
-  // @@protoc_insertion_point(copy_constructor:shooter.Player)
+  ::memcpy(&playerid_, &from.playerid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&state_) -
+    reinterpret_cast<char*>(&playerid_)) + sizeof(state_));
+  // @@protoc_insertion_point(copy_constructor:shooter.Entity)
 }
 
-void Player::SharedCtor() {
+void Entity::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&position_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&state_) -
     reinterpret_cast<char*>(&position_)) + sizeof(state_));
 }
 
-Player::~Player() {
-  // @@protoc_insertion_point(destructor:shooter.Player)
+Entity::~Entity() {
+  // @@protoc_insertion_point(destructor:shooter.Entity)
   if (GetArenaForAllocation() != nullptr) return;
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-inline void Player::SharedDtor() {
+inline void Entity::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete position_;
   if (this != internal_default_instance()) delete velocity_;
   if (this != internal_default_instance()) delete orientation_;
 }
 
-void Player::ArenaDtor(void* object) {
-  Player* _this = reinterpret_cast< Player* >(object);
+void Entity::ArenaDtor(void* object) {
+  Entity* _this = reinterpret_cast< Entity* >(object);
   (void)_this;
 }
-void Player::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void Entity::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void Player::SetCachedSize(int size) const {
+void Entity::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 
-void Player::Clear() {
-// @@protoc_insertion_point(message_clear_start:shooter.Player)
+void Entity::Clear() {
+// @@protoc_insertion_point(message_clear_start:shooter.Entity)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -856,46 +831,59 @@ void Player::Clear() {
       orientation_->Clear();
     }
   }
-  state_ = 0;
+  if (cached_has_bits & 0x00000018u) {
+    ::memset(&playerid_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&state_) -
+        reinterpret_cast<char*>(&playerid_)) + sizeof(state_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* Player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* Entity::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 state = 1;
+      // required int32 playerId = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          _Internal::set_has_playerid(&has_bits);
+          playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // required int32 state = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           _Internal::set_has_state(&has_bits);
           state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 position = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // required .shooter.Vector3 position = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 velocity = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+      // required .shooter.Vector3 velocity = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 orientation = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+      // required .shooter.Vector3 orientation = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_orientation(), ptr);
           CHK_(ptr);
         } else
@@ -925,104 +913,118 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* Player::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* Entity::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:shooter.Player)
+  // @@protoc_insertion_point(serialize_to_array_start:shooter.Entity)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required int32 state = 1;
+  // required int32 playerId = 1;
   if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_state(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_playerid(), target);
   }
 
-  // required .shooter.Vector3 position = 2;
+  // required int32 state = 2;
+  if (cached_has_bits & 0x00000010u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_state(), target);
+  }
+
+  // required .shooter.Vector3 position = 3;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        2, _Internal::position(this), target, stream);
+        3, _Internal::position(this), target, stream);
   }
 
-  // required .shooter.Vector3 velocity = 3;
+  // required .shooter.Vector3 velocity = 4;
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        3, _Internal::velocity(this), target, stream);
+        4, _Internal::velocity(this), target, stream);
   }
 
-  // required .shooter.Vector3 orientation = 4;
+  // required .shooter.Vector3 orientation = 5;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        4, _Internal::orientation(this), target, stream);
+        5, _Internal::orientation(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:shooter.Player)
+  // @@protoc_insertion_point(serialize_to_array_end:shooter.Entity)
   return target;
 }
 
-size_t Player::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:shooter.Player)
+size_t Entity::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:shooter.Entity)
   size_t total_size = 0;
 
   if (_internal_has_position()) {
-    // required .shooter.Vector3 position = 2;
+    // required .shooter.Vector3 position = 3;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *position_);
   }
 
   if (_internal_has_velocity()) {
-    // required .shooter.Vector3 velocity = 3;
+    // required .shooter.Vector3 velocity = 4;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *velocity_);
   }
 
   if (_internal_has_orientation()) {
-    // required .shooter.Vector3 orientation = 4;
+    // required .shooter.Vector3 orientation = 5;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *orientation_);
   }
 
+  if (_internal_has_playerid()) {
+    // required int32 playerId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+  }
+
   if (_internal_has_state()) {
-    // required int32 state = 1;
+    // required int32 state = 2;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
   }
 
   return total_size;
 }
-size_t Player::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:shooter.Player)
+size_t Entity::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:shooter.Entity)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
-    // required .shooter.Vector3 position = 2;
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required .shooter.Vector3 position = 3;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *position_);
 
-    // required .shooter.Vector3 velocity = 3;
+    // required .shooter.Vector3 velocity = 4;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *velocity_);
 
-    // required .shooter.Vector3 orientation = 4;
+    // required .shooter.Vector3 orientation = 5;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *orientation_);
 
-    // required int32 state = 1;
+    // required int32 playerId = 1;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
+
+    // required int32 state = 2;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
 
   } else {
@@ -1035,27 +1037,27 @@ size_t Player::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Player::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Entity::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    Player::MergeImpl
+    Entity::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Player::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Entity::GetClassData() const { return &_class_data_; }
 
-void Player::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+void Entity::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
                       const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<Player *>(to)->MergeFrom(
-      static_cast<const Player &>(from));
+  static_cast<Entity *>(to)->MergeFrom(
+      static_cast<const Entity &>(from));
 }
 
 
-void Player::MergeFrom(const Player& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:shooter.Player)
+void Entity::MergeFrom(const Entity& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:shooter.Entity)
   GOOGLE_DCHECK_NE(&from, this);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000001fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_mutable_position()->::shooter::Vector3::MergeFrom(from._internal_position());
     }
@@ -1066,6 +1068,9 @@ void Player::MergeFrom(const Player& from) {
       _internal_mutable_orientation()->::shooter::Vector3::MergeFrom(from._internal_orientation());
     }
     if (cached_has_bits & 0x00000008u) {
+      playerid_ = from.playerid_;
+    }
+    if (cached_has_bits & 0x00000010u) {
       state_ = from.state_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -1073,14 +1078,14 @@ void Player::MergeFrom(const Player& from) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void Player::CopyFrom(const Player& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:shooter.Player)
+void Entity::CopyFrom(const Entity& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:shooter.Entity)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Player::IsInitialized() const {
+bool Entity::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   if (_internal_has_position()) {
     if (!position_->IsInitialized()) return false;
@@ -1094,19 +1099,19 @@ bool Player::IsInitialized() const {
   return true;
 }
 
-void Player::InternalSwap(Player* other) {
+void Entity::InternalSwap(Entity* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Player, state_)
-      + sizeof(Player::state_)
-      - PROTOBUF_FIELD_OFFSET(Player, position_)>(
+      PROTOBUF_FIELD_OFFSET(Entity, state_)
+      + sizeof(Entity::state_)
+      - PROTOBUF_FIELD_OFFSET(Entity, position_)>(
           reinterpret_cast<char*>(&position_),
           reinterpret_cast<char*>(&other->position_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Player::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Entity::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
       file_level_metadata_shooter_2eproto[2]);
@@ -1114,335 +1119,10 @@ void Player::InternalSwap(Player* other) {
 
 // ===================================================================
 
-class Bullet::_Internal {
- public:
-  using HasBits = decltype(std::declval<Bullet>()._has_bits_);
-  static void set_has_state(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
-  }
-  static const ::shooter::Vector3& position(const Bullet* msg);
-  static void set_has_position(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static const ::shooter::Vector3& velocity(const Bullet* msg);
-  static void set_has_velocity(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
-  }
-};
-
-const ::shooter::Vector3&
-Bullet::_Internal::position(const Bullet* msg) {
-  return *msg->position_;
-}
-const ::shooter::Vector3&
-Bullet::_Internal::velocity(const Bullet* msg) {
-  return *msg->velocity_;
-}
-Bullet::Bullet(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor();
-  if (!is_message_owned) {
-    RegisterArenaDtor(arena);
-  }
-  // @@protoc_insertion_point(arena_constructor:shooter.Bullet)
-}
-Bullet::Bullet(const Bullet& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_position()) {
-    position_ = new ::shooter::Vector3(*from.position_);
-  } else {
-    position_ = nullptr;
-  }
-  if (from._internal_has_velocity()) {
-    velocity_ = new ::shooter::Vector3(*from.velocity_);
-  } else {
-    velocity_ = nullptr;
-  }
-  state_ = from.state_;
-  // @@protoc_insertion_point(copy_constructor:shooter.Bullet)
-}
-
-void Bullet::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&position_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&position_)) + sizeof(state_));
-}
-
-Bullet::~Bullet() {
-  // @@protoc_insertion_point(destructor:shooter.Bullet)
-  if (GetArenaForAllocation() != nullptr) return;
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-inline void Bullet::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete position_;
-  if (this != internal_default_instance()) delete velocity_;
-}
-
-void Bullet::ArenaDtor(void* object) {
-  Bullet* _this = reinterpret_cast< Bullet* >(object);
-  (void)_this;
-}
-void Bullet::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void Bullet::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void Bullet::Clear() {
-// @@protoc_insertion_point(message_clear_start:shooter.Bullet)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      GOOGLE_DCHECK(position_ != nullptr);
-      position_->Clear();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      GOOGLE_DCHECK(velocity_ != nullptr);
-      velocity_->Clear();
-    }
-  }
-  state_ = 0;
-  _has_bits_.Clear();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* Bullet::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // required int32 state = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_state(&has_bits);
-          state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required .shooter.Vector3 position = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required .shooter.Vector3 velocity = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  _has_bits_.Or(has_bits);
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* Bullet::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:shooter.Bullet)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required int32 state = 1;
-  if (cached_has_bits & 0x00000004u) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_state(), target);
-  }
-
-  // required .shooter.Vector3 position = 2;
-  if (cached_has_bits & 0x00000001u) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        2, _Internal::position(this), target, stream);
-  }
-
-  // required .shooter.Vector3 velocity = 3;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        3, _Internal::velocity(this), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:shooter.Bullet)
-  return target;
-}
-
-size_t Bullet::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:shooter.Bullet)
-  size_t total_size = 0;
-
-  if (_internal_has_position()) {
-    // required .shooter.Vector3 position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *position_);
-  }
-
-  if (_internal_has_velocity()) {
-    // required .shooter.Vector3 velocity = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *velocity_);
-  }
-
-  if (_internal_has_state()) {
-    // required int32 state = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
-  }
-
-  return total_size;
-}
-size_t Bullet::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:shooter.Bullet)
-  size_t total_size = 0;
-
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required .shooter.Vector3 position = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *position_);
-
-    // required .shooter.Vector3 velocity = 3;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *velocity_);
-
-    // required int32 state = 1;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
-  }
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Bullet::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    Bullet::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Bullet::GetClassData() const { return &_class_data_; }
-
-void Bullet::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
-                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<Bullet *>(to)->MergeFrom(
-      static_cast<const Bullet &>(from));
-}
-
-
-void Bullet::MergeFrom(const Bullet& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:shooter.Bullet)
-  GOOGLE_DCHECK_NE(&from, this);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
-    if (cached_has_bits & 0x00000001u) {
-      _internal_mutable_position()->::shooter::Vector3::MergeFrom(from._internal_position());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _internal_mutable_velocity()->::shooter::Vector3::MergeFrom(from._internal_velocity());
-    }
-    if (cached_has_bits & 0x00000004u) {
-      state_ = from.state_;
-    }
-    _has_bits_[0] |= cached_has_bits;
-  }
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void Bullet::CopyFrom(const Bullet& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:shooter.Bullet)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Bullet::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  if (_internal_has_position()) {
-    if (!position_->IsInitialized()) return false;
-  }
-  if (_internal_has_velocity()) {
-    if (!velocity_->IsInitialized()) return false;
-  }
-  return true;
-}
-
-void Bullet::InternalSwap(Bullet* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Bullet, state_)
-      + sizeof(Bullet::state_)
-      - PROTOBUF_FIELD_OFFSET(Bullet, position_)>(
-          reinterpret_cast<char*>(&position_),
-          reinterpret_cast<char*>(&other->position_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata Bullet::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[3]);
-}
-
-// ===================================================================
-
 class GameScene::_Internal {
  public:
   using HasBits = decltype(std::declval<GameScene>()._has_bits_);
-  static void set_has_id(HasBits* has_bits) {
+  static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
@@ -1453,8 +1133,7 @@ class GameScene::_Internal {
 GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  players_(arena),
-  bullets_(arena) {
+  entities_(arena) {
   SharedCtor();
   if (!is_message_owned) {
     RegisterArenaDtor(arena);
@@ -1464,15 +1143,14 @@ GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
 GameScene::GameScene(const GameScene& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_),
-      players_(from.players_),
-      bullets_(from.bullets_) {
+      entities_(from.entities_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  id_ = from.id_;
+  requestid_ = from.requestid_;
   // @@protoc_insertion_point(copy_constructor:shooter.GameScene)
 }
 
 void GameScene::SharedCtor() {
-id_ = 0;
+requestid_ = 0;
 }
 
 GameScene::~GameScene() {
@@ -1502,9 +1180,8 @@ void GameScene::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  players_.Clear();
-  bullets_.Clear();
-  id_ = 0;
+  entities_.Clear();
+  requestid_ = 0;
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -1516,38 +1193,25 @@ const char* GameScene::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 id = 1;
+      // required int32 requestId = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_id(&has_bits);
-          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          _Internal::set_has_requestid(&has_bits);
+          requestid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated .shooter.Player players = 2;
+      // repeated .shooter.Entity entities = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_players(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_entities(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .shooter.Bullet bullets = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_bullets(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1582,26 +1246,18 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required int32 id = 1;
+  // required int32 requestId = 1;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_requestid(), target);
   }
 
-  // repeated .shooter.Player players = 2;
+  // repeated .shooter.Entity entities = 2;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_players_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->_internal_entities_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, this->_internal_players(i), target, stream);
-  }
-
-  // repeated .shooter.Bullet bullets = 3;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_bullets_size()); i < n; i++) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, this->_internal_bullets(i), target, stream);
+      InternalWriteMessage(2, this->_internal_entities(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1616,24 +1272,17 @@ size_t GameScene::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:shooter.GameScene)
   size_t total_size = 0;
 
-  // required int32 id = 1;
-  if (_internal_has_id()) {
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  // required int32 requestId = 1;
+  if (_internal_has_requestid()) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
   }
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .shooter.Player players = 2;
-  total_size += 1UL * this->_internal_players_size();
-  for (const auto& msg : this->players_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // repeated .shooter.Bullet bullets = 3;
-  total_size += 1UL * this->_internal_bullets_size();
-  for (const auto& msg : this->bullets_) {
+  // repeated .shooter.Entity entities = 2;
+  total_size += 1UL * this->_internal_entities_size();
+  for (const auto& msg : this->entities_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -1660,10 +1309,9 @@ void GameScene::MergeFrom(const GameScene& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  players_.MergeFrom(from.players_);
-  bullets_.MergeFrom(from.bullets_);
-  if (from._internal_has_id()) {
-    _internal_set_id(from._internal_id());
+  entities_.MergeFrom(from.entities_);
+  if (from._internal_has_requestid()) {
+    _internal_set_requestid(from._internal_requestid());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1677,8 +1325,7 @@ void GameScene::CopyFrom(const GameScene& from) {
 
 bool GameScene::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(players_)) return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(bullets_)) return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(entities_)) return false;
   return true;
 }
 
@@ -1686,15 +1333,14 @@ void GameScene::InternalSwap(GameScene* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  players_.InternalSwap(&other->players_);
-  bullets_.InternalSwap(&other->bullets_);
-  swap(id_, other->id_);
+  entities_.InternalSwap(&other->entities_);
+  swap(requestid_, other->requestid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameScene::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_shooter_2eproto_getter, &descriptor_table_shooter_2eproto_once,
-      file_level_metadata_shooter_2eproto[4]);
+      file_level_metadata_shooter_2eproto[3]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1706,11 +1352,8 @@ template<> PROTOBUF_NOINLINE ::shooter::UserInput* Arena::CreateMaybeMessage< ::
 template<> PROTOBUF_NOINLINE ::shooter::Vector3* Arena::CreateMaybeMessage< ::shooter::Vector3 >(Arena* arena) {
   return Arena::CreateMessageInternal< ::shooter::Vector3 >(arena);
 }
-template<> PROTOBUF_NOINLINE ::shooter::Player* Arena::CreateMaybeMessage< ::shooter::Player >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::shooter::Player >(arena);
-}
-template<> PROTOBUF_NOINLINE ::shooter::Bullet* Arena::CreateMaybeMessage< ::shooter::Bullet >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::shooter::Bullet >(arena);
+template<> PROTOBUF_NOINLINE ::shooter::Entity* Arena::CreateMaybeMessage< ::shooter::Entity >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::shooter::Entity >(arena);
 }
 template<> PROTOBUF_NOINLINE ::shooter::GameScene* Arena::CreateMaybeMessage< ::shooter::GameScene >(Arena* arena) {
   return Arena::CreateMessageInternal< ::shooter::GameScene >(arena);

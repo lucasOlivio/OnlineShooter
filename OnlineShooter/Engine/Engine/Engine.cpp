@@ -5,7 +5,6 @@
 #include <sstream>
 
 #define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -47,8 +46,13 @@ void Engine::Update()
 	std::chrono::duration<float> dt = currentTime - m_LastTime;
 	m_LastTime = currentTime;
 
-	// Deal with other engine stuff here or extend it from other to deal
-	// with the other details needed from server/client?
+	std::vector<Entity*> entities;
+	m_EntityManager.GetEntities(entities);
+
+	for (int i = 0; i < m_Systems.size(); i++)
+	{
+		m_Systems[i]->Execute(entities, dt.count());
+	}
 }
 
 void Engine::Render()
@@ -62,7 +66,7 @@ void Engine::Render()
 		glm::radians(45.0f),
 		((GLfloat)m_WindowWidth) / ((GLfloat)m_WindowHeight),
 		0.1f,
-		10000.0f
+		100.0f
 	);
 	glUniformMatrix4fv(m_ProjectionMatrixUL, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	CheckGLError();
