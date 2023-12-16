@@ -18,9 +18,41 @@ Engine::~Engine()
 {
 }
 
-void Engine::Initialize()
+Engine& Engine::GetInstance()
 {
-	LoadAssets();
+	static Engine instance; // Singleton instance
+	return instance;
+}
+
+void Engine::Initialize(int argc, char** argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(1200, 800);
+	glutCreateWindow("UDP Multiplayer game!");
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	GLenum err = glewInit();
+	if (err != GLEW_OK) {
+		fprintf(stderr, "GLEW initialization failed: %s\n", glewGetErrorString(err));
+		exit(EXIT_FAILURE);
+	}
+
+	glutIgnoreKeyRepeat(1);
+
+	glDisable(GL_CULL_FACE);
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+
+	// Callbacks setup
+	glutKeyboardFunc(PressKey_Callback);
+	glutKeyboardUpFunc(ReleaseKey_Callback);
+
+	glutDisplayFunc(Render_Callback);
+	glutIdleFunc(Idle_Callback);
+	glutReshapeFunc(Reshape_Callback);
+
+	LoadCamera();
 
 	m_EntityManager = EntityManager();
 
@@ -41,6 +73,13 @@ void Engine::Destroy()
 	{
 		m_Systems[i]->End();
 	}
+
+	delete m_CameraEntity;
+}
+
+void Engine::Run()
+{
+	glutMainLoop();
 }
 
 void Engine::Resize(int w, int h)
@@ -141,7 +180,12 @@ void Engine::ReleaseKey(unsigned char key)
 	m_Input.ReleaseKey(key);
 }
 
-void Engine::LoadAssets()
+Input& Engine::GetInput()
+{
+	return m_Input;
+}
+
+void Engine::LoadShaders()
 {
 	// Load shader
 	ShaderProgram simpleShader(
@@ -161,23 +205,10 @@ void Engine::LoadAssets()
 	m_ModelMatrixUL = glGetUniformLocation(simpleShader.id, "ModelMatrix");
 	m_ColorUL = glGetUniformLocation(simpleShader.id, "Color");
 	CheckGLError();
+}
 
-	//
-	// Meshes
-	Model cone("assets/models/cone.obj");
-	Model cube("assets/models/cube.obj");
-	Model cylinder("assets/models/cylinder.obj");
-	Model sphere("assets/models/sphere.obj");
-	m_Models.push_back(cone);
-	m_Models.push_back(cube);
-	m_Models.push_back(cylinder);
-	m_Models.push_back(sphere);
-
-	//
-	// Maybe create all 4 players entities here already setting their ID?
-
-	//
-	// Entities
+void Engine::LoadCamera()
+{
 	const glm::vec3 origin(0.f);
 	const glm::vec3 unscaled(1.f);
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
@@ -189,7 +220,59 @@ void Engine::LoadAssets()
 	m_CameraEntity->AddComponent<TransformComponent>(glm::vec3(-20.f, 50.f, 0.f), unscaled, rotation);
 }
 
+void Engine::LoadMeshes()
+{
+	//
+	// Meshes
+	Model cone("assets/models/cone.obj");
+	Model cube("assets/models/cube.obj");
+	Model cylinder("assets/models/cylinder.obj");
+	Model sphere("assets/models/sphere.obj");
+	m_Models.push_back(cone);
+	m_Models.push_back(cube);
+	m_Models.push_back(cylinder);
+	m_Models.push_back(sphere);
+}
+
+
+
+void Engine::LoadEntities()
+{
+	//
+	// Maybe create all 4 players entities here already setting their ID?
+
+	
+}
+
 void Engine::AddSystem(iSystem* system)
 {
 	m_Systems.push_back(system);
+}
+
+// Wrappers for glut callback
+
+void PressKey_Callback(unsigned char key, int x, int y)
+{
+	GetEngine().PressKey(key);
+}
+
+void ReleaseKey_Callback(unsigned char key, int x, int y)
+{
+	GetEngine().ReleaseKey(key);
+}
+
+void Idle_Callback()
+{
+	GetEngine().Update();
+}
+
+void Reshape_Callback(int w, int h)
+{
+	GetEngine().Resize(w, h);
+}
+
+void Render_Callback()
+{
+	GetEngine().Update();
+	GetEngine().Render();
 }

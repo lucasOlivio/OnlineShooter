@@ -9,7 +9,8 @@ enum eInputType
 	BACKWARD = 115,   // S
 	TURN_LEFT = 97,   // A
 	TURN_RIGHT = 100, // D
-	ACTION = 32       // SPACE
+	ACTION = 32,      // SPACE
+	EXIT = 27         // ESC
 };
 
 class Input

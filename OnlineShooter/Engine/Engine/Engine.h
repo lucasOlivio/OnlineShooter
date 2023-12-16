@@ -5,17 +5,21 @@
 #include "System/System.h"
 #include "System/Input.h"
 #include "System/EntityManager.h"
+#include <common.h>
 #include <chrono>
 
 class Engine
 {
 public:
-	Engine();
-	~Engine();
+	// Singleton
+	static Engine& GetInstance();
 
 	// Lifecycle
-	void Initialize();
+	void Initialize(int argc, char** argv);
 	void Destroy();
+
+	// Glut main loop
+	void Run();
 
 	// Window
 	void Resize(int w, int h);
@@ -30,11 +34,22 @@ public:
 	void PressKey(unsigned char key);
 	void ReleaseKey(unsigned char key);
 
+	Input& GetInput();
+
 	// Engine
 	void AddSystem(iSystem* system);
 
 private:
-	void LoadAssets();
+	void LoadMeshes();
+	void LoadShaders();
+	void LoadCamera();
+	void LoadEntities();
+
+	// Singleton
+	Engine();
+	~Engine();
+	Engine(const Engine&) = delete;
+	Engine& operator=(const Engine&) = delete;
 
 	bool m_Initialized = false;
 
@@ -70,3 +85,16 @@ private:
 	// Time
 	std::chrono::high_resolution_clock::time_point m_LastTime;
 };
+
+#define GetEngine() Engine::GetInstance()
+
+// Wrappers for freeglut callbacks
+void PressKey_Callback(unsigned char key, int x, int y);
+
+void ReleaseKey_Callback(unsigned char key, int x, int y);
+
+void Idle_Callback();
+
+void Reshape_Callback(int w, int h);
+
+void Render_Callback();
