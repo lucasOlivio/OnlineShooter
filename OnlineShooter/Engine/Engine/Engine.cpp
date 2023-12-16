@@ -22,6 +22,7 @@ Engine& Engine::GetInstance()
 void Engine::Initialize()
 {
 	m_LastTime = std::chrono::high_resolution_clock::now();
+
 }
 
 void Engine::Destroy()
