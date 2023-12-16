@@ -25,10 +25,22 @@ void Engine::Initialize()
 	m_EntityManager = EntityManager();
 
 	m_LastTime = std::chrono::high_resolution_clock::now();
+
+	std::vector<Entity*> entities;
+	m_EntityManager.GetEntities(entities);
+
+	for (int i = 0; i < m_Systems.size(); i++)
+	{
+		m_Systems[i]->Start(entities);
+	}
 }
 
 void Engine::Destroy()
 {
+	for (int i = 0; i < m_Systems.size(); i++)
+	{
+		m_Systems[i]->End();
+	}
 }
 
 void Engine::Resize(int w, int h)
