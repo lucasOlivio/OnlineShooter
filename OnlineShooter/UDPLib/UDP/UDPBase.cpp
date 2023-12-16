@@ -16,6 +16,11 @@ SOCKET& UDPBase::GetSocket()
     return m_serverSocket;
 }
 
+sockaddr_in& UDPBase::GetInfo()
+{
+	return m_info;
+}
+
 bool UDPBase::Initialize(const char* host, int port)
 {
 	if (m_isInitialized)
@@ -134,7 +139,7 @@ void UDPBase::SendRequest(const std::string& dataTypeIn, const std::string& data
 	int packetSize = m_SerializePacket(dataTypeIn, dataIn, buffer);
 
 	// Send data and validate if succesfull
-	int result = sendto(m_serverSocket, (const char*)(&buffer.vecBufferData[0]), packetSize, 
+	int result = sendto(m_serverSocket, (const char*)(&buffer.vecBufferData[0]), BUFFER_SIZE,
 						0, (SOCKADDR*)&addrIn, addrLenIn);
 	if (result == SOCKET_ERROR) {
 		m_SocketError("send", result, false);
@@ -156,10 +161,13 @@ int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 
 	Buffer buffer(BUFFER_SIZE);
 
-	// Get total packet size first to prepare buffer
-	buffer.vecBufferData.resize(sizeof(packetSize));
-	int result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), sizeof(packetSize),
-						  0, (SOCKADDR*)&addrOut, &addrLenOut);
+	// For now fixend size for simplicity
+	// TODO: Send header first with only package size, then sent data separatedly
+	packetSize = BUFFER_SIZE;
+	buffer.vecBufferData.resize(packetSize);
+	// Now we can get the rest of the message, with the rest total size
+	int result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), packetSize,
+					  0, (SOCKADDR*)&addrOut, &addrLenOut);
 	int ierr = WSAGetLastError();
 	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
 		dataTypeOut = "";
@@ -173,17 +181,6 @@ int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 	if (result == 0)
 	{
 		// User disconnected
-		return result;
-	}
-
-	// + 1 for the /0 end of string
-	packetSize = buffer.ReadUInt32LE() + 1;
-	buffer.vecBufferData.resize(packetSize);
-	// Now we can get the rest of the message, with the rest total size
-	result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), packetSize,
-					  0, (SOCKADDR*)&addrOut, &addrLenOut);
-	if (result == SOCKET_ERROR) {
-		m_SocketError("recv", result, false);
 		return result;
 	}
 
@@ -274,7 +271,7 @@ uint32 UDPBase::m_SerializePacket(const std::string& dataTypeIn,
 	packetSerialized = packetData.SerializeAsString();
 
 	// Build prefix header
-	bufferOut.WriteUInt32LE((uint32)packetSerialized.size());
+	// bufferOut.WriteUInt32LE((uint32)packetSerialized.size());
 	bufferOut.WriteString(packetSerialized);
 
 	return (uint32)bufferOut.vecBufferData.size();

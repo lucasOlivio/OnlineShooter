@@ -31,6 +31,7 @@
     <ClInclude Include="System\Components\Bullet.h" />
     <ClInclude Include="System\Components\MeshRenderer.h" />
     <ClInclude Include="System\Components\Network.h" />
+    <ClInclude Include="System\Components\PlayerController.h" />
     <ClInclude Include="System\Components\RigidBody.h" />
     <ClInclude Include="System\Components\Transform.h" />
     <ClInclude Include="System\Entity.h" />

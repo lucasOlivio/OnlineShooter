@@ -12,10 +12,15 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-RenderSystem& RenderSystem::GetInstance()
+RenderSystem* RenderSystem::m_pInstance = nullptr;
+
+RenderSystem* RenderSystem::GetInstance()
 {
-	static RenderSystem instance; // Singleton instance
-	return instance;
+	if (!m_pInstance)
+	{
+		m_pInstance = new RenderSystem();
+	}
+	return m_pInstance;
 }
 
 bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
@@ -40,8 +45,6 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 	// Callbacks setup
 	glutKeyboardFunc(PressKey_Callback);
 	glutKeyboardUpFunc(ReleaseKey_Callback);
-
-	glutIdleFunc(Idle_Callback);
 
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
@@ -198,17 +201,12 @@ void ReleaseKey_Callback(unsigned char key, int x, int y)
 	GetEngine().ReleaseKey(key);
 }
 
-void Idle_Callback()
-{
-	GetEngine().Update();
-}
-
 void Reshape_Callback(int w, int h)
 {
-	GetRenderSystem().Resize(w, h);
+	GetRenderSystem()->Resize(w, h);
 }
 
 void Render_Callback()
 {
-	GetRenderSystem().Render();
+	GetRenderSystem()->Render();
 }

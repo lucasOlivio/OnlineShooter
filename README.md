@@ -22,3 +22,5 @@ Project 3 for "Network programming" class. Creating a game server and game clien
 - W/S to move forward and backward
 - A/D to rotate
 - SPACE to fire
+
+For now the server only handles 1 input at a time, so if you press 2 keys it will only register 1 of them.

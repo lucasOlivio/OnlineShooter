@@ -9,6 +9,8 @@
 
 bool ServerSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
+    m_nextSendTime = std::chrono::high_resolution_clock::now();
+
     m_pUDPServer = new UDPServer();
     bool udpInitialized = m_pUDPServer->Initialize(INADDR_ANY, DEFAULT_PORT);
     if (!udpInitialized)
@@ -71,6 +73,15 @@ void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
 
 void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, float dt)
 {
+    std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+    if (m_nextSendTime > currentTime)
+    {
+        return;
+    }
+
+    // 5Hz
+    m_nextSendTime = currentTime + std::chrono::milliseconds(200);
+
     // Build game scene proto
     shooter::GameScene gamescene;
     gamescene.set_requestid(m_nextRequestId);
