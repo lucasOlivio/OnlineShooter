@@ -10,7 +10,11 @@ public:
 	PhysicsSystem() {};
 	virtual ~PhysicsSystem() { };
 
+	virtual bool Start(const std::vector<Entity*>& entities);
+
 	virtual void Execute(const std::vector<Entity*>& entities, float dt);
+
+	virtual void End();
 
 	void ApplyForce(TransformComponent* pTransform, RigidBodyComponent* pBody);
 
