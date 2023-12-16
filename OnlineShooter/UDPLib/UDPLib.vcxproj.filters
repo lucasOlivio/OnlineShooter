@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils\Buffer.h">
+    <ClInclude Include="UDP\utils\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils\common.h">
+    <ClInclude Include="UDP\utils\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UDP\UDPBase.h">
@@ -35,7 +35,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="utils\Buffer.cpp">
+    <ClCompile Include="UDP\utils\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UDP\UDPBase.cpp">

@@ -46,6 +46,12 @@ public:
     // Read all messages incomming from socket and store in list
     virtual void ReadNewMsgs(sockaddr_in& addr, int& addrLen);
 
+    // Retrieve the packet cache
+    virtual void GetNewMsgs(std::vector<myUDP::sPacketData*>& newPackets);
+
+    // Delete the packet cache and pointers
+    virtual void ResetMsgs();
+
 protected:
     SOCKET m_serverSocket;
     sockaddr_in m_info;

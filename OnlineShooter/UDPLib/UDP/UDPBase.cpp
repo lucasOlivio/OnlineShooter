@@ -64,11 +64,7 @@ void UDPBase::Destroy()
 	WSACleanup();
 	m_isInitialized = false;
 
-	for (myUDP::sPacketData* pPacket : m_lastPackets)
-	{
-		delete pPacket;
-	}
-	m_lastPackets.clear();
+	ResetMsgs();
 
 	return;
 }
@@ -172,6 +168,20 @@ void UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 	}
 
 	m_lastPackets.push_back(pPacketOut);
+}
+
+void UDPBase::GetNewMsgs(std::vector<myUDP::sPacketData*>& newPackets)
+{
+	newPackets = m_lastPackets;
+}
+
+void UDPBase::ResetMsgs()
+{
+	for (myUDP::sPacketData* pPacket : m_lastPackets)
+	{
+		delete pPacket;
+	}
+	m_lastPackets.clear();
 }
 
 void UDPBase::m_SocketError(const char* function, SOCKET socket, bool isFatalError)

@@ -4,6 +4,8 @@
 #include <string>
 
 #define BUFFER_SIZE 512
+#define LOCALHOST "127.0.0.1"
+#define DEFAULT_PORT 7777
 
 typedef unsigned int uint;
 typedef int int32;
