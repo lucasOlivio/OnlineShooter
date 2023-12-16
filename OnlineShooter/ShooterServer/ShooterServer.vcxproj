@@ -172,6 +172,9 @@
     <CreateItem Include="..\Extern\bin\$(Configuration)\*.dll">
       <Output ItemName="DLLFiles" TaskParameter="Include" />
     </CreateItem>
+    <CreateItem Include="..\x64\$(Configuration)\">
+      <Output ItemName="DLLDest1" TaskParameter="Include" />
+    </CreateItem>
     <CreateItem Include="..\x64\$(Configuration)\*.exe">
       <Output ItemName="ExecFiles" TaskParameter="Include" />
     </CreateItem>
@@ -180,6 +183,7 @@
     <Delete Files="$(DeploymentPath)" Condition="Exists('$(DeploymentPath)')" />
     <!-- Copy all dependency files to the deployment folder -->
     <MakeDir Directories="$(DeploymentPath)" />
+    <Copy sourceFiles="@(DLLFiles)" DestinationFolder="@(DLLDest1)" />
     <Copy sourceFiles="@(DLLFiles)" DestinationFolder="$(DeploymentPath)" />
     <Copy sourceFiles="@(ExecFiles)" DestinationFolder="$(DeploymentPath)" />
     <Copy sourceFiles="@(AssetsFiles)" DestinationFolder="$(AssetsDeploymentPath)%(RecursiveDir)" />
