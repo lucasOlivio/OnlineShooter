@@ -9,10 +9,10 @@ int main(int argc, char** argv)
 	GetEngine().Initialize();
 
 	// Setup systems
-	ClientSystem* pClient = new ClientSystem();
+	//ClientSystem* pClient = new ClientSystem();
 	RenderSystem* pRender = GetRenderSystem();
 
-	GetEngine().AddSystem(pClient);
+	//GetEngine().AddSystem(pClient);
 	GetEngine().AddSystem(pRender);
 
 	// Setup all players
@@ -35,3 +35,5 @@ int main(int argc, char** argv)
 
 	return 0;
 }
+
+//TODO: put input in the render system form th engine

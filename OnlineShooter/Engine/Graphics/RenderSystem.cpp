@@ -55,7 +55,8 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 	LoadCamera();
 	LoadMeshes();
 
-    return false;
+   // return false;
+    return true;
 }
 
 void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
@@ -169,7 +170,7 @@ void RenderSystem::LoadCamera()
 
 	//
 	// Camera
-	m_CameraEntity = GetEngine().GetEntityManager()->CreateEntity();
+	m_CameraEntity = GetEngine().GetEntityManager()->CreateEntity();  //hehe?
 	glm::quat rotation = identity * glm::vec3(0.f, -1.f, -0.1f);
 	m_CameraEntity->AddComponent<TransformComponent>(glm::vec3(-20.f, 50.f, 0.f), unscaled, rotation);
 }
