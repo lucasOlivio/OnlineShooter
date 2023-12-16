@@ -100,8 +100,6 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
 void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities, 
 						            const std::string& dataIn)
 {
-    printf("Received id, setting playable entity...");
-
     shooter::GetId getit;
     bool isDeserialized = getit.ParseFromString(dataIn);
     if (!isDeserialized)
@@ -110,8 +108,12 @@ void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities,
         return;
     }
 
+    m_playerId = getit.playerid();
+
+    printf("Received id %d, setting playable entity...", m_playerId);
+
     // Search the entity id for this player
-    Entity* pEntity = entities[getit.playerid()];
+    Entity* pEntity = entities[m_playerId];
     
     // set owner to true and add player controller
     pEntity->AddComponent<NetworkComponent>(true);
