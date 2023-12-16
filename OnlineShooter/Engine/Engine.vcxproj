@@ -22,6 +22,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Graphics\Model.h" />
+    <ClInclude Include="Graphics\RenderSystem.h" />
     <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\ShaderProgram.h" />
     <ClInclude Include="Physics\PhysicsSystem.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="common.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
+    <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Physics\PhysicsSystem.cpp" />
     <ClCompile Include="System\EntityManager.cpp" />

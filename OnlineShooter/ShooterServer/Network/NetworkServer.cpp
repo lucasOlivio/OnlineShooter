@@ -7,7 +7,7 @@
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
 
-bool ServerSystem::Start(const std::vector<Entity*>& entities)
+bool ServerSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
     m_pUDPServer = new UDPServer();
     bool udpInitialized = m_pUDPServer->Initialize(INADDR_ANY, DEFAULT_PORT);
