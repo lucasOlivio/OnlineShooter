@@ -1,21 +1,9 @@
 #pragma once
 
-// For simplicity we keep the "inet_addr" for now so we need this flag
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-
-// WinSock2 Windows Sockets
-#define WIN32_LEAN_AND_MEAN
-
 #define LOCALHOST "127.0.0.1"
 
 #include "utils/common.h"
 #include "utils/Buffer.h"
-#include <Windows.h>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-
-// Include win32 lib
-#pragma comment(lib, "Ws2_32.lib")
 
 class UDPBase 
 {
@@ -36,12 +24,12 @@ public:
     bool SetBlocking(u_long mode);
 
     // Serializes and send message to the destination socket
-    void SendRequest(SOCKET& destSocket, const std::string& dataTypeIn, 
-                     const std::string& dataIn);
+    void SendRequest(const std::string& dataTypeIn, const std::string& dataIn,
+					 const sockaddr_in& addrIn, const int& addrLenIn);
 
     // Deserializes message received from socket and returns the message type and string
-    bool ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, 
-                        std::string& dataOut, sockaddr_in& addr, int& addrLen);
+    bool ReceiveRequest(std::string& dataTypeOut, std::string& dataOut, 
+                        sockaddr_in& addrOut, int& addrLenOut);
 
     // Read all messages incomming from socket and store in list
     virtual void ReadNewMsgs(sockaddr_in& addr, int& addrLen);

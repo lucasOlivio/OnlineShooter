@@ -82,7 +82,8 @@ bool UDPBase::SetBlocking(u_long mode)
 	return true;
 }
 
-void UDPBase::SendRequest(SOCKET& destSocket, const std::string& dataTypeIn, const std::string& dataIn)
+void UDPBase::SendRequest(const std::string& dataTypeIn, const std::string& dataIn,
+						  const sockaddr_in& addrIn, const int& addrLenIn)
 {
 	if (!m_isInitialized)
 	{
@@ -94,7 +95,8 @@ void UDPBase::SendRequest(SOCKET& destSocket, const std::string& dataTypeIn, con
 	int packetSize = m_SerializePacket(dataTypeIn, dataIn, buffer);
 
 	// Send data and validate if succesfull
-	int result = send(destSocket, (const char*)(&buffer.vecBufferData[0]), packetSize, 0);
+	int result = sendto(m_serverSocket, (const char*)(&buffer.vecBufferData[0]), packetSize, 
+						0, (SOCKADDR*)&addrIn, addrLenIn);
 	if (result == SOCKET_ERROR) {
 		m_SocketError("send", result, false);
 		return;
@@ -102,8 +104,8 @@ void UDPBase::SendRequest(SOCKET& destSocket, const std::string& dataTypeIn, con
 	return;
 }
 
-bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut, 
-							 std::string& dataOut, sockaddr_in& addr, int& addrLen)
+bool UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
+							 sockaddr_in& addrOut, int& addrLenOut)
 {
 	if (!m_isInitialized)
 	{
@@ -117,8 +119,8 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut,
 
 	// Get total packet size first to prepare buffer
 	buffer.vecBufferData.resize(sizeof(packetSize));
-	int result = recvfrom(origSocket, (char*)(&buffer.vecBufferData[0]), sizeof(packetSize),
-						  0, (SOCKADDR*)&addr, &addrLen);
+	int result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), sizeof(packetSize),
+						  0, (SOCKADDR*)&addrOut, &addrLenOut);
 	int ierr = WSAGetLastError();
 	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
 		dataTypeOut = "";
@@ -139,7 +141,8 @@ bool UDPBase::ReceiveRequest(SOCKET& origSocket, std::string& dataTypeOut,
 	packetSize = buffer.ReadUInt32LE() + 1;
 	buffer.vecBufferData.resize(packetSize);
 	// Now we can get the rest of the message, with the rest total size
-	result = recv(origSocket, (char*)(&buffer.vecBufferData[0]), packetSize, 0);
+	result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), packetSize,
+					  0, (SOCKADDR*)&addrOut, &addrLenOut);
 	if (result == SOCKET_ERROR) {
 		m_SocketError("recv", result, false);
 		return false;
@@ -160,13 +163,14 @@ void UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 {
 	// Get any waiting msg from socket
 	myUDP::sPacketData* pPacketOut = new myUDP::sPacketData();
-	int result = ReceiveRequest(m_serverSocket, pPacketOut->dataType, pPacketOut->data,
-		addr, addrLen);
+	int result = ReceiveRequest(pPacketOut->dataType, pPacketOut->data, addr, addrLen);
 	if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
 	{
 		m_ResultError("recvfrom failed", result, true);
 	}
 
+	pPacketOut->addr = addr;
+	pPacketOut->addrLen = addrLen;
 	m_lastPackets.push_back(pPacketOut);
 }
 
