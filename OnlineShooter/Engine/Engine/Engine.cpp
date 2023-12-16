@@ -73,6 +73,8 @@ void Engine::Destroy()
 	{
 		m_Systems[i]->End();
 	}
+
+	delete m_CameraEntity;
 }
 
 void Engine::Run()
@@ -176,6 +178,11 @@ void Engine::PressKey(unsigned char key)
 void Engine::ReleaseKey(unsigned char key)
 {
 	m_Input.ReleaseKey(key);
+}
+
+Input& Engine::GetInput()
+{
+	return m_Input;
 }
 
 void Engine::LoadShaders()

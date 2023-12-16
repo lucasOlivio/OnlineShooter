@@ -34,6 +34,8 @@ public:
 	void PressKey(unsigned char key);
 	void ReleaseKey(unsigned char key);
 
+	Input& GetInput();
+
 	// Engine
 	void AddSystem(iSystem* system);
 
