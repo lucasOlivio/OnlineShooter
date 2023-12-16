@@ -12,6 +12,7 @@
 
 Engine::Engine()
 {
+	m_pEntityManager = new EntityManager();
 }
 
 Engine::~Engine()
@@ -52,18 +53,21 @@ void Engine::Initialize(int argc, char** argv)
 	glutIdleFunc(Idle_Callback);
 	glutReshapeFunc(Reshape_Callback);
 
-	LoadCamera();
-
-	m_EntityManager = EntityManager();
-
 	m_LastTime = std::chrono::high_resolution_clock::now();
 
+	LoadCamera();
+
 	std::vector<Entity*> entities;
-	m_EntityManager.GetEntities(entities);
+	m_pEntityManager->GetEntities(entities);
 
 	for (int i = 0; i < m_Systems.size(); i++)
 	{
-		m_Systems[i]->Start(entities);
+		bool isStarted = m_Systems[i]->Start(entities);
+		if (!isStarted)
+		{
+			printf("Engine: Error to start all systems!");
+			exit(1);
+		}
 	}
 }
 
@@ -75,6 +79,7 @@ void Engine::Destroy()
 	}
 
 	delete m_CameraEntity;
+	delete m_pEntityManager;
 }
 
 void Engine::Run()
@@ -98,7 +103,7 @@ void Engine::Update()
 	m_LastTime = currentTime;
 
 	std::vector<Entity*> entities;
-	m_EntityManager.GetEntities(entities);
+	m_pEntityManager->GetEntities(entities);
 
 	for (int i = 0; i < m_Systems.size(); i++)
 	{
@@ -134,7 +139,7 @@ void Engine::Render()
 	CheckGLError();
 
 	std::vector<Entity*> entities;
-	m_EntityManager.GetEntities(entities);
+	m_pEntityManager->GetEntities(entities);
 
 	for (int i = 0; i < entities.size(); i++)
 	{
@@ -189,8 +194,8 @@ void Engine::LoadShaders()
 {
 	// Load shader
 	ShaderProgram simpleShader(
-		"assets/shaders/SimpleShader.vertex.glsl",
-		"assets/shaders/SimpleShader.fragment.glsl"
+		(ASSETS_PATH + "shaders/SimpleShader.vertex.glsl").c_str(),
+		(ASSETS_PATH + "shaders/SimpleShader.fragment.glsl").c_str()
 	);
 
 	m_ShaderPrograms.push_back(simpleShader);
@@ -215,7 +220,7 @@ void Engine::LoadCamera()
 
 	//
 	// Camera
-	m_CameraEntity = m_EntityManager.CreateEntity();
+	m_CameraEntity = m_pEntityManager->CreateEntity();
 	glm::quat rotation = identity * glm::vec3(0.f, -1.f, -0.1f);
 	m_CameraEntity->AddComponent<TransformComponent>(glm::vec3(-20.f, 50.f, 0.f), unscaled, rotation);
 }
@@ -224,14 +229,15 @@ void Engine::LoadMeshes()
 {
 	//
 	// Meshes
-	Model cone("assets/models/cone.obj");
-	Model cube("assets/models/cube.obj");
-	Model cylinder("assets/models/cylinder.obj");
-	Model sphere("assets/models/sphere.obj");
-	m_Models.push_back(cone);
-	m_Models.push_back(cube);
-	m_Models.push_back(cylinder);
-	m_Models.push_back(sphere);
+	Model cone((ASSETS_PATH + "models/cone.obj").c_str());
+	Model cube((ASSETS_PATH + "models/cube.obj").c_str());
+	Model cylinder((ASSETS_PATH + "models/cylinder.obj").c_str());
+	Model sphere((ASSETS_PATH + "models/sphere.obj").c_str());
+
+	models["cone"] = cone;
+	models["cube"] = cube;
+	models["cylinder"] = cylinder;
+	models["sphere"] = sphere;
 }
 
 
@@ -247,6 +253,11 @@ void Engine::LoadEntities()
 void Engine::AddSystem(iSystem* system)
 {
 	m_Systems.push_back(system);
+}
+
+EntityManager* Engine::GetEntityManager()
+{
+	return m_pEntityManager;
 }
 
 // Wrappers for glut callback

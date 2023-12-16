@@ -8,11 +8,7 @@ class Entity
 {
 public:
 	Entity() { }
-	~Entity() {
-		for (auto& pair : m_Components) {
-			delete pair.second;
-		}
-	}
+	~Entity() {}
 
 	template<typename T>
 	bool HasComponent() const

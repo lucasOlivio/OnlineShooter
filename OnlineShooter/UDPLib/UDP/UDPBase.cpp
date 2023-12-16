@@ -38,7 +38,7 @@ bool UDPBase::Initialize(const char* host, int port)
 
 	m_info.sin_family = AF_INET;
 	m_info.sin_port = htons(port);
-	m_info.sin_addr.s_addr = htonl(INADDR_ANY);
+	m_info.sin_addr.s_addr = inet_addr(host);
 
 	// Creates new socket
 	m_serverSocket = socket(AF_INET,      // IPv4
@@ -53,6 +53,45 @@ bool UDPBase::Initialize(const char* host, int port)
 	m_isInitialized = true;
 
     return true;
+}
+
+bool UDPBase::Initialize(u_long host, int port)
+{
+	if (m_isInitialized)
+	{
+		// Already initialized
+		return true;
+	}
+
+	// Initialize WinSock
+	WSADATA wsaData;
+	int result;
+
+	// Set version 2.2 with MAKEWORD(2,2)
+	result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (result != 0) {
+		m_ResultError("WSAStartup", result, true);
+		return false;
+	}
+	printf("WSAStartup successfully!\n");
+
+	m_info.sin_family = AF_INET;
+	m_info.sin_port = htons(port);
+	m_info.sin_addr.s_addr = htonl(host);
+
+	// Creates new socket
+	m_serverSocket = socket(AF_INET,      // IPv4
+		SOCK_DGRAM,   // Datagram
+		IPPROTO_UDP); // UDP
+	if (m_serverSocket == INVALID_SOCKET) {
+		m_SocketError("socket", m_serverSocket, true);
+		return false;
+	}
+	printf("socket created successfully!\n");
+
+	m_isInitialized = true;
+
+	return true;
 }
 
 void UDPBase::Destroy()
@@ -104,7 +143,7 @@ void UDPBase::SendRequest(const std::string& dataTypeIn, const std::string& data
 	return;
 }
 
-bool UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
+int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 							 sockaddr_in& addrOut, int& addrLenOut)
 {
 	if (!m_isInitialized)
@@ -125,16 +164,16 @@ bool UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 	if (ierr == WSAEWOULDBLOCK) {  // currently no data available
 		dataTypeOut = "";
 		dataOut = "";
-		return true;
+		return 0;
 	}
 	if (result == SOCKET_ERROR) {
 		m_SocketError("recv", result, false);
-		return false;
+		return result;
 	}
 	if (result == 0)
 	{
 		// User disconnected
-		return false;
+		return result;
 	}
 
 	// + 1 for the /0 end of string
@@ -145,7 +184,7 @@ bool UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 					  0, (SOCKADDR*)&addrOut, &addrLenOut);
 	if (result == SOCKET_ERROR) {
 		m_SocketError("recv", result, false);
-		return false;
+		return result;
 	}
 
 	// Transform the data into our readable string
@@ -153,13 +192,13 @@ bool UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 	bool isDeserialized = m_DeserializePacket(strPacket, dataTypeOut, dataOut);
 	if (!isDeserialized)
 	{
-		return false;
+		return result;
 	}
 
-	return true;
+	return result;
 }
 
-void UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
+int UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 {
 	// Get any waiting msg from socket
 	myUDP::sPacketData* pPacketOut = new myUDP::sPacketData();
@@ -167,11 +206,24 @@ void UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 	if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
 	{
 		m_ResultError("recvfrom failed", result, true);
+
+		delete pPacketOut;
+
+		return -1;
+	}
+
+	if (result == 0)
+	{
+		delete pPacketOut;
+
+		return 0;
 	}
 
 	pPacketOut->addr = addr;
 	pPacketOut->addrLen = addrLen;
 	m_lastPackets.push_back(pPacketOut);
+
+	return result;
 }
 
 void UDPBase::GetNewMsgs(std::vector<myUDP::sPacketData*>& newPackets)

@@ -17,6 +17,8 @@ public:
 
     // Initializes WSA, addres info and socket
     bool Initialize(const char* host, int port);
+    bool Initialize(u_long host, int port);
+
     // Release and delete all resources
     void Destroy();
 
@@ -27,12 +29,13 @@ public:
     void SendRequest(const std::string& dataTypeIn, const std::string& dataIn,
 					 const sockaddr_in& addrIn, const int& addrLenIn);
 
-    // Deserializes message received from socket and returns the message type and string
-    bool ReceiveRequest(std::string& dataTypeOut, std::string& dataOut, 
+    // Deserializes message received from socket and 
+    // returns the packet length, message type and string
+    int ReceiveRequest(std::string& dataTypeOut, std::string& dataOut, 
                         sockaddr_in& addrOut, int& addrLenOut);
 
     // Read all messages incomming from socket and store in list
-    virtual void ReadNewMsgs(sockaddr_in& addr, int& addrLen);
+    virtual int ReadNewMsgs(sockaddr_in& addr, int& addrLen);
 
     // Retrieve the packet cache
     virtual void GetNewMsgs(std::vector<myUDP::sPacketData*>& newPackets);

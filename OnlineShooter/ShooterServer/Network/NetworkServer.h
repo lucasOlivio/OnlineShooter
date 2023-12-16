@@ -1,8 +1,6 @@
 #pragma once
 
 #include <System/System.h>
-#include <System/Components/RigidBody.h>
-#include <System/Components/Transform.h>
 
 #include <UDP/UDPServer.h>
 
@@ -16,7 +14,9 @@ enum eEntityState
 	IS_DEAD
 };
 
-class ServerSystem : iSystem
+const int MAX_PLAYERS = 4;
+
+class ServerSystem : public iSystem
 {
 public:
 	ServerSystem() {};
