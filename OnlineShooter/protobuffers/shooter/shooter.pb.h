@@ -30,6 +30,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -79,6 +80,58 @@ template<> ::shooter::Vector3* Arena::CreateMaybeMessage<::shooter::Vector3>(Are
 PROTOBUF_NAMESPACE_CLOSE
 namespace shooter {
 
+enum UserInput_InputType : int {
+  UserInput_InputType_FORWARD = 0,
+  UserInput_InputType_BACKWARD = 1,
+  UserInput_InputType_TURN_LEFT = 2,
+  UserInput_InputType_TURN_RIGHT = 3,
+  UserInput_InputType_FIRE = 4
+};
+bool UserInput_InputType_IsValid(int value);
+constexpr UserInput_InputType UserInput_InputType_InputType_MIN = UserInput_InputType_FORWARD;
+constexpr UserInput_InputType UserInput_InputType_InputType_MAX = UserInput_InputType_FIRE;
+constexpr int UserInput_InputType_InputType_ARRAYSIZE = UserInput_InputType_InputType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserInput_InputType_descriptor();
+template<typename T>
+inline const std::string& UserInput_InputType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, UserInput_InputType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function UserInput_InputType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    UserInput_InputType_descriptor(), enum_t_value);
+}
+inline bool UserInput_InputType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, UserInput_InputType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserInput_InputType>(
+    UserInput_InputType_descriptor(), name, value);
+}
+enum Entity_StatetType : int {
+  Entity_StatetType_NOT_ACTIVE = 0,
+  Entity_StatetType_IS_ACTIVE = 1,
+  Entity_StatetType_IS_CONNECTED = 2,
+  Entity_StatetType_HAS_AMMO = 3,
+  Entity_StatetType_IS_DEAD = 4
+};
+bool Entity_StatetType_IsValid(int value);
+constexpr Entity_StatetType Entity_StatetType_StatetType_MIN = Entity_StatetType_NOT_ACTIVE;
+constexpr Entity_StatetType Entity_StatetType_StatetType_MAX = Entity_StatetType_IS_DEAD;
+constexpr int Entity_StatetType_StatetType_ARRAYSIZE = Entity_StatetType_StatetType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Entity_StatetType_descriptor();
+template<typename T>
+inline const std::string& Entity_StatetType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Entity_StatetType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Entity_StatetType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Entity_StatetType_descriptor(), enum_t_value);
+}
+inline bool Entity_StatetType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Entity_StatetType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Entity_StatetType>(
+    Entity_StatetType_descriptor(), name, value);
+}
 // ===================================================================
 
 class GetId final :
@@ -359,6 +412,42 @@ class UserInput final :
 
   // nested types ----------------------------------------------------
 
+  typedef UserInput_InputType InputType;
+  static constexpr InputType FORWARD =
+    UserInput_InputType_FORWARD;
+  static constexpr InputType BACKWARD =
+    UserInput_InputType_BACKWARD;
+  static constexpr InputType TURN_LEFT =
+    UserInput_InputType_TURN_LEFT;
+  static constexpr InputType TURN_RIGHT =
+    UserInput_InputType_TURN_RIGHT;
+  static constexpr InputType FIRE =
+    UserInput_InputType_FIRE;
+  static inline bool InputType_IsValid(int value) {
+    return UserInput_InputType_IsValid(value);
+  }
+  static constexpr InputType InputType_MIN =
+    UserInput_InputType_InputType_MIN;
+  static constexpr InputType InputType_MAX =
+    UserInput_InputType_InputType_MAX;
+  static constexpr int InputType_ARRAYSIZE =
+    UserInput_InputType_InputType_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  InputType_descriptor() {
+    return UserInput_InputType_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& InputType_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, InputType>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function InputType_Name.");
+    return UserInput_InputType_Name(enum_t_value);
+  }
+  static inline bool InputType_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      InputType* value) {
+    return UserInput_InputType_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   enum : int {
@@ -392,17 +481,17 @@ class UserInput final :
   void _internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // required int32 input = 3;
+  // required .shooter.UserInput.InputType input = 3;
   bool has_input() const;
   private:
   bool _internal_has_input() const;
   public:
   void clear_input();
-  ::PROTOBUF_NAMESPACE_ID::int32 input() const;
-  void set_input(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::shooter::UserInput_InputType input() const;
+  void set_input(::shooter::UserInput_InputType value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_input() const;
-  void _internal_set_input(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::shooter::UserInput_InputType _internal_input() const;
+  void _internal_set_input(::shooter::UserInput_InputType value);
   public:
 
   // @@protoc_insertion_point(class_scope:shooter.UserInput)
@@ -419,7 +508,7 @@ class UserInput final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
   ::PROTOBUF_NAMESPACE_ID::int32 playerid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 input_;
+  int input_;
   friend struct ::TableStruct_shooter_2eproto;
 };
 // -------------------------------------------------------------------
@@ -735,16 +824,53 @@ class Entity final :
 
   // nested types ----------------------------------------------------
 
+  typedef Entity_StatetType StatetType;
+  static constexpr StatetType NOT_ACTIVE =
+    Entity_StatetType_NOT_ACTIVE;
+  static constexpr StatetType IS_ACTIVE =
+    Entity_StatetType_IS_ACTIVE;
+  static constexpr StatetType IS_CONNECTED =
+    Entity_StatetType_IS_CONNECTED;
+  static constexpr StatetType HAS_AMMO =
+    Entity_StatetType_HAS_AMMO;
+  static constexpr StatetType IS_DEAD =
+    Entity_StatetType_IS_DEAD;
+  static inline bool StatetType_IsValid(int value) {
+    return Entity_StatetType_IsValid(value);
+  }
+  static constexpr StatetType StatetType_MIN =
+    Entity_StatetType_StatetType_MIN;
+  static constexpr StatetType StatetType_MAX =
+    Entity_StatetType_StatetType_MAX;
+  static constexpr int StatetType_ARRAYSIZE =
+    Entity_StatetType_StatetType_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  StatetType_descriptor() {
+    return Entity_StatetType_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& StatetType_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, StatetType>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function StatetType_Name.");
+    return Entity_StatetType_Name(enum_t_value);
+  }
+  static inline bool StatetType_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      StatetType* value) {
+    return Entity_StatetType_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 3,
-    kVelocityFieldNumber = 4,
-    kOrientationFieldNumber = 5,
+    kPositionFieldNumber = 4,
+    kVelocityFieldNumber = 5,
+    kOrientationFieldNumber = 6,
     kEntityIdFieldNumber = 1,
-    kStateFieldNumber = 2,
+    kRequestIdFieldNumber = 2,
+    kStateFieldNumber = 3,
   };
-  // required .shooter.Vector3 position = 3;
+  // required .shooter.Vector3 position = 4;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -762,7 +888,7 @@ class Entity final :
       ::shooter::Vector3* position);
   ::shooter::Vector3* unsafe_arena_release_position();
 
-  // required .shooter.Vector3 velocity = 4;
+  // required .shooter.Vector3 velocity = 5;
   bool has_velocity() const;
   private:
   bool _internal_has_velocity() const;
@@ -780,7 +906,7 @@ class Entity final :
       ::shooter::Vector3* velocity);
   ::shooter::Vector3* unsafe_arena_release_velocity();
 
-  // required .shooter.Vector3 orientation = 5;
+  // required .shooter.Vector3 orientation = 6;
   bool has_orientation() const;
   private:
   bool _internal_has_orientation() const;
@@ -811,17 +937,30 @@ class Entity final :
   void _internal_set_entityid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // required int32 state = 2;
+  // required int32 requestId = 2;
+  bool has_requestid() const;
+  private:
+  bool _internal_has_requestid() const;
+  public:
+  void clear_requestid();
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid() const;
+  void set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_requestid() const;
+  void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // required .shooter.Entity.StatetType state = 3;
   bool has_state() const;
   private:
   bool _internal_has_state() const;
   public:
   void clear_state();
-  ::PROTOBUF_NAMESPACE_ID::int32 state() const;
-  void set_state(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::shooter::Entity_StatetType state() const;
+  void set_state(::shooter::Entity_StatetType value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_state() const;
-  void _internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::shooter::Entity_StatetType _internal_state() const;
+  void _internal_set_state(::shooter::Entity_StatetType value);
   public:
 
   // @@protoc_insertion_point(class_scope:shooter.Entity)
@@ -840,7 +979,8 @@ class Entity final :
   ::shooter::Vector3* velocity_;
   ::shooter::Vector3* orientation_;
   ::PROTOBUF_NAMESPACE_ID::int32 entityid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 state_;
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
+  int state_;
   friend struct ::TableStruct_shooter_2eproto;
 };
 // -------------------------------------------------------------------
@@ -971,10 +1111,9 @@ class GameScene final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kEntitiesFieldNumber = 2,
-    kRequestIdFieldNumber = 1,
+    kEntitiesFieldNumber = 1,
   };
-  // repeated .shooter.Entity entities = 2;
+  // repeated .shooter.Entity entities = 1;
   int entities_size() const;
   private:
   int _internal_entities_size() const;
@@ -992,19 +1131,6 @@ class GameScene final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity >&
       entities() const;
 
-  // required int32 requestId = 1;
-  bool has_requestid() const;
-  private:
-  bool _internal_has_requestid() const;
-  public:
-  void clear_requestid();
-  ::PROTOBUF_NAMESPACE_ID::int32 requestid() const;
-  void set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_requestid() const;
-  void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:shooter.GameScene)
  private:
   class _Internal;
@@ -1012,10 +1138,8 @@ class GameScene final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::shooter::Entity > entities_;
-  ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_shooter_2eproto;
 };
 // ===================================================================
@@ -1117,7 +1241,7 @@ inline void UserInput::set_playerid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:shooter.UserInput.playerId)
 }
 
-// required int32 input = 3;
+// required .shooter.UserInput.InputType input = 3;
 inline bool UserInput::_internal_has_input() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -1129,18 +1253,19 @@ inline void UserInput::clear_input() {
   input_ = 0;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::_internal_input() const {
-  return input_;
+inline ::shooter::UserInput_InputType UserInput::_internal_input() const {
+  return static_cast< ::shooter::UserInput_InputType >(input_);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInput::input() const {
+inline ::shooter::UserInput_InputType UserInput::input() const {
   // @@protoc_insertion_point(field_get:shooter.UserInput.input)
   return _internal_input();
 }
-inline void UserInput::_internal_set_input(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInput::_internal_set_input(::shooter::UserInput_InputType value) {
+  assert(::shooter::UserInput_InputType_IsValid(value));
   _has_bits_[0] |= 0x00000004u;
   input_ = value;
 }
-inline void UserInput::set_input(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void UserInput::set_input(::shooter::UserInput_InputType value) {
   _internal_set_input(value);
   // @@protoc_insertion_point(field_set:shooter.UserInput.input)
 }
@@ -1265,9 +1390,37 @@ inline void Entity::set_entityid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:shooter.Entity.entityId)
 }
 
-// required int32 state = 2;
-inline bool Entity::_internal_has_state() const {
+// required int32 requestId = 2;
+inline bool Entity::_internal_has_requestid() const {
   bool value = (_has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool Entity::has_requestid() const {
+  return _internal_has_requestid();
+}
+inline void Entity::clear_requestid() {
+  requestid_ = 0;
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::_internal_requestid() const {
+  return requestid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::requestid() const {
+  // @@protoc_insertion_point(field_get:shooter.Entity.requestId)
+  return _internal_requestid();
+}
+inline void Entity::_internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000010u;
+  requestid_ = value;
+}
+inline void Entity::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:shooter.Entity.requestId)
+}
+
+// required .shooter.Entity.StatetType state = 3;
+inline bool Entity::_internal_has_state() const {
+  bool value = (_has_bits_[0] & 0x00000020u) != 0;
   return value;
 }
 inline bool Entity::has_state() const {
@@ -1275,25 +1428,26 @@ inline bool Entity::has_state() const {
 }
 inline void Entity::clear_state() {
   state_ = 0;
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000020u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::_internal_state() const {
-  return state_;
+inline ::shooter::Entity_StatetType Entity::_internal_state() const {
+  return static_cast< ::shooter::Entity_StatetType >(state_);
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 Entity::state() const {
+inline ::shooter::Entity_StatetType Entity::state() const {
   // @@protoc_insertion_point(field_get:shooter.Entity.state)
   return _internal_state();
 }
-inline void Entity::_internal_set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000010u;
+inline void Entity::_internal_set_state(::shooter::Entity_StatetType value) {
+  assert(::shooter::Entity_StatetType_IsValid(value));
+  _has_bits_[0] |= 0x00000020u;
   state_ = value;
 }
-inline void Entity::set_state(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void Entity::set_state(::shooter::Entity_StatetType value) {
   _internal_set_state(value);
   // @@protoc_insertion_point(field_set:shooter.Entity.state)
 }
 
-// required .shooter.Vector3 position = 3;
+// required .shooter.Vector3 position = 4;
 inline bool Entity::_internal_has_position() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || position_ != nullptr);
@@ -1383,7 +1537,7 @@ inline void Entity::set_allocated_position(::shooter::Vector3* position) {
   // @@protoc_insertion_point(field_set_allocated:shooter.Entity.position)
 }
 
-// required .shooter.Vector3 velocity = 4;
+// required .shooter.Vector3 velocity = 5;
 inline bool Entity::_internal_has_velocity() const {
   bool value = (_has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || velocity_ != nullptr);
@@ -1473,7 +1627,7 @@ inline void Entity::set_allocated_velocity(::shooter::Vector3* velocity) {
   // @@protoc_insertion_point(field_set_allocated:shooter.Entity.velocity)
 }
 
-// required .shooter.Vector3 orientation = 5;
+// required .shooter.Vector3 orientation = 6;
 inline bool Entity::_internal_has_orientation() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || orientation_ != nullptr);
@@ -1567,35 +1721,7 @@ inline void Entity::set_allocated_orientation(::shooter::Vector3* orientation) {
 
 // GameScene
 
-// required int32 requestId = 1;
-inline bool GameScene::_internal_has_requestid() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool GameScene::has_requestid() const {
-  return _internal_has_requestid();
-}
-inline void GameScene::clear_requestid() {
-  requestid_ = 0;
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::_internal_requestid() const {
-  return requestid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameScene::requestid() const {
-  // @@protoc_insertion_point(field_get:shooter.GameScene.requestId)
-  return _internal_requestid();
-}
-inline void GameScene::_internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000001u;
-  requestid_ = value;
-}
-inline void GameScene::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_requestid(value);
-  // @@protoc_insertion_point(field_set:shooter.GameScene.requestId)
-}
-
-// repeated .shooter.Entity entities = 2;
+// repeated .shooter.Entity entities = 1;
 inline int GameScene::_internal_entities_size() const {
   return entities_.size();
 }
@@ -1650,6 +1776,21 @@ GameScene::entities() const {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace shooter
+
+PROTOBUF_NAMESPACE_OPEN
+
+template <> struct is_proto_enum< ::shooter::UserInput_InputType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::shooter::UserInput_InputType>() {
+  return ::shooter::UserInput_InputType_descriptor();
+}
+template <> struct is_proto_enum< ::shooter::Entity_StatetType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::shooter::Entity_StatetType>() {
+  return ::shooter::Entity_StatetType_descriptor();
+}
+
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

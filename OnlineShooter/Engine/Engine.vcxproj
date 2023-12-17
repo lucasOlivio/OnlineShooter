@@ -26,9 +26,9 @@
     <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\ShaderProgram.h" />
     <ClInclude Include="Physics\PhysicsSystem.h" />
+    <ClInclude Include="Gameplay\playersystem.h" />
     <ClInclude Include="System\Component.h" />
     <ClInclude Include="System\components.h" />
-    <ClInclude Include="System\Components\Bullet.h" />
     <ClInclude Include="System\Components\MeshRenderer.h" />
     <ClInclude Include="System\Components\Network.h" />
     <ClInclude Include="System\Components\PlayerController.h" />
@@ -46,6 +46,7 @@
     <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Gameplay\playersystem.cpp" />
     <ClCompile Include="System\EntityManager.cpp" />
     <ClCompile Include="System\Input.cpp" />
   </ItemGroup>

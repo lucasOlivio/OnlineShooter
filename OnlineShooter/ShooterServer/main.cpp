@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
+		player->AddComponent<PlayerControllerComponent>();
 	}
 
 	GetEngine().Run(argc, argv);

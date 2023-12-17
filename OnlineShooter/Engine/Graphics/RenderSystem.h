@@ -12,6 +12,8 @@ public:
 	// Singleton
 	static RenderSystem* GetInstance();
 
+	void InitGlut(int argc, char** argv);
+
 	virtual bool Start(const std::vector<Entity*>& entities, int argc, char** argv);
 
 	virtual void Execute(const std::vector<Entity*>& entities, float dt);
@@ -22,6 +24,10 @@ public:
 
 	void Render();
 
+	void LoadShaders();
+	void LoadCamera();
+	void LoadMeshes();
+
 	std::map<std::string, Model> models;
 private:
 	// Singleton
@@ -29,10 +35,6 @@ private:
 	RenderSystem(const RenderSystem&) = delete;
 	RenderSystem& operator=(const RenderSystem&) = delete;
 	static RenderSystem* m_pInstance;
-
-	void LoadShaders();
-	void LoadCamera();
-	void LoadMeshes();
 
 	// Window information
 	int m_WindowX;
@@ -62,3 +64,7 @@ void ReleaseKey_Callback(unsigned char key, int x, int y);
 void Reshape_Callback(int w, int h);
 
 void Render_Callback();
+
+void Idle_Callback();
+
+void Close_Callback();

@@ -4,11 +4,26 @@
 
 #include <system/component.h>
 
+// HACK: Copy from shooter.proto, this should have a common way of state control
+// without the need of duplicating the information
+enum StatetType {
+	NOT_ACTIVE,
+	IS_ACTIVE,
+	IS_CONNECTED,
+	HAS_AMMO,
+	IS_DEAD,
+};
+
 class Entity
 {
 public:
-	Entity() { }
+	Entity() { 
+		//this->nextUniqueId = startinguniqueId;
+		//std::cout << uniqueid << std::endl;
+	}
 	~Entity() {}
+
+	StatetType state;
 
 	template<typename T>
 	bool HasComponent() const
@@ -26,6 +41,7 @@ public:
 
 		T* newComponent = new T(std::forward<Args>(args)...);
 		m_Components[&typeid(T)] = newComponent;
+		//Entity::nextUniqueId++;
 		return newComponent;
 	}
 
@@ -50,6 +66,7 @@ public:
 		}
 		return nullptr;
 	}
+
 private:
 	std::map<const std::type_info*, Component*> m_Components;
 };

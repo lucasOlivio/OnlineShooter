@@ -44,14 +44,17 @@ public:
 	void GetConnectedClients(std::vector<sClientInfo*>& clients);
 
 	// Check if there is any new connection and add to the list of connected clients
-	void AddClient(sockaddr_in& addr, int& addrLen);
+	// Returns the added clientid
+	int AddClient(sockaddr_in& addr, int& addrLen);
 
 	// Remove client from connected list by id in list or address
-	void Removeclient(const sockaddr_in& addrIn, const int& addrLenIn);
-	void Removeclient(int clientId);
+	// Returns the removed client id
+	int Removeclient(const sockaddr_in& addrIn, const int& addrLenIn);
+	int Removeclient(int clientId);
 
 	// Read message in socket and add client if new
-	virtual int ReadNewMsgs();
+	// Returns the clientid that sent the msg, new added clientid or the removed clientid
+	virtual int ReadNewMsgs(sockaddr_in& addr, int& addrLen, int& clientIdOut);
 
 protected:
 	// ConnectedClients

@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Graphics/RenderSystem.h"
+#include "System/components.h"
 
 #include <sstream>
 
@@ -22,7 +23,7 @@ Engine& Engine::GetInstance()
 void Engine::Initialize()
 {
 	m_LastTime = std::chrono::high_resolution_clock::now();
-
+	
 }
 
 void Engine::Destroy()
@@ -72,8 +73,11 @@ void Engine::Update()
 	}
 }
 
+
 void Engine::PressKey(unsigned char key)
 {
+	std::vector<Entity*> entities;
+	m_pEntityManager->GetEntities(entities);
 	m_Input.PressKey(key);
 }
 
@@ -87,14 +91,6 @@ Input& Engine::GetInput()
 	return m_Input;
 }
 
-void Engine::LoadEntities()
-{
-	//
-	// Maybe create all 4 players entities here already setting their ID?
-
-	
-}
-
 void Engine::AddSystem(iSystem* system)
 {
 	m_Systems.push_back(system);
@@ -103,4 +99,9 @@ void Engine::AddSystem(iSystem* system)
 EntityManager* Engine::GetEntityManager()
 {
 	return m_pEntityManager;
+}
+
+void Engine::SetRunning(bool isRunning)
+{
+	m_Running = isRunning;
 }

@@ -23,20 +23,23 @@ RenderSystem* RenderSystem::GetInstance()
 	return m_pInstance;
 }
 
-bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
+void RenderSystem::InitGlut(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(1200, 800);
+	Resize(1200, 800);
 	glutCreateWindow("UDP Multiplayer game!");
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
 
 	GLenum err = glewInit();
 	if (err != GLEW_OK) {
 		fprintf(stderr, "GLEW initialization failed: %s\n", glewGetErrorString(err));
 		exit(EXIT_FAILURE);
 	}
+
+	glDisable(GL_CULL_FACE);
 
 	glutIgnoreKeyRepeat(1);
 
@@ -48,19 +51,22 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
+	glutIdleFunc(Idle_Callback);
+	glutCloseFunc(Close_Callback);
+}
 
-	glDisable(GL_CULL_FACE);
-
+bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
+{
 	LoadShaders();
 	LoadCamera();
-	LoadMeshes();
 
-   // return false;
     return true;
 }
 
 void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
 {
+	Render();
+	glutMainLoopEvent();
 }
 
 void RenderSystem::End()
@@ -88,7 +94,7 @@ void RenderSystem::Render()
 		glm::radians(45.0f),
 		((GLfloat)m_WindowWidth) / ((GLfloat)m_WindowHeight),
 		0.1f,
-		100.0f
+		10000.0f
 	);
 	glUniformMatrix4fv(m_ProjectionMatrixUL, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	CheckGLError();
@@ -100,7 +106,7 @@ void RenderSystem::Render()
 
 	glm::vec3 toOrigin = glm::normalize(-cameraPosition);
 	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, toOrigin, up);
-	//glm::mat4 viewMatrix = glm::lookAt(glm::vec3(-10.f, 0.f, 0.f), glm::vec3(-9.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+
 	glUniformMatrix4fv(m_ViewMatrixUL, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	CheckGLError();
 
@@ -110,6 +116,13 @@ void RenderSystem::Render()
 	for (int i = 0; i < entities.size(); i++)
 	{
 		Entity* entity = entities[i];
+
+		if (entity->state == StatetType::NOT_ACTIVE ||
+			entity->state == StatetType::IS_DEAD)
+		{
+			continue;
+		}
+
 		if (!entity->HasComponent<MeshRendererComponent>() ||
 			!entity->HasComponent<TransformComponent>())
 		{
@@ -194,6 +207,7 @@ void RenderSystem::LoadMeshes()
 
 void PressKey_Callback(unsigned char key, int x, int y)
 {
+	std::cout << "keypressed" << std::endl;
 	GetEngine().PressKey(key);
 }
 
@@ -206,8 +220,18 @@ void Reshape_Callback(int w, int h)
 {
 	GetRenderSystem()->Resize(w, h);
 }
-
 void Render_Callback()
 {
 	GetRenderSystem()->Render();
 }
+
+void Idle_Callback()
+{
+
+}
+
+void Close_Callback()
+{
+	GetEngine().SetRunning(false);
+}
+
