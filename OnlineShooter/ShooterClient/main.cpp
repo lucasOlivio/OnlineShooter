@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
 	const glm::vec3 playerColor = glm::vec3(1.f, 0.f, 0.f);
 	const glm::vec3 bulletColor = glm::vec3(1.f, 0.5f, 0.5f);
-	const float radius = 5;
+	const float radius = 1;
 	EntityManager* pEntityManager = GetEngine().GetEntityManager();
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -43,8 +43,8 @@ int main(int argc, char** argv)
 		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
-		player->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
-													pRenderSystem->models["sphere"].NumTriangles,
+		player->AddComponent<MeshRendererComponent>(pRenderSystem->models["cylinder"].Vbo,
+													pRenderSystem->models["cylinder"].NumTriangles,
 													playerColor);
 	}
 
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 		// Bullet #i
 		Entity* bullet = pEntityManager->CreateEntity();
 		bullet->tag = "bullet";
-		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 2);
+		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 1);
 		bullet->AddComponent<BulletControllerComponent>();
 		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
 		bullet->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
