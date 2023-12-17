@@ -24,6 +24,7 @@ int main(int argc, char** argv)
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
 		player->AddComponent<PlayerControllerComponent>();
+		player->tag = "player";
 	}
 
 	GetEngine().Run(argc, argv);

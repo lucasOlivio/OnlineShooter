@@ -33,12 +33,13 @@ int main(int argc, char** argv)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->tag = "player";
 		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
+		player->AddComponent<NetworkComponent>(false);
 		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo,
 													pRender->models["sphere"].NumTriangles,
 													playerColor);
-		player->AddComponent<NetworkComponent>(false);
 	}
 
 	GetEngine().Run(argc, argv);
