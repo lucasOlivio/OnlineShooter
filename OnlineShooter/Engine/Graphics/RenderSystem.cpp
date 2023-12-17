@@ -13,6 +13,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 
 RenderSystem* RenderSystem::m_pInstance = nullptr;
+bool doRender = true;
 
 RenderSystem* RenderSystem::GetInstance()
 {
@@ -25,12 +26,16 @@ RenderSystem* RenderSystem::GetInstance()
 
 bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
+	if (!doRender) {
+		return true;
+	}
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(1200, 800);
+	Resize(1200, 800);
 	glutCreateWindow("UDP Multiplayer game!");
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.3f, 0.3f, 0.4f, 1.0f);
 
 	GLenum err = glewInit();
 	if (err != GLEW_OK) {
@@ -56,11 +61,14 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 	LoadMeshes();
 
    // return false;
+	doRender = false;
     return true;
 }
 
 void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
 {
+	//Render();
+	Render();
 }
 
 void RenderSystem::End()
@@ -88,7 +96,7 @@ void RenderSystem::Render()
 		glm::radians(45.0f),
 		((GLfloat)m_WindowWidth) / ((GLfloat)m_WindowHeight),
 		0.1f,
-		100.0f
+		10000.0f
 	);
 	glUniformMatrix4fv(m_ProjectionMatrixUL, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	CheckGLError();

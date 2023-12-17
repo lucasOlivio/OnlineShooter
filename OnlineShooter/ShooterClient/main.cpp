@@ -1,6 +1,7 @@
 #include "Network/NetworkClient.h"
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
+#include "System/playermovementsystem.h"
 
 #include <Engine/Engine.h>
 
@@ -9,11 +10,13 @@ int main(int argc, char** argv)
 	GetEngine().Initialize();
 
 	// Setup systems
-	//ClientSystem* pClient = new ClientSystem();
 	RenderSystem* pRender = GetRenderSystem();
+	std::vector<Entity*> entities;
 
-	//GetEngine().AddSystem(pClient);
 	GetEngine().AddSystem(pRender);
+	GetEngine().GetEntityManager()->GetEntities(entities);
+
+	pRender->Start(entities, argc, argv);
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
@@ -24,8 +27,13 @@ int main(int argc, char** argv)
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
+		//GetEngine();
+		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo, pRender->models["sphere"].NumTriangles, glm::vec3(1.f, 0.f, 0.f));
+		//player->AddComponent<MeshRendererComponent>();
 		player->AddComponent<NetworkComponent>(false);
 	}
+
+	GetEngine().AddSystem(new PlayerMovementSystem());
 
 	GetEngine().Run(argc, argv);
 

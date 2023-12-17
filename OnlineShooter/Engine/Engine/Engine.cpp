@@ -72,8 +72,10 @@ void Engine::Update()
 	}
 }
 
+
 void Engine::PressKey(unsigned char key)
 {
+	std::cout << "KetPressed" << std::endl;
 	m_Input.PressKey(key);
 }
 
