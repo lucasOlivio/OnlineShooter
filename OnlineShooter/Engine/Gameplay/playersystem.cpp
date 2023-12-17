@@ -42,8 +42,9 @@ void PlayerSystem::Execute(const std::vector<Entity*>& entities, float dt)
 
 	// If input turn right, rotate entity to the right
 
-	// If input action, create a bullet entity in front of entity
-	// with a velocity relative to the forward direction of entity
+	// If input action and player have ammo, create a bullet entity in front of entity
+	// with a velocity relative to the forward direction of entity, 
+	// then set player ammo to false
 }
 
 bool PlayerSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)

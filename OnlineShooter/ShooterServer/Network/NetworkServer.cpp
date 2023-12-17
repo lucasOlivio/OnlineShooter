@@ -1,9 +1,7 @@
 #include "NetworkServer.h"
 
 #include <System/Input.h>
-#include <System/Components/RigidBody.h>
-#include <System/Components/Transform.h>
-#include <System/Components/Network.h>
+#include <System/components.h>
 #include <Engine/Engine.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
@@ -188,7 +186,28 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
 
     // For every input received we set the flag to the correspondent entity
     Entity* pEntity = entities[newInput.playerid()];
+    PlayerControllerComponent* pPlayer = pEntity->GetComponent<PlayerControllerComponent>();
 
+    if (playerInput == ePlayerActions::FORWARD)
+    {
+        pPlayer->moveForward = true;
+    }
+    else if (playerInput == ePlayerActions::BACKWARD)
+    {
+        pPlayer->moveBackward = true;
+    }
+    else if (playerInput == ePlayerActions::TURN_LEFT)
+    {
+        pPlayer->moveLeft = true;
+    }
+    else if (playerInput == ePlayerActions::TURN_RIGHT)
+    {
+        pPlayer->moveRight = true;
+    }
+    else if (playerInput == ePlayerActions::FIRE)
+    {
+        pPlayer->shoot = true;
+    }
 
     return true;
 }

@@ -17,4 +17,9 @@ public:
 	glm::vec3 position;
 	glm::vec3 scale;
 	glm::quat orientation;
+
+	glm::vec3 GetForwardVector()
+	{
+		return orientation * glm::vec3(0, 1, 0);
+	}
 };
