@@ -2,6 +2,7 @@
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
 #include "System/playermovementsystem.h"
+#include "System/Components/PlayerController.h"
 
 #include <Engine/Engine.h>
 
@@ -31,9 +32,13 @@ int main(int argc, char** argv)
 		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo, pRender->models["sphere"].NumTriangles, glm::vec3(1.f, 0.f, 0.f));
 		//player->AddComponent<MeshRendererComponent>();
 		player->AddComponent<NetworkComponent>(false);
+		player->AddComponent<PlayerControllerComponent>();
 	}
 
 	GetEngine().AddSystem(new PlayerMovementSystem());
+
+	//glutIdleFunc(Engine_Callback(argc, argv));
+	//glutIdleFunc(Engine_Callback);
 
 	GetEngine().Run(argc, argv);
 

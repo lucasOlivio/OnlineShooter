@@ -53,12 +53,14 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
+	//glutIdleFunc(Render_Callback);
 
 	glDisable(GL_CULL_FACE);
 
 	LoadShaders();
 	LoadCamera();
 	LoadMeshes();
+
 
    // return false;
 	doRender = false;
@@ -202,6 +204,7 @@ void RenderSystem::LoadMeshes()
 
 void PressKey_Callback(unsigned char key, int x, int y)
 {
+	std::cout << "keypressed" << std::endl;
 	GetEngine().PressKey(key);
 }
 
@@ -214,8 +217,8 @@ void Reshape_Callback(int w, int h)
 {
 	GetRenderSystem()->Resize(w, h);
 }
-
 void Render_Callback()
 {
 	GetRenderSystem()->Render();
 }
+

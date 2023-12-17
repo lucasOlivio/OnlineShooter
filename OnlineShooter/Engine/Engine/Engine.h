@@ -63,3 +63,5 @@ private:
 
 #define GetEngine() Engine::GetInstance()
 
+void Engine_Callback();
+
