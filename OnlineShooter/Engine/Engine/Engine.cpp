@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Graphics/RenderSystem.h"
+#include "System/Components/PlayerController.h"
 
 #include <sstream>
 
@@ -79,6 +80,9 @@ void Engine::PressKey(unsigned char key)
 {
 	std::vector<Entity*> entities;
 	m_pEntityManager->GetEntities(entities);
+	for (int i = 1; i < entities.size(); i++) {
+		PlayerControllerComponent* player = entities[i]->GetComponent < PlayerControllerComponent>();
+	}
 	m_Input.PressKey(key);
 }
 
