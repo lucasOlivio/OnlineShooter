@@ -5,16 +5,7 @@
 #include <UDP/UDPServer.h>
 
 #include <chrono>
-
-enum eEntityState
-{
-	IS_ACTIVE, 
-	IS_CONNECTED, 
-	HAS_AMMO, 
-	IS_DEAD
-};
-
-const int MAX_PLAYERS = 4;
+#include <deque>
 
 class ServerSystem : public iSystem
 {
@@ -31,15 +22,26 @@ public:
 private:
 	UDPServer* m_pUDPServer;
 
-	// Request id for game scene updates
-	int m_nextRequestId;
+	// Mapping clientid -> playerir
+	std::map<int /*clientid*/, int /*playerid*/> m_clientplayer;
 
-	int m_nextAvailableId = 0;
+	// Request id for game scene updates
+	std::map<int /*entity ids*/, int /*next requestid*/> m_nextRequestIds;
+
+	std::deque<int> m_availablePlayerIds;
 	std::chrono::high_resolution_clock::time_point m_nextSendTime;
 
 	void m_HandleMsgs(const std::vector<Entity*>& entities, float dt);
 	void m_BroadcastGameScene(const std::vector<Entity*>& entities, float dt);
 
-	void m_SendNextId(const sockaddr_in& addrIn, const int& addrLenIn);
+	// Updates cache controls and return next available id
+	int m_AddPlayer(const std::vector<Entity*>& entities, sockaddr_in& addr, 
+					int& addrLen, int clientId);
+	// Return the player id to the list of available ids
+	void m_RemovePlayer(const std::vector<Entity*>& entities, sockaddr_in addr, 
+						int addrLen, int clientId);
+
+	void m_SendNextId(const std::vector<Entity*>& entities, int nextPlayerId, 
+					  sockaddr_in addrIn, int addrLenIn);
 	bool m_HandleUserInput(const std::string& dataIn);
 };

@@ -34,6 +34,8 @@ public:
 	void AddSystem(iSystem* system);
 	EntityManager* GetEntityManager();
 
+	void SetRunning(bool isRunning);
+
 private:
 	// Singleton
 	Engine();

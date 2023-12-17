@@ -33,7 +33,8 @@ constexpr UserInput::UserInput(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : requestid_(0)
   , playerid_(0)
-  , input_(0){}
+  , input_(0)
+{}
 struct UserInputDefaultTypeInternal {
   constexpr UserInputDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -63,7 +64,9 @@ constexpr Entity::Entity(
   , velocity_(nullptr)
   , orientation_(nullptr)
   , entityid_(0)
-  , state_(0){}
+  , requestid_(0)
+  , state_(0)
+{}
 struct EntityDefaultTypeInternal {
   constexpr EntityDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -75,8 +78,7 @@ struct EntityDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT EntityDefaultTypeInternal _Entity_default_instance_;
 constexpr GameScene::GameScene(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : entities_()
-  , requestid_(0){}
+  : entities_(){}
 struct GameSceneDefaultTypeInternal {
   constexpr GameSceneDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -88,7 +90,7 @@ struct GameSceneDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameSceneDefaultTypeInternal _GameScene_default_instance_;
 }  // namespace shooter
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_shooter_2eproto[5];
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_shooter_2eproto = nullptr;
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_shooter_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_shooter_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -131,32 +133,31 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, entityid_),
+  PROTOBUF_FIELD_OFFSET(::shooter::Entity, requestid_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, state_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, position_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, velocity_),
   PROTOBUF_FIELD_OFFSET(::shooter::Entity, orientation_),
   3,
   4,
+  5,
   0,
   1,
   2,
-  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, _has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::shooter::GameScene, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::shooter::GameScene, requestid_),
   PROTOBUF_FIELD_OFFSET(::shooter::GameScene, entities_),
-  0,
-  ~0u,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, -1, sizeof(::shooter::GetId)},
   { 8, 17, -1, sizeof(::shooter::UserInput)},
   { 20, 29, -1, sizeof(::shooter::Vector3)},
-  { 32, 43, -1, sizeof(::shooter::Entity)},
-  { 48, 56, -1, sizeof(::shooter::GameScene)},
+  { 32, 44, -1, sizeof(::shooter::Entity)},
+  { 50, -1, -1, sizeof(::shooter::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -169,19 +170,25 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_shooter_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rshooter.proto\022\007shooter\"\031\n\005GetId\022\020\n\010pla"
-  "yerId\030\001 \002(\005\"\?\n\tUserInput\022\021\n\trequestId\030\001 "
-  "\002(\005\022\020\n\010playerId\030\002 \002(\005\022\r\n\005input\030\003 \002(\005\"*\n\007"
-  "Vector3\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002"
-  "\"\230\001\n\006Entity\022\020\n\010entityId\030\001 \002(\005\022\r\n\005state\030\002"
-  " \002(\005\022\"\n\010position\030\003 \002(\0132\020.shooter.Vector3"
-  "\022\"\n\010velocity\030\004 \002(\0132\020.shooter.Vector3\022%\n\013"
-  "orientation\030\005 \002(\0132\020.shooter.Vector3\"A\n\tG"
-  "ameScene\022\021\n\trequestId\030\001 \002(\005\022!\n\010entities\030"
-  "\002 \003(\0132\017.shooter.Entity"
+  "yerId\030\001 \002(\005\"\256\001\n\tUserInput\022\021\n\trequestId\030\001"
+  " \002(\005\022\020\n\010playerId\030\002 \002(\005\022+\n\005input\030\003 \002(\0162\034."
+  "shooter.UserInput.InputType\"O\n\tInputType"
+  "\022\013\n\007FORWARD\020\000\022\014\n\010BACKWARD\020\001\022\r\n\tTURN_LEFT"
+  "\020\002\022\016\n\nTURN_RIGHT\020\003\022\010\n\004FIRE\020\004\"*\n\007Vector3\022"
+  "\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\241\002\n\006Ent"
+  "ity\022\020\n\010entityId\030\001 \002(\005\022\021\n\trequestId\030\002 \002(\005"
+  "\022)\n\005state\030\003 \002(\0162\032.shooter.Entity.StatetT"
+  "ype\022\"\n\010position\030\004 \002(\0132\020.shooter.Vector3\022"
+  "\"\n\010velocity\030\005 \002(\0132\020.shooter.Vector3\022%\n\013o"
+  "rientation\030\006 \002(\0132\020.shooter.Vector3\"X\n\nSt"
+  "atetType\022\016\n\nNOT_ACTIVE\020\000\022\r\n\tIS_ACTIVE\020\001\022"
+  "\020\n\014IS_CONNECTED\020\002\022\014\n\010HAS_AMMO\020\003\022\013\n\007IS_DE"
+  "AD\020\004\".\n\tGameScene\022!\n\010entities\030\001 \003(\0132\017.sh"
+  "ooter.Entity"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_shooter_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_shooter_2eproto = {
-  false, false, 382, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
+  false, false, 612, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
   &descriptor_table_shooter_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_shooter_2eproto::offsets,
   file_level_metadata_shooter_2eproto, file_level_enum_descriptors_shooter_2eproto, file_level_service_descriptors_shooter_2eproto,
@@ -193,6 +200,60 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_shooter_2eproto(&descriptor_table_shooter_2eproto);
 namespace shooter {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserInput_InputType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_shooter_2eproto);
+  return file_level_enum_descriptors_shooter_2eproto[0];
+}
+bool UserInput_InputType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr UserInput_InputType UserInput::FORWARD;
+constexpr UserInput_InputType UserInput::BACKWARD;
+constexpr UserInput_InputType UserInput::TURN_LEFT;
+constexpr UserInput_InputType UserInput::TURN_RIGHT;
+constexpr UserInput_InputType UserInput::FIRE;
+constexpr UserInput_InputType UserInput::InputType_MIN;
+constexpr UserInput_InputType UserInput::InputType_MAX;
+constexpr int UserInput::InputType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Entity_StatetType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_shooter_2eproto);
+  return file_level_enum_descriptors_shooter_2eproto[1];
+}
+bool Entity_StatetType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr Entity_StatetType Entity::NOT_ACTIVE;
+constexpr Entity_StatetType Entity::IS_ACTIVE;
+constexpr Entity_StatetType Entity::IS_CONNECTED;
+constexpr Entity_StatetType Entity::HAS_AMMO;
+constexpr Entity_StatetType Entity::IS_DEAD;
+constexpr Entity_StatetType Entity::StatetType_MIN;
+constexpr Entity_StatetType Entity::StatetType_MAX;
+constexpr int Entity::StatetType_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
@@ -493,12 +554,16 @@ const char* UserInput::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
         } else
           goto handle_unusual;
         continue;
-      // required int32 input = 3;
+      // required .shooter.UserInput.InputType input = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          _Internal::set_has_input(&has_bits);
-          input_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::shooter::UserInput_InputType_IsValid(val))) {
+            _internal_set_input(static_cast<::shooter::UserInput_InputType>(val));
+          } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(3, val, mutable_unknown_fields());
+          }
         } else
           goto handle_unusual;
         continue;
@@ -545,10 +610,11 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_playerid(), target);
   }
 
-  // required int32 input = 3;
+  // required .shooter.UserInput.InputType input = 3;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_input(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_input(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -574,8 +640,9 @@ size_t UserInput::RequiredFieldsByteSizeFallback() const {
   }
 
   if (_internal_has_input()) {
-    // required int32 input = 3;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_input());
+    // required .shooter.UserInput.InputType input = 3;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_input());
   }
 
   return total_size;
@@ -591,8 +658,9 @@ size_t UserInput::ByteSizeLong() const {
     // required int32 playerId = 2;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
 
-    // required int32 input = 3;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_input());
+    // required .shooter.UserInput.InputType input = 3;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_input());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -960,8 +1028,11 @@ class Entity::_Internal {
   static void set_has_entityid(HasBits* has_bits) {
     (*has_bits)[0] |= 8u;
   }
-  static void set_has_state(HasBits* has_bits) {
+  static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 16u;
+  }
+  static void set_has_state(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
   }
   static const ::shooter::Vector3& position(const Entity* msg);
   static void set_has_position(HasBits* has_bits) {
@@ -976,7 +1047,7 @@ class Entity::_Internal {
     (*has_bits)[0] |= 4u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x0000001f) ^ 0x0000001f) != 0;
+    return ((has_bits[0] & 0x0000003f) ^ 0x0000003f) != 0;
   }
 };
 
@@ -1078,7 +1149,7 @@ void Entity::Clear() {
       orientation_->Clear();
     }
   }
-  if (cached_has_bits & 0x00000018u) {
+  if (cached_has_bits & 0x00000038u) {
     ::memset(&entityid_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&state_) -
         reinterpret_cast<char*>(&entityid_)) + sizeof(state_));
@@ -1103,34 +1174,47 @@ const char* Entity::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
         } else
           goto handle_unusual;
         continue;
-      // required int32 state = 2;
+      // required int32 requestId = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          _Internal::set_has_state(&has_bits);
-          state_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          _Internal::set_has_requestid(&has_bits);
+          requestid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 position = 3;
+      // required .shooter.Entity.StatetType state = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::shooter::Entity_StatetType_IsValid(val))) {
+            _internal_set_state(static_cast<::shooter::Entity_StatetType>(val));
+          } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(3, val, mutable_unknown_fields());
+          }
+        } else
+          goto handle_unusual;
+        continue;
+      // required .shooter.Vector3 position = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 velocity = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+      // required .shooter.Vector3 velocity = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // required .shooter.Vector3 orientation = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+      // required .shooter.Vector3 orientation = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_orientation(), ptr);
           CHK_(ptr);
         } else
@@ -1173,34 +1257,41 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_entityid(), target);
   }
 
-  // required int32 state = 2;
+  // required int32 requestId = 2;
   if (cached_has_bits & 0x00000010u) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_state(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_requestid(), target);
   }
 
-  // required .shooter.Vector3 position = 3;
+  // required .shooter.Entity.StatetType state = 3;
+  if (cached_has_bits & 0x00000020u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_state(), target);
+  }
+
+  // required .shooter.Vector3 position = 4;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        3, _Internal::position(this), target, stream);
+        4, _Internal::position(this), target, stream);
   }
 
-  // required .shooter.Vector3 velocity = 4;
+  // required .shooter.Vector3 velocity = 5;
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        4, _Internal::velocity(this), target, stream);
+        5, _Internal::velocity(this), target, stream);
   }
 
-  // required .shooter.Vector3 orientation = 5;
+  // required .shooter.Vector3 orientation = 6;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        5, _Internal::orientation(this), target, stream);
+        6, _Internal::orientation(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1216,21 +1307,21 @@ size_t Entity::RequiredFieldsByteSizeFallback() const {
   size_t total_size = 0;
 
   if (_internal_has_position()) {
-    // required .shooter.Vector3 position = 3;
+    // required .shooter.Vector3 position = 4;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *position_);
   }
 
   if (_internal_has_velocity()) {
-    // required .shooter.Vector3 velocity = 4;
+    // required .shooter.Vector3 velocity = 5;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *velocity_);
   }
 
   if (_internal_has_orientation()) {
-    // required .shooter.Vector3 orientation = 5;
+    // required .shooter.Vector3 orientation = 6;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *orientation_);
@@ -1241,9 +1332,15 @@ size_t Entity::RequiredFieldsByteSizeFallback() const {
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_entityid());
   }
 
+  if (_internal_has_requestid()) {
+    // required int32 requestId = 2;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
+  }
+
   if (_internal_has_state()) {
-    // required int32 state = 2;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+    // required .shooter.Entity.StatetType state = 3;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
   }
 
   return total_size;
@@ -1252,18 +1349,18 @@ size_t Entity::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:shooter.Entity)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
-    // required .shooter.Vector3 position = 3;
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
+    // required .shooter.Vector3 position = 4;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *position_);
 
-    // required .shooter.Vector3 velocity = 4;
+    // required .shooter.Vector3 velocity = 5;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *velocity_);
 
-    // required .shooter.Vector3 orientation = 5;
+    // required .shooter.Vector3 orientation = 6;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *orientation_);
@@ -1271,8 +1368,12 @@ size_t Entity::ByteSizeLong() const {
     // required int32 entityId = 1;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_entityid());
 
-    // required int32 state = 2;
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_state());
+    // required int32 requestId = 2;
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
+
+    // required .shooter.Entity.StatetType state = 3;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -1304,7 +1405,7 @@ void Entity::MergeFrom(const Entity& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_mutable_position()->::shooter::Vector3::MergeFrom(from._internal_position());
     }
@@ -1318,6 +1419,9 @@ void Entity::MergeFrom(const Entity& from) {
       entityid_ = from.entityid_;
     }
     if (cached_has_bits & 0x00000010u) {
+      requestid_ = from.requestid_;
+    }
+    if (cached_has_bits & 0x00000020u) {
       state_ = from.state_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -1368,13 +1472,6 @@ void Entity::InternalSwap(Entity* other) {
 
 class GameScene::_Internal {
  public:
-  using HasBits = decltype(std::declval<GameScene>()._has_bits_);
-  static void set_has_requestid(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
-  }
 };
 
 GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -1389,15 +1486,12 @@ GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
 }
 GameScene::GameScene(const GameScene& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_),
       entities_(from.entities_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  requestid_ = from.requestid_;
   // @@protoc_insertion_point(copy_constructor:shooter.GameScene)
 }
 
 void GameScene::SharedCtor() {
-requestid_ = 0;
 }
 
 GameScene::~GameScene() {
@@ -1428,37 +1522,25 @@ void GameScene::Clear() {
   (void) cached_has_bits;
 
   entities_.Clear();
-  requestid_ = 0;
-  _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* GameScene::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required int32 requestId = 1;
+      // repeated .shooter.Entity entities = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_requestid(&has_bits);
-          requestid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .shooter.Entity entities = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_entities(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1478,7 +1560,6 @@ const char* GameScene::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1492,19 +1573,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  cached_has_bits = _has_bits_[0];
-  // required int32 requestId = 1;
-  if (cached_has_bits & 0x00000001u) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_requestid(), target);
-  }
-
-  // repeated .shooter.Entity entities = 2;
+  // repeated .shooter.Entity entities = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_entities_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, this->_internal_entities(i), target, stream);
+      InternalWriteMessage(1, this->_internal_entities(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1519,15 +1593,11 @@ size_t GameScene::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:shooter.GameScene)
   size_t total_size = 0;
 
-  // required int32 requestId = 1;
-  if (_internal_has_requestid()) {
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
-  }
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .shooter.Entity entities = 2;
+  // repeated .shooter.Entity entities = 1;
   total_size += 1UL * this->_internal_entities_size();
   for (const auto& msg : this->entities_) {
     total_size +=
@@ -1557,9 +1627,6 @@ void GameScene::MergeFrom(const GameScene& from) {
   (void) cached_has_bits;
 
   entities_.MergeFrom(from.entities_);
-  if (from._internal_has_requestid()) {
-    _internal_set_requestid(from._internal_requestid());
-  }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1571,7 +1638,6 @@ void GameScene::CopyFrom(const GameScene& from) {
 }
 
 bool GameScene::IsInitialized() const {
-  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(entities_)) return false;
   return true;
 }
@@ -1579,9 +1645,7 @@ bool GameScene::IsInitialized() const {
 void GameScene::InternalSwap(GameScene* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_has_bits_[0], other->_has_bits_[0]);
   entities_.InternalSwap(&other->entities_);
-  swap(requestid_, other->requestid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameScene::GetMetadata() const {

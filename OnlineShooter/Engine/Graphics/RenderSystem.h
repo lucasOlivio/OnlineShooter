@@ -66,3 +66,5 @@ void Reshape_Callback(int w, int h);
 void Render_Callback();
 
 void Idle_Callback();
+
+void Close_Callback();

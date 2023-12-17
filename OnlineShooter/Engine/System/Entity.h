@@ -4,6 +4,16 @@
 
 #include <system/component.h>
 
+// HACK: Copy from shooter.proto, this should have a common way of state control
+// without the need of duplicating the information
+enum StatetType {
+	NOT_ACTIVE,
+	IS_ACTIVE,
+	IS_CONNECTED,
+	HAS_AMMO,
+	IS_DEAD,
+};
+
 class Entity
 {
 public:
@@ -12,6 +22,9 @@ public:
 		//std::cout << uniqueid << std::endl;
 	}
 	~Entity() {}
+
+	StatetType state;
+	std::string tag;
 
 	template<typename T>
 	bool HasComponent() const

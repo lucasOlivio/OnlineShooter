@@ -52,6 +52,7 @@ void RenderSystem::InitGlut(int argc, char** argv)
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
 	glutIdleFunc(Idle_Callback);
+	glutCloseFunc(Close_Callback);
 }
 
 bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
@@ -64,13 +65,16 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
 void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
 {
-	//Render();
 	Render();
+	glutMainLoopEvent();
 }
 
 void RenderSystem::End()
 {
 	delete m_CameraEntity;
+
+	if (glutGetWindow()) 			
+		glutDestroyWindow(glutGetWindow());
 }
 
 void RenderSystem::Resize(int w, int h)
@@ -115,6 +119,13 @@ void RenderSystem::Render()
 	for (int i = 0; i < entities.size(); i++)
 	{
 		Entity* entity = entities[i];
+
+		if (entity->state == StatetType::NOT_ACTIVE ||
+			entity->state == StatetType::IS_DEAD)
+		{
+			continue;
+		}
+
 		if (!entity->HasComponent<MeshRendererComponent>() ||
 			!entity->HasComponent<TransformComponent>())
 		{
@@ -220,5 +231,10 @@ void Render_Callback()
 void Idle_Callback()
 {
 
+}
+
+void Close_Callback()
+{
+	GetEngine().SetRunning(false);
 }
 

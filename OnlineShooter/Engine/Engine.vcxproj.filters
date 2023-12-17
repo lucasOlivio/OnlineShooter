@@ -63,16 +63,13 @@
     <ClInclude Include="System\Components\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="System\Components\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\RenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="System\Components\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\playersystem.h">
+    <ClInclude Include="Gameplay\PlayerSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,7 +98,7 @@
     <ClCompile Include="Graphics\RenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gameplay\playersystem.cpp">
+    <ClCompile Include="Gameplay\PlayerSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

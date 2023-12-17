@@ -1,14 +1,15 @@
 #include "NetworkServer.h"
 
 #include <System/Input.h>
-#include <System/Components/RigidBody.h>
-#include <System/Components/Transform.h>
-#include <System/Components/Network.h>
+#include <System/components.h>
+#include <Engine/Engine.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
 
 bool ServerSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
+    m_availablePlayerIds = { 0, 1, 2, 3 };
+
     m_nextSendTime = std::chrono::high_resolution_clock::now();
 
     m_pUDPServer = new UDPServer();
@@ -42,7 +43,18 @@ void ServerSystem::End()
 
 void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
 {
-    m_pUDPServer->ReadNewMsgs();
+    sockaddr_in addr;
+    int addrLen = sizeof(addr);
+    int clientId;
+
+    int result = m_pUDPServer->ReadNewMsgs(addr, addrLen, clientId);
+    if (result == WSAECONNRESET)
+    {
+        // Client disconnected
+        m_RemovePlayer(entities, addr, addrLen, clientId);
+
+        return;
+    }
 
     std::vector<myUDP::sPacketData*> msgs;
     m_pUDPServer->GetNewMsgs(msgs);
@@ -52,7 +64,8 @@ void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
     {
         if (pPacket->dataType == "getid")
         {
-            m_SendNextId(pPacket->addr, pPacket->addrLen);
+            int nextPlayerId = m_AddPlayer(entities, pPacket->addr, pPacket->addrLen, clientId);
+            m_SendNextId(entities, nextPlayerId, pPacket->addr, pPacket->addrLen);
             continue;
         }
         else if (pPacket->dataType == "userinput")
@@ -84,7 +97,6 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
 
     // Build game scene proto
     shooter::GameScene gamescene;
-    gamescene.set_requestid(m_nextRequestId);
 
     for (int i = 0; i < entities.size(); i++)
     {
@@ -100,19 +112,17 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
         // Setup entity
         shooter::Entity* entity = gamescene.add_entities();
         entity->set_entityid(i);
-        entity->set_state(pNetwork->state);
+
+        // We have one requestid follow for each player
+        entity->set_requestid(m_nextRequestIds[i]);
+
+        entity->set_state((shooter::Entity::StatetType)pEntity->state);
 
         // Setup Position
         shooter::Vector3* position = entity->mutable_position();
         position->set_x(pTransform->position.x);
         position->set_y(pTransform->position.y);
         position->set_z(pTransform->position.z);
-
-        // Setup orientation
-        shooter::Vector3* orientation = entity->mutable_orientation();
-        orientation->set_x(pTransform->orientation.x);
-        orientation->set_y(pTransform->orientation.y);
-        orientation->set_z(pTransform->orientation.z);
 
         // Setup velocity
         // Velocity should not be mandatory but proto2 is bugged with optional fields
@@ -127,6 +137,12 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
         velocity->set_x(enttVel.x);
         velocity->set_y(enttVel.y);
         velocity->set_z(enttVel.z);
+
+        // Setup orientation
+        shooter::Vector3* orientation = entity->mutable_orientation();
+        orientation->set_x(pTransform->orientation.x);
+        orientation->set_y(pTransform->orientation.y);
+        orientation->set_z(pTransform->orientation.z);
     }
 
     if (gamescene.entities_size() == 0)
@@ -144,30 +160,81 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
     {
         m_pUDPServer->SendRequest("gamescene", gsSerialized, pClient->addr, pClient->addrLen);
     }
-
-    // Request id update
-    m_nextRequestId += 1;
 }
 
-void ServerSystem::m_SendNextId(const sockaddr_in& addrIn, const int& addrLenIn)
+int ServerSystem::m_AddPlayer(const std::vector<Entity*>& entities, sockaddr_in& addr, 
+                              int& addrLen, int clientId)
 {
-    if (m_nextAvailableId >= MAX_PLAYERS)
+    if (m_availablePlayerIds.size() <= 0)
     {
         // Max players reached, no more connections allowed
-        m_pUDPServer->Removeclient(addrIn, addrLenIn);
+        m_pUDPServer->Removeclient(addr, addrLen);
+        return -1;
+    }
+
+    int nextPlayerId = m_availablePlayerIds.front();
+
+    // Update entity state
+    entities[nextPlayerId]->state = StatetType::IS_CONNECTED;
+
+    // Update cache control of clienid->playerid
+    m_clientplayer[clientId] = nextPlayerId;
+
+    // Initializes the request id for this player
+    m_nextRequestIds[nextPlayerId] = 0;
+
+    // Update next player id available
+    m_availablePlayerIds.pop_front();
+
+    return nextPlayerId;
+}
+
+void ServerSystem::m_RemovePlayer(const std::vector<Entity*>& entities, sockaddr_in addr, 
+                                  int addrLen, int clientId)
+{
+    // Return the player id to the list of available ids
+    int availableId = m_clientplayer[clientId];
+    Entity* pEntity = entities[availableId];
+
+    if (pEntity->state == StatetType::NOT_ACTIVE)
+    {
+        // Player already removed;
         return;
     }
 
+    // Update entity state
+    entities[availableId]->state = StatetType::NOT_ACTIVE;
+
+    m_availablePlayerIds.push_back(availableId);
+
+    // Remove client from cache client-player
+    m_clientplayer.erase(clientId);
+
+    return;
+}
+
+void ServerSystem::m_SendNextId(const std::vector<Entity*>& entities, int nextPlayerId, 
+                                sockaddr_in addrIn, int addrLenIn)
+{
     shooter::GetId getid;
     std::string responseSerialized;
 
-    getid.set_playerid(m_nextAvailableId);
+    getid.set_playerid(nextPlayerId);
   
     getid.SerializeToString(&responseSerialized);
 
+    // Send player id to client
     m_pUDPServer->SendRequest("getid", responseSerialized, addrIn, addrLenIn);
 
-    m_nextAvailableId += 1;
+    if (nextPlayerId < 0)
+    {
+        return;
+    }
+
+    // Update entity state
+    entities[nextPlayerId]->state = StatetType::IS_ACTIVE;
+
+    return;
 }
 
 bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
@@ -180,22 +247,41 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
         return false;
     }
 
-    eInputType input = (eInputType)newInput.input();
-    if (input == eInputType::NONE)
+    int playerId = newInput.playerid();
+    shooter::UserInput::InputType playerInput = newInput.input();
+
+    std::vector<Entity*> entities;
+    GetEngine().GetEntityManager()->GetEntities(entities);
+
+    // For every input received we set the flag to the correspondent entity
+    Entity* pEntity = entities[playerId];
+    PlayerControllerComponent* pPlayer = pEntity->GetComponent<PlayerControllerComponent>();
+
+    if (playerInput == shooter::UserInput::FORWARD)
     {
-        return true;
+        pPlayer->moveForward = true;
+    }
+    else if (playerInput == shooter::UserInput::BACKWARD)
+    {
+        pPlayer->moveBackward = true;
+    }
+    else if (playerInput == shooter::UserInput::TURN_LEFT)
+    {
+        pPlayer->moveLeft = true;
+    }
+    else if (playerInput == shooter::UserInput::TURN_RIGHT)
+    {
+        pPlayer->moveRight = true;
+    }
+    else if (playerInput == shooter::UserInput::FIRE)
+    {
+        pPlayer->shoot = true;
     }
 
-    // If input forward, apply velocity forward to the entity direction
+    // Update next request id for this player
+    m_nextRequestIds[playerId] = newInput.requestid();
 
-    // If input backward, apply velocity backwards to the entity direction
-
-    // If input turn left, rotate entity to the left
-
-    // If input turn right, rotate entity to the right
-
-    // If input action, create a bullet entity in front of entity
-    // with a velocity relative to the forward direction of entity
+    printf("Next request id for player %d: %d", playerId, m_nextRequestIds[playerId]);
 
     return true;
 }

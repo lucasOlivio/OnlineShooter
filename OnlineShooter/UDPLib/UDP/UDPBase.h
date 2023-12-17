@@ -51,6 +51,9 @@ protected:
     // All wsa is initialized and socket created
     bool m_isInitialized;
 
+    // When a header size is sent first we only need to check for the actul data
+    int m_waitingpacketsize = 0;
+
     // All msg received will be stored here for later proccessing
     std::vector<myUDP::sPacketData*> m_lastPackets;
 

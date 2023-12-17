@@ -1,6 +1,8 @@
 #include "Network/NetworkServer.h"
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
+#include "Physics/PhysicsSystem.h"
+#include "Gameplay/PlayerSystem.h"
 
 #include <Engine/Engine.h>
 
@@ -10,8 +12,12 @@ int main(int argc, char** argv)
 
 	// Setup systems
 	ServerSystem* pServer = new ServerSystem();
+	PlayerSystem* pPlayerSystem = new PlayerSystem();
+	PhysicsSystem* pPhysicsSystem = new PhysicsSystem();
 
 	GetEngine().AddSystem(pServer);
+	GetEngine().AddSystem(pPlayerSystem);
+	GetEngine().AddSystem(pPhysicsSystem);
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
@@ -21,13 +27,17 @@ int main(int argc, char** argv)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->tag = "player";
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
+		player->AddComponent<PlayerControllerComponent>();
 	}
 
 	GetEngine().Run(argc, argv);
 
 	GetEngine().Destroy();
+
+	system("pause");
 
 	return 0;
 }

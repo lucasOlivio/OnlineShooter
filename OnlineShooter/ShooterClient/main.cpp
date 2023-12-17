@@ -1,7 +1,8 @@
 #include "Network/NetworkClient.h"
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
-#include "Gameplay/playersystem.h"
+#include "Gameplay/PlayerSystem.h"
+#include "Physics/PhysicsSystem.h"
 #include "System/Components/PlayerController.h"
 
 #include <Engine/Engine.h>
@@ -11,29 +12,37 @@ int main(int argc, char** argv)
 	GetEngine().Initialize();
 
 	// Setup systems
-	RenderSystem* pRender = GetRenderSystem();
-	PlayerSystem* pPSystem = new PlayerSystem();
+	ClientSystem* pClientSystem = new ClientSystem();
+	RenderSystem* pRenderSystem = GetRenderSystem();
+	PlayerSystem* pPlayerSystem = new PlayerSystem();
+	PhysicsSystem* pPhysicsSystem = new PhysicsSystem();
 
-	GetEngine().AddSystem(pRender);
-	GetEngine().AddSystem(pPSystem);
+	GetEngine().AddSystem(pClientSystem);
+	GetEngine().AddSystem(pRenderSystem);
+	GetEngine().AddSystem(pPlayerSystem);
+	GetEngine().AddSystem(pPhysicsSystem);
 
 	// Setup meshes
-	pRender->InitGlut(argc, argv);
-	pRender->LoadMeshes();
+	pRenderSystem->InitGlut(argc, argv);
+	pRenderSystem->LoadMeshes();
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
 	const glm::vec3 unscaled(1.f);
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
+	const glm::vec3 playerColor = glm::vec3(1.f, 0.f, 0.f);
+	const float radius = 5;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->tag = "player";
+		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
-		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo,
-													pRender->models["sphere"].NumTriangles,
-													glm::vec3(1.f, 0.f, 0.f));
 		player->AddComponent<NetworkComponent>(false);
+		player->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
+													pRenderSystem->models["sphere"].NumTriangles,
+													playerColor);
 	}
 
 	GetEngine().Run(argc, argv);
@@ -44,5 +53,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-//TODO: put input in the render system form th engine
