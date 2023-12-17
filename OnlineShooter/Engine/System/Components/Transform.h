@@ -18,6 +18,24 @@ public:
 	glm::vec3 scale;
 	glm::quat orientation;
 
+	void AdjustOrientation(glm::vec3 value)
+	{
+		using namespace glm;
+
+		// To combine quaternion values, you multiply them together
+		// Make a quaternion that represents that CHANGE in angle
+		quat qChange = quat(radians(value));
+
+		// Multiply them together to get the change
+		// Just like with matrix math
+		orientation *= qChange;
+	}
+
+	glm::vec3 GetRightVector()
+	{
+		return orientation * glm::vec3(1, 0, 0);
+	}
+
 	glm::vec3 GetForwardVector()
 	{
 		return orientation * glm::vec3(0, 1, 0);
