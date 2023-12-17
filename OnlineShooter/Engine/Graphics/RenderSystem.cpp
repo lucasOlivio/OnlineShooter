@@ -116,6 +116,13 @@ void RenderSystem::Render()
 	for (int i = 0; i < entities.size(); i++)
 	{
 		Entity* entity = entities[i];
+
+		if (entity->state == StatetType::NOT_ACTIVE ||
+			entity->state == StatetType::IS_DEAD)
+		{
+			continue;
+		}
+
 		if (!entity->HasComponent<MeshRendererComponent>() ||
 			!entity->HasComponent<TransformComponent>())
 		{

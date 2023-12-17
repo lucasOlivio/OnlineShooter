@@ -201,10 +201,40 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
         return false;
     }
 
-    int requestId = gamescene.entities(m_playerId).requestid();
-    printf("Request id: %d\n", requestId);
+    // Go in each entity updating its position, 
+    // orientation, velocity and state to match the server
+    for (shooter::Entity entity : gamescene.entities())
+    {
+        int entityId = entity.entityid();
+        int state = entity.state();
+        glm::vec3 position = glm::vec3(entity.position().x(),
+                                       entity.position().y(),
+                                       entity.position().z());
+        glm::vec3 orientation = glm::vec3(entity.orientation().x(),
+                                          entity.orientation().y(),
+                                          entity.orientation().z());
+        glm::vec3 velocity = glm::vec3(entity.velocity().x(),
+                                       entity.velocity().y(),
+                                       entity.velocity().z());
 
-    // Go in each entity updating its position, orientation, velocity and state
+        Entity* pLocalEntity = entities[entityId];
+
+        // Update state
+        pLocalEntity->state = (StatetType)state;
+
+        // Update transform
+        TransformComponent* pTransform = pLocalEntity->GetComponent<TransformComponent>();
+        pTransform->position = position;
+        pTransform->orientation = orientation;
+        
+        // Update RigidBody
+        if (!pLocalEntity->HasComponent<RigidBodyComponent>())
+        {
+            continue;
+        }
+        RigidBodyComponent* pBody = pLocalEntity->GetComponent<RigidBodyComponent>();
+        pBody->velocity = velocity;
+    }
 
     return true;
 }
