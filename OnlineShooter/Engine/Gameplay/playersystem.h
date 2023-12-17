@@ -2,8 +2,12 @@
 
 #include <common.h>
 
+#include "System/Components/PlayerController.h"
+#include "System/Components/Transform.h"
+#include "System/Components/RigidBody.h"
 #include "System/System.h"
 #include "System/Entity.h"
+#include "Engine/Engine.h"
 
 enum eInputType
 {
@@ -18,6 +22,9 @@ class PlayerSystem : public iSystem
 {
 public:
 	void Execute(const std::vector<Entity*>& entities, float dt) override;
+	void UpdateFlags(PlayerControllerComponent* playerController);
+	void HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity * Bullet);
+	Entity* findBullet(const std::vector<Entity*>& entities);
 
 	// Inherited via iSystem
 	bool Start(const std::vector<Entity*>& entities, int argc, char** argv) override;
