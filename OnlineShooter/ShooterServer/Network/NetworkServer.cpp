@@ -4,6 +4,7 @@
 #include <System/Components/RigidBody.h>
 #include <System/Components/Transform.h>
 #include <System/Components/Network.h>
+#include <Engine/Engine.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
 
@@ -182,16 +183,12 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
 
     ePlayerActions playerInput = (ePlayerActions)newInput.input();
 
-    // If input forward, apply velocity forward to the entity direction
+    std::vector<Entity*> entities;
+    GetEngine().GetEntityManager()->GetEntities(entities);
 
-    // If input backward, apply velocity backwards to the entity direction
+    // For every input received we set the flag to the correspondent entity
+    Entity* pEntity = entities[newInput.playerid()];
 
-    // If input turn left, rotate entity to the left
-
-    // If input turn right, rotate entity to the right
-
-    // If input action, create a bullet entity in front of entity
-    // with a velocity relative to the forward direction of entity
 
     return true;
 }
