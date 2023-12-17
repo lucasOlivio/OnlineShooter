@@ -13,7 +13,6 @@
 #include <glm/gtx/matrix_decompose.hpp>
 
 RenderSystem* RenderSystem::m_pInstance = nullptr;
-bool doRender = true;
 
 RenderSystem* RenderSystem::GetInstance()
 {
@@ -24,11 +23,8 @@ RenderSystem* RenderSystem::GetInstance()
 	return m_pInstance;
 }
 
-bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
+void RenderSystem::InitGlut(int argc, char** argv)
 {
-	if (!doRender) {
-		return true;
-	}
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowSize(1200, 800);
@@ -43,6 +39,8 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 		exit(EXIT_FAILURE);
 	}
 
+	glDisable(GL_CULL_FACE);
+
 	glutIgnoreKeyRepeat(1);
 
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
@@ -53,17 +51,14 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
-	//glutIdleFunc(Render_Callback);
+	glutIdleFunc(Idle_Callback);
+}
 
-	glDisable(GL_CULL_FACE);
-
+bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
+{
 	LoadShaders();
 	LoadCamera();
-	LoadMeshes();
 
-
-   // return false;
-	doRender = false;
     return true;
 }
 
@@ -110,7 +105,7 @@ void RenderSystem::Render()
 
 	glm::vec3 toOrigin = glm::normalize(-cameraPosition);
 	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, toOrigin, up);
-	//glm::mat4 viewMatrix = glm::lookAt(glm::vec3(-10.f, 0.f, 0.f), glm::vec3(-9.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+
 	glUniformMatrix4fv(m_ViewMatrixUL, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	CheckGLError();
 
@@ -220,5 +215,10 @@ void Reshape_Callback(int w, int h)
 void Render_Callback()
 {
 	GetRenderSystem()->Render();
+}
+
+void Idle_Callback()
+{
+
 }
 

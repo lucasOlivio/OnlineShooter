@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Graphics/RenderSystem.h"
+#include "System/components.h"
 
 #include <sstream>
 
@@ -37,7 +38,6 @@ void Engine::Destroy()
 
 void Engine::Run(int argc, char** argv)
 {
-	glutIdleFunc(Engine_Callback);
 	std::vector<Entity*> entities;
 	m_pEntityManager->GetEntities(entities);
 
@@ -54,8 +54,7 @@ void Engine::Run(int argc, char** argv)
 	m_Running = true;
 	while (m_Running)
 	{
-		glutMainLoop();
-		//Update();
+		Update();
 	}
 }
 
@@ -92,14 +91,6 @@ Input& Engine::GetInput()
 	return m_Input;
 }
 
-void Engine::LoadEntities()
-{
-	//
-	// Maybe create all 4 players entities here already setting their ID?
-
-	
-}
-
 void Engine::AddSystem(iSystem* system)
 {
 	m_Systems.push_back(system);
@@ -108,13 +99,4 @@ void Engine::AddSystem(iSystem* system)
 EntityManager* Engine::GetEntityManager()
 {
 	return m_pEntityManager;
-}
-
-//int test3 = 0;
-void Engine_Callback()
-{
-	//test3++
-	//std::cout << "Engine Callback: " << test3++ << std::endl;
-	//GetRenderSystem()->Render();
-	GetEngine().Update();
 }

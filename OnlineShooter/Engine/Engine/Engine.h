@@ -34,10 +34,7 @@ public:
 	void AddSystem(iSystem* system);
 	EntityManager* GetEntityManager();
 
-	void LoadEntities();
-
 private:
-
 	// Singleton
 	Engine();
 	~Engine();
@@ -56,12 +53,8 @@ private:
 	// Entity manager
 	EntityManager* m_pEntityManager;
 
-
 	// Time
 	std::chrono::high_resolution_clock::time_point m_LastTime;
 };
 
 #define GetEngine() Engine::GetInstance()
-
-void Engine_Callback();
-
