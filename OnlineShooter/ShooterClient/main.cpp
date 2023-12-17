@@ -4,6 +4,7 @@
 #include "Gameplay/PlayerSystem.h"
 #include "Physics/PhysicsSystem.h"
 #include "System/Components/PlayerController.h"
+#include "System/Components/BulletController.h"
 
 #include <Engine/Engine.h>
 
@@ -49,10 +50,11 @@ int main(int argc, char** argv)
 
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
-		// Player #i
+		// Bullet #i
 		Entity* bullet = pEntityManager->CreateEntity();
 		bullet->tag = "bullet";
 		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 2);
+		bullet->AddComponent<BulletControllerComponent>();
 		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
 		bullet->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
 			pRenderSystem->models["sphere"].NumTriangles,

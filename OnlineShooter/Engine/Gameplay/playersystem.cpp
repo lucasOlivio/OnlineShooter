@@ -1,4 +1,5 @@
 #include "PlayerSystem.h"
+#include "System/Components/BulletController.h"
 
 
 void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
@@ -20,7 +21,7 @@ void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
 	// If input action and player have ammo, create a bullet entity in front of entity
 	// with a velocity relative to the forward direction of entity, 
 	// then set player ammo to false
-		playerController->hasammo = keyInput.IsKeyPressed(eInputType::SHOOT);
+		playerController->shoot = keyInput.IsKeyPressed(eInputType::SHOOT);
 }
 
 void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity* Bullet) {
@@ -47,16 +48,19 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerCompon
 	// If input action and player have ammo, create a bullet entity in front of entity
 	// with a velocity relative to the forward direction of entity, 
 	// then set player ammo to false
-	if (playerController->shoot && Bullet != nullptr) {
+	if (playerController->shoot && Bullet != nullptr && playerController->hasammo) {
 
 		glm::vec3 direction = transformConponent->GetForwardVector();
 		RigidBodyComponent* rBullet = Bullet->GetComponent<RigidBodyComponent>();
 		TransformComponent* transBullet = Bullet->GetComponent<TransformComponent>();
-		//TODO: hehe: replace playercontroller with bullet conntroler
-		glm::vec3 velocity = playerController->movementSpeed * -(transBullet->GetForwardVector());;
+		BulletControllerComponent* bulletController = Bullet->GetComponent<BulletControllerComponent>();
 
-		Bullet->state = StatetType::IS_ACTIVE;
+		glm::vec3 velocity = bulletController->movementSpeed * -(transBullet->GetForwardVector());
+		rBullet->velocity = velocity;
 		transBullet->position = direction * (rBody->radius + rBullet->radius + 1);
+
+		playerController->hasammo = false;
+		Bullet->state = StatetType::IS_ACTIVE;
 	}
 
 }

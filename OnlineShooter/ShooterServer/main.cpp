@@ -4,6 +4,7 @@
 #include "Physics/PhysicsSystem.h"
 #include "Gameplay/PlayerSystem.h"
 #include "Gameplay/BulletSystem.h"
+#include "System/Components/BulletController.h"
 
 #include <Engine/Engine.h>
 
@@ -36,6 +37,17 @@ int main(int argc, char** argv)
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
 		player->AddComponent<PlayerControllerComponent>();
+	}
+
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		// Bullet #i
+		Entity* bullet = GetEngine().GetEntityManager()->CreateEntity();
+		bullet->tag = "bullet";
+		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 2);
+		bullet->AddComponent<BulletControllerComponent>();
+		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
+		bullet->state = StatetType::NOT_ACTIVE;
 	}
 
 	GetEngine().Run(argc, argv);
