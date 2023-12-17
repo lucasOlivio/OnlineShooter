@@ -33,7 +33,8 @@ void PhysicsSystem::Execute(const std::vector<Entity*>& entities, float dt)
 						                  pTransform, 
 						                  pBody,
 						                  entityBOut);
-        if (isColliding)
+
+        if (isColliding && m_resolveCollision)
         {
             ResolveCollision(pEntity, &entityBOut);
         }
@@ -101,7 +102,7 @@ void PhysicsSystem::ResolveCollision(Entity* entityA, Entity* entityB)
     {
         pEntityToKill = entityA;
     }
-    else if (entityB->tag == "player" && entityA->tag == "bullet")
+    else
     {
         pEntityToKill = entityB;
     }
