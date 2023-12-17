@@ -69,7 +69,7 @@
     <ClInclude Include="System\Components\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\playersystem.h">
+    <ClInclude Include="Gameplay\PlayerSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClCompile Include="Graphics\RenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gameplay\playersystem.cpp">
+    <ClCompile Include="Gameplay\PlayerSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

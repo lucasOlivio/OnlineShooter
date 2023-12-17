@@ -178,6 +178,13 @@ void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities,
 
     m_playerId = getit.playerid();
 
+    if (m_playerId < 0)
+    {
+        printf("Server full! Try again later!\n");
+        GetEngine().SetRunning(false);
+        return;
+    }
+
     printf("Received id %d, setting playable entity...\n", m_playerId);
 
     // Search the entity id for this player

@@ -35,10 +35,13 @@ private:
 	void m_BroadcastGameScene(const std::vector<Entity*>& entities, float dt);
 
 	// Updates cache controls and return next available id
-	int m_AddPlayer(sockaddr_in& addr, int& addrLen, int clientId);
+	int m_AddPlayer(const std::vector<Entity*>& entities, sockaddr_in& addr, 
+					int& addrLen, int clientId);
 	// Return the player id to the list of available ids
-	void m_RemovePlayer(sockaddr_in addr, int addrLen, int clientId);
+	void m_RemovePlayer(const std::vector<Entity*>& entities, sockaddr_in addr, 
+						int addrLen, int clientId);
 
-	void m_SendNextId(int nextPlayerId, sockaddr_in addrIn, int addrLenIn);
+	void m_SendNextId(const std::vector<Entity*>& entities, int nextPlayerId, 
+					  sockaddr_in addrIn, int addrLenIn);
 	bool m_HandleUserInput(const std::string& dataIn);
 };

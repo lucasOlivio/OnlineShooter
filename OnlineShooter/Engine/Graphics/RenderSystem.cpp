@@ -72,6 +72,9 @@ void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
 void RenderSystem::End()
 {
 	delete m_CameraEntity;
+
+	if (glutGetWindow()) 			
+		glutDestroyWindow(glutGetWindow());
 }
 
 void RenderSystem::Resize(int w, int h)

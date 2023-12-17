@@ -8,7 +8,7 @@
 
 bool ServerSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
-    m_availablePlayerIds = { 1, 2, 3, 4 };
+    m_availablePlayerIds = { 0, 1, 2, 3 };
 
     m_nextSendTime = std::chrono::high_resolution_clock::now();
 
@@ -51,7 +51,7 @@ void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
     if (result == WSAECONNRESET)
     {
         // Client disconnected
-        m_RemovePlayer(addr, addrLen, clientId);
+        m_RemovePlayer(entities, addr, addrLen, clientId);
 
         return;
     }
@@ -64,8 +64,8 @@ void ServerSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
     {
         if (pPacket->dataType == "getid")
         {
-            int nextPlayerId = m_AddPlayer(pPacket->addr, pPacket->addrLen, clientId);
-            m_SendNextId(nextPlayerId, pPacket->addr, pPacket->addrLen);
+            int nextPlayerId = m_AddPlayer(entities, pPacket->addr, pPacket->addrLen, clientId);
+            m_SendNextId(entities, nextPlayerId, pPacket->addr, pPacket->addrLen);
             continue;
         }
         else if (pPacket->dataType == "userinput")
@@ -162,7 +162,8 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
     }
 }
 
-int ServerSystem::m_AddPlayer(sockaddr_in& addr, int& addrLen, int clientId)
+int ServerSystem::m_AddPlayer(const std::vector<Entity*>& entities, sockaddr_in& addr, 
+                              int& addrLen, int clientId)
 {
     if (m_availablePlayerIds.size() <= 0)
     {
@@ -172,6 +173,9 @@ int ServerSystem::m_AddPlayer(sockaddr_in& addr, int& addrLen, int clientId)
     }
 
     int nextPlayerId = m_availablePlayerIds.front();
+
+    // Update entity state
+    entities[nextPlayerId]->state = StatetType::IS_CONNECTED;
 
     // Update cache control of clienid->playerid
     m_clientplayer[clientId] = nextPlayerId;
@@ -185,10 +189,21 @@ int ServerSystem::m_AddPlayer(sockaddr_in& addr, int& addrLen, int clientId)
     return nextPlayerId;
 }
 
-void ServerSystem::m_RemovePlayer(sockaddr_in addr, int addrLen, int clientId)
+void ServerSystem::m_RemovePlayer(const std::vector<Entity*>& entities, sockaddr_in addr, 
+                                  int addrLen, int clientId)
 {
     // Return the player id to the list of available ids
     int availableId = m_clientplayer[clientId];
+    Entity* pEntity = entities[availableId];
+
+    if (pEntity->state == StatetType::NOT_ACTIVE)
+    {
+        // Player already removed;
+        return;
+    }
+
+    // Update entity state
+    entities[availableId]->state = StatetType::NOT_ACTIVE;
 
     m_availablePlayerIds.push_back(availableId);
 
@@ -198,7 +213,8 @@ void ServerSystem::m_RemovePlayer(sockaddr_in addr, int addrLen, int clientId)
     return;
 }
 
-void ServerSystem::m_SendNextId(int nextPlayerId, sockaddr_in addrIn, int addrLenIn)
+void ServerSystem::m_SendNextId(const std::vector<Entity*>& entities, int nextPlayerId, 
+                                sockaddr_in addrIn, int addrLenIn)
 {
     shooter::GetId getid;
     std::string responseSerialized;
@@ -207,7 +223,16 @@ void ServerSystem::m_SendNextId(int nextPlayerId, sockaddr_in addrIn, int addrLe
   
     getid.SerializeToString(&responseSerialized);
 
+    // Send player id to client
     m_pUDPServer->SendRequest("getid", responseSerialized, addrIn, addrLenIn);
+
+    if (nextPlayerId < 0)
+    {
+        return;
+    }
+
+    // Update entity state
+    entities[nextPlayerId]->state = StatetType::IS_ACTIVE;
 
     return;
 }

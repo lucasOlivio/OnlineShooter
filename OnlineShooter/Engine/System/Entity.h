@@ -24,6 +24,7 @@ public:
 	~Entity() {}
 
 	StatetType state;
+	std::string tag;
 
 	template<typename T>
 	bool HasComponent() const
