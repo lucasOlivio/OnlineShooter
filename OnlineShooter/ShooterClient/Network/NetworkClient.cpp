@@ -110,7 +110,7 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         // Build user input proto
         std::string serializedInput;
         m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      ePlayerActions::FORWARD, serializedInput);
+                                      shooter::UserInput::FORWARD, serializedInput);
         inputsToSend.push_back(serializedInput);
     }
     if (pPlayer->moveBackward)
@@ -118,7 +118,7 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         // Build user input proto
         std::string serializedInput;
         m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      ePlayerActions::BACKWARD, serializedInput);
+                                      shooter::UserInput::BACKWARD, serializedInput);
         inputsToSend.push_back(serializedInput);
     }
     if (pPlayer->moveLeft)
@@ -126,7 +126,7 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         // Build user input proto
         std::string serializedInput;
         m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      ePlayerActions::TURN_LEFT, serializedInput);
+                                      shooter::UserInput::TURN_LEFT, serializedInput);
         inputsToSend.push_back(serializedInput);
     }
     if (pPlayer->moveRight)
@@ -134,7 +134,7 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         // Build user input proto
         std::string serializedInput;
         m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
-                                      ePlayerActions::TURN_RIGHT, serializedInput);
+                                      shooter::UserInput::TURN_RIGHT, serializedInput);
         inputsToSend.push_back(serializedInput);
     }
     if (pPlayer->shoot)
@@ -142,8 +142,14 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         // Build user input proto
         std::string serializedInput;
         m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
-                                      ePlayerActions::FIRE, serializedInput);
+                                      shooter::UserInput::FIRE, serializedInput);
         inputsToSend.push_back(serializedInput);
+    }
+
+    if (inputsToSend.size() == 0)
+    {
+        // No inputs to send
+        return;
     }
 
     // Send to server
@@ -184,8 +190,20 @@ void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities,
 
 bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
                                      float dt,
-                                     const std::string& dataIn)
+                                     std::string& data)
 {
+
+    shooter::GameScene gamescene;
+    bool isDeserialized = gamescene.ParseFromString(data);
+    if (!isDeserialized)
+    {
+        printf("ClientSystem: Error deserializing gamescene!\n");
+        return false;
+    }
+
+    int requestId = gamescene.entities(m_playerId).requestid();
+    printf("Request id: %d\n", requestId);
+
     // Go in each entity updating its position, orientation, velocity and state
 
     return true;
@@ -197,7 +215,7 @@ void ClientSystem::m_GetSerializedUserInputProto(int requestid, int playerid,
     shooter::UserInput userinput;
     userinput.set_playerid(m_playerId);
     userinput.set_requestid(m_nextRequestId);
-    userinput.set_input(input);
+    userinput.set_input((shooter::UserInput::InputType)input);
 
     userinput.SerializeToString(&serializedOut);
 

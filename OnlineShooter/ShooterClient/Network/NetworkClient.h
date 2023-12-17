@@ -6,23 +6,6 @@
 
 #include <chrono>
 
-enum eEntityState
-{
-	IS_ACTIVE,
-	IS_CONNECTED,
-	HAS_AMMO,
-	IS_DEAD
-};
-
-enum ePlayerActions
-{
-	FORWARD, 
-	BACKWARD, 
-	TURN_LEFT, 
-	TURN_RIGHT, 
-	FIRE
-};
-
 class ClientSystem : public iSystem
 {
 public:
@@ -54,7 +37,7 @@ private:
 						  const std::string& dataIn);
 	bool m_HandleGameScene(const std::vector<Entity*>& entities, 
 						   float dt, 
-						   const std::string& dataIn);
+						   std::string& data);
 
 	void m_GetSerializedUserInputProto(int requestid, int playerid, 
 									   int input, std::string& serializedOut);

@@ -69,12 +69,13 @@ void UDPServer::GetConnectedClients(std::vector<sClientInfo*>& clients)
 	clients = m_connectedClients;
 }
 
-void UDPServer::AddClient(sockaddr_in& addr, int& addrLen)
+int UDPServer::AddClient(sockaddr_in& addr, int& addrLen)
 {
-	if (GetClientId(addr, addrLen) > -1)
+	int clientId = GetClientId(addr, addrLen);
+	if (clientId > -1)
 	{
 		// Client already on list
-		return;
+		return clientId;
 	}
 
 	// New connected client
@@ -83,36 +84,39 @@ void UDPServer::AddClient(sockaddr_in& addr, int& addrLen)
 
 	pNewClient->addr = addr;
 	pNewClient->addrLen = sizeof(addr);
+
+	return m_connectedClients.size() - 1;
 }
 
-void UDPServer::Removeclient(const sockaddr_in& addrIn, const int& addrLenIn)
+int UDPServer::Removeclient(const sockaddr_in& addrIn, const int& addrLenIn)
 {
 	int clientId = GetClientId(addrIn, addrLenIn);
 
 	Removeclient(clientId);
+
+	return clientId;
 }
 
-void UDPServer::Removeclient(int clientId)
+int UDPServer::Removeclient(int clientId)
 {
 	if (clientId < 0 || clientId > m_connectedClients.size())
 	{
-		return;
+		return -1;
 	}
 
 	m_connectedClients.erase(m_connectedClients.begin() + clientId);
+
+	return clientId;
 }
 
-int UDPServer::ReadNewMsgs()
+int UDPServer::ReadNewMsgs(sockaddr_in& addr, int& addrLen, int& clientIdOut)
 {
-	sockaddr_in addr;
-	int addrLen = sizeof(addr);
-
 	int result = UDPBase::ReadNewMsgs(addr, addrLen);
 
 	if (result == WSAECONNRESET)
 	{
 		// Client disconnected
-		Removeclient(addr, addrLen);
+		clientIdOut = Removeclient(addr, addrLen);
 
 		return result;
 	}
@@ -122,6 +126,8 @@ int UDPServer::ReadNewMsgs()
 		// Now we add the client to our list if its not there
 		AddClient(addr, addrLen);
 	}
+
+	clientIdOut = GetClientId(addr, addrLen);
 
 	return result;
 }

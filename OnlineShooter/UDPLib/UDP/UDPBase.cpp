@@ -208,11 +208,12 @@ int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 	{
 		Buffer buffer(BUFFER_SIZE);
 
-		buffer.vecBufferData.resize(m_waitingpacketsize);
+		buffer.vecBufferData.resize(m_waitingpacketsize + 1);
 
 		// Now we can get the rest of the message, with the rest total size
-		result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), m_waitingpacketsize + 1,
-			0, (SOCKADDR*)&addrOut, &addrLenOut);
+		result = recvfrom(m_serverSocket, (char*)(&buffer.vecBufferData[0]), 
+						  m_waitingpacketsize + 1,
+						  0, (SOCKADDR*)&addrOut, &addrLenOut);
 		int ierr = WSAGetLastError();
 		if (ierr == WSAEWOULDBLOCK) {  // currently no data available
 			dataTypeOut = "";
@@ -239,10 +240,6 @@ int UDPBase::ReceiveRequest(std::string& dataTypeOut, std::string& dataOut,
 		// Transform the data into our readable string
 		std::string strPacket = buffer.ReadString(0, m_waitingpacketsize - 1);
 		bool isDeserialized = m_DeserializePacket(strPacket, dataTypeOut, dataOut);
-		if (!isDeserialized)
-		{
-			return result;
-		}
 
 		m_waitingpacketsize = 0;
 	}
@@ -259,7 +256,7 @@ int UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 	{
 		delete pPacketOut;
 
-		return 0;
+		return result;
 	}
 	if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
 	{
@@ -267,7 +264,7 @@ int UDPBase::ReadNewMsgs(sockaddr_in& addr, int& addrLen)
 
 		delete pPacketOut;
 
-		return -1;
+		return result;
 	}
 
 	pPacketOut->addr = addr;
@@ -320,7 +317,7 @@ uint32 UDPBase::m_SerializePacket(const std::string& dataTypeIn,
 	// Build protobuffer
 	std::string packetSerialized;
 	packet::PacketData packetData;
-	packetData.set_data(dataIn.c_str());
+	packetData.set_data(dataIn);
 	packetData.set_datatype(dataTypeIn.c_str());
 	packetSerialized = packetData.SerializeAsString();
 
