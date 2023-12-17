@@ -15,4 +15,7 @@ public:
 	bool moveRight = false;
 	bool shoot = false;
 	bool hasammo = false;
+
+	float movementSpeed = 10.0f;
+	float rotationSpeed = 0.5f;
 };

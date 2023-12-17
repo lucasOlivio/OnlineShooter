@@ -32,10 +32,11 @@ int main(int argc, char** argv)
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
 	const glm::vec3 playerColor = glm::vec3(1.f, 0.f, 0.f);
 	const float radius = 5;
+	EntityManager* pEntityManager = GetEngine().GetEntityManager();
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		// Player #i
-		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		Entity* player = pEntityManager->CreateEntity();
 		player->tag = "player";
 		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
