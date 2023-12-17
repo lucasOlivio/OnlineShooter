@@ -34,7 +34,8 @@ constexpr UserInput::UserInput(
   : requestid_(0)
   , playerid_(0)
   , input_(0)
-{}
+
+  , ispressed_(false){}
 struct UserInputDefaultTypeInternal {
   constexpr UserInputDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -111,9 +112,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, requestid_),
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, playerid_),
   PROTOBUF_FIELD_OFFSET(::shooter::UserInput, input_),
+  PROTOBUF_FIELD_OFFSET(::shooter::UserInput, ispressed_),
   0,
   1,
   2,
+  3,
   PROTOBUF_FIELD_OFFSET(::shooter::Vector3, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::shooter::Vector3, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -154,10 +157,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_shooter_2eproto::offsets[] PRO
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, -1, sizeof(::shooter::GetId)},
-  { 8, 17, -1, sizeof(::shooter::UserInput)},
-  { 20, 29, -1, sizeof(::shooter::Vector3)},
-  { 32, 44, -1, sizeof(::shooter::Entity)},
-  { 50, -1, -1, sizeof(::shooter::GameScene)},
+  { 8, 18, -1, sizeof(::shooter::UserInput)},
+  { 22, 31, -1, sizeof(::shooter::Vector3)},
+  { 34, 46, -1, sizeof(::shooter::Entity)},
+  { 52, -1, -1, sizeof(::shooter::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -170,25 +173,25 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_shooter_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rshooter.proto\022\007shooter\"\031\n\005GetId\022\020\n\010pla"
-  "yerId\030\001 \002(\005\"\256\001\n\tUserInput\022\021\n\trequestId\030\001"
+  "yerId\030\001 \002(\005\"\301\001\n\tUserInput\022\021\n\trequestId\030\001"
   " \002(\005\022\020\n\010playerId\030\002 \002(\005\022+\n\005input\030\003 \002(\0162\034."
-  "shooter.UserInput.InputType\"O\n\tInputType"
-  "\022\013\n\007FORWARD\020\000\022\014\n\010BACKWARD\020\001\022\r\n\tTURN_LEFT"
-  "\020\002\022\016\n\nTURN_RIGHT\020\003\022\010\n\004FIRE\020\004\"*\n\007Vector3\022"
-  "\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\241\002\n\006Ent"
-  "ity\022\020\n\010entityId\030\001 \002(\005\022\021\n\trequestId\030\002 \002(\005"
-  "\022)\n\005state\030\003 \002(\0162\032.shooter.Entity.StatetT"
-  "ype\022\"\n\010position\030\004 \002(\0132\020.shooter.Vector3\022"
-  "\"\n\010velocity\030\005 \002(\0132\020.shooter.Vector3\022%\n\013o"
-  "rientation\030\006 \002(\0132\020.shooter.Vector3\"X\n\nSt"
-  "atetType\022\016\n\nNOT_ACTIVE\020\000\022\r\n\tIS_ACTIVE\020\001\022"
-  "\020\n\014IS_CONNECTED\020\002\022\014\n\010HAS_AMMO\020\003\022\013\n\007IS_DE"
-  "AD\020\004\".\n\tGameScene\022!\n\010entities\030\001 \003(\0132\017.sh"
-  "ooter.Entity"
+  "shooter.UserInput.InputType\022\021\n\tisPressed"
+  "\030\004 \002(\010\"O\n\tInputType\022\013\n\007FORWARD\020\000\022\014\n\010BACK"
+  "WARD\020\001\022\r\n\tTURN_LEFT\020\002\022\016\n\nTURN_RIGHT\020\003\022\010\n"
+  "\004FIRE\020\004\"*\n\007Vector3\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002"
+  "\022\t\n\001z\030\003 \002(\002\"\241\002\n\006Entity\022\020\n\010entityId\030\001 \002(\005"
+  "\022\021\n\trequestId\030\002 \002(\005\022)\n\005state\030\003 \002(\0162\032.sho"
+  "oter.Entity.StatetType\022\"\n\010position\030\004 \002(\013"
+  "2\020.shooter.Vector3\022\"\n\010velocity\030\005 \002(\0132\020.s"
+  "hooter.Vector3\022%\n\013orientation\030\006 \002(\0132\020.sh"
+  "ooter.Vector3\"X\n\nStatetType\022\016\n\nNOT_ACTIV"
+  "E\020\000\022\r\n\tIS_ACTIVE\020\001\022\020\n\014IS_CONNECTED\020\002\022\014\n\010"
+  "HAS_AMMO\020\003\022\013\n\007IS_DEAD\020\004\".\n\tGameScene\022!\n\010"
+  "entities\030\001 \003(\0132\017.shooter.Entity"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_shooter_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_shooter_2eproto = {
-  false, false, 612, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
+  false, false, 631, descriptor_table_protodef_shooter_2eproto, "shooter.proto", 
   &descriptor_table_shooter_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_shooter_2eproto::offsets,
   file_level_metadata_shooter_2eproto, file_level_enum_descriptors_shooter_2eproto, file_level_service_descriptors_shooter_2eproto,
@@ -461,8 +464,11 @@ class UserInput::_Internal {
   static void set_has_input(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
+  static void set_has_ispressed(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
+    return ((has_bits[0] & 0x0000000f) ^ 0x0000000f) != 0;
   }
 };
 
@@ -480,16 +486,16 @@ UserInput::UserInput(const UserInput& from)
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&requestid_, &from.requestid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&input_) -
-    reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
+    static_cast<size_t>(reinterpret_cast<char*>(&ispressed_) -
+    reinterpret_cast<char*>(&requestid_)) + sizeof(ispressed_));
   // @@protoc_insertion_point(copy_constructor:shooter.UserInput)
 }
 
 void UserInput::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&requestid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&input_) -
-    reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&ispressed_) -
+    reinterpret_cast<char*>(&requestid_)) + sizeof(ispressed_));
 }
 
 UserInput::~UserInput() {
@@ -520,10 +526,10 @@ void UserInput::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     ::memset(&requestid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&input_) -
-        reinterpret_cast<char*>(&requestid_)) + sizeof(input_));
+        reinterpret_cast<char*>(&ispressed_) -
+        reinterpret_cast<char*>(&requestid_)) + sizeof(ispressed_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -564,6 +570,15 @@ const char* UserInput::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           } else {
             ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(3, val, mutable_unknown_fields());
           }
+        } else
+          goto handle_unusual;
+        continue;
+      // required bool isPressed = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          _Internal::set_has_ispressed(&has_bits);
+          ispressed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -617,6 +632,12 @@ failure:
       3, this->_internal_input(), target);
   }
 
+  // required bool isPressed = 4;
+  if (cached_has_bits & 0x00000008u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_ispressed(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -645,13 +666,18 @@ size_t UserInput::RequiredFieldsByteSizeFallback() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_input());
   }
 
+  if (_internal_has_ispressed()) {
+    // required bool isPressed = 4;
+    total_size += 1 + 1;
+  }
+
   return total_size;
 }
 size_t UserInput::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:shooter.UserInput)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
     // required int32 requestId = 1;
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
 
@@ -661,6 +687,9 @@ size_t UserInput::ByteSizeLong() const {
     // required .shooter.UserInput.InputType input = 3;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_input());
+
+    // required bool isPressed = 4;
+    total_size += 1 + 1;
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -692,7 +721,7 @@ void UserInput::MergeFrom(const UserInput& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       requestid_ = from.requestid_;
     }
@@ -701,6 +730,9 @@ void UserInput::MergeFrom(const UserInput& from) {
     }
     if (cached_has_bits & 0x00000004u) {
       input_ = from.input_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      ispressed_ = from.ispressed_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -724,8 +756,8 @@ void UserInput::InternalSwap(UserInput* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UserInput, input_)
-      + sizeof(UserInput::input_)
+      PROTOBUF_FIELD_OFFSET(UserInput, ispressed_)
+      + sizeof(UserInput::ispressed_)
       - PROTOBUF_FIELD_OFFSET(UserInput, requestid_)>(
           reinterpret_cast<char*>(&requestid_),
           reinterpret_cast<char*>(&other->requestid_));

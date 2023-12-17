@@ -17,6 +17,7 @@ message UserInput {
   required int32 requestId = 1;
   required int32 playerId = 2;
   required InputType input = 3;
+  required bool isPressed = 4;
 }
 
 message Vector3 {

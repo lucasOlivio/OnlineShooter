@@ -259,23 +259,23 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
 
     if (playerInput == shooter::UserInput::FORWARD)
     {
-        pPlayer->moveForward = true;
+        pPlayer->moveForward = newInput.ispressed();
     }
     else if (playerInput == shooter::UserInput::BACKWARD)
     {
-        pPlayer->moveBackward = true;
+        pPlayer->moveBackward = newInput.ispressed();
     }
     else if (playerInput == shooter::UserInput::TURN_LEFT)
     {
-        pPlayer->moveLeft = true;
+        pPlayer->moveLeft = newInput.ispressed();
     }
     else if (playerInput == shooter::UserInput::TURN_RIGHT)
     {
-        pPlayer->moveRight = true;
+        pPlayer->moveRight = newInput.ispressed();
     }
     else if (playerInput == shooter::UserInput::FIRE)
     {
-        pPlayer->shoot = true;
+        pPlayer->shoot = newInput.ispressed();
     }
 
     // Update next request id for this player

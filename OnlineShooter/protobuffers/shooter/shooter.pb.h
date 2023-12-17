@@ -454,6 +454,7 @@ class UserInput final :
     kRequestIdFieldNumber = 1,
     kPlayerIdFieldNumber = 2,
     kInputFieldNumber = 3,
+    kIsPressedFieldNumber = 4,
   };
   // required int32 requestId = 1;
   bool has_requestid() const;
@@ -494,6 +495,19 @@ class UserInput final :
   void _internal_set_input(::shooter::UserInput_InputType value);
   public:
 
+  // required bool isPressed = 4;
+  bool has_ispressed() const;
+  private:
+  bool _internal_has_ispressed() const;
+  public:
+  void clear_ispressed();
+  bool ispressed() const;
+  void set_ispressed(bool value);
+  private:
+  bool _internal_ispressed() const;
+  void _internal_set_ispressed(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:shooter.UserInput)
  private:
   class _Internal;
@@ -509,6 +523,7 @@ class UserInput final :
   ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
   ::PROTOBUF_NAMESPACE_ID::int32 playerid_;
   int input_;
+  bool ispressed_;
   friend struct ::TableStruct_shooter_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1268,6 +1283,34 @@ inline void UserInput::_internal_set_input(::shooter::UserInput_InputType value)
 inline void UserInput::set_input(::shooter::UserInput_InputType value) {
   _internal_set_input(value);
   // @@protoc_insertion_point(field_set:shooter.UserInput.input)
+}
+
+// required bool isPressed = 4;
+inline bool UserInput::_internal_has_ispressed() const {
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool UserInput::has_ispressed() const {
+  return _internal_has_ispressed();
+}
+inline void UserInput::clear_ispressed() {
+  ispressed_ = false;
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline bool UserInput::_internal_ispressed() const {
+  return ispressed_;
+}
+inline bool UserInput::ispressed() const {
+  // @@protoc_insertion_point(field_get:shooter.UserInput.isPressed)
+  return _internal_ispressed();
+}
+inline void UserInput::_internal_set_ispressed(bool value) {
+  _has_bits_[0] |= 0x00000008u;
+  ispressed_ = value;
+}
+inline void UserInput::set_ispressed(bool value) {
+  _internal_set_ispressed(value);
+  // @@protoc_insertion_point(field_set:shooter.UserInput.isPressed)
 }
 
 // -------------------------------------------------------------------
