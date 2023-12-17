@@ -9,6 +9,7 @@ struct PlayerControllerComponent : public Component
 public:
 	PlayerControllerComponent() { }
 
+
 	bool moveForward = false;
 	bool moveBackward = false;
 	bool moveLeft = false;

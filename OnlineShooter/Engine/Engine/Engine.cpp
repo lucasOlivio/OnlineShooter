@@ -22,7 +22,7 @@ Engine& Engine::GetInstance()
 void Engine::Initialize()
 {
 	m_LastTime = std::chrono::high_resolution_clock::now();
-
+	
 }
 
 void Engine::Destroy()
@@ -37,6 +37,7 @@ void Engine::Destroy()
 
 void Engine::Run(int argc, char** argv)
 {
+	glutIdleFunc(Engine_Callback);
 	std::vector<Entity*> entities;
 	m_pEntityManager->GetEntities(entities);
 
@@ -53,7 +54,8 @@ void Engine::Run(int argc, char** argv)
 	m_Running = true;
 	while (m_Running)
 	{
-		Update();
+		glutMainLoop();
+		//Update();
 	}
 }
 
@@ -72,8 +74,11 @@ void Engine::Update()
 	}
 }
 
+
 void Engine::PressKey(unsigned char key)
 {
+	std::vector<Entity*> entities;
+	m_pEntityManager->GetEntities(entities);
 	m_Input.PressKey(key);
 }
 
@@ -103,4 +108,13 @@ void Engine::AddSystem(iSystem* system)
 EntityManager* Engine::GetEntityManager()
 {
 	return m_pEntityManager;
+}
+
+//int test3 = 0;
+void Engine_Callback()
+{
+	//test3++
+	//std::cout << "Engine Callback: " << test3++ << std::endl;
+	//GetRenderSystem()->Render();
+	GetEngine().Update();
 }

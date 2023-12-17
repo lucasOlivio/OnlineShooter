@@ -1,6 +1,8 @@
 #include "Network/NetworkClient.h"
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
+#include "System/playermovementsystem.h"
+#include "System/Components/PlayerController.h"
 
 #include <Engine/Engine.h>
 
@@ -11,9 +13,13 @@ int main(int argc, char** argv)
 	// Setup systems
 	ClientSystem* pClient = new ClientSystem();
 	RenderSystem* pRender = GetRenderSystem();
+	std::vector<Entity*> entities;
 
 	GetEngine().AddSystem(pClient);
 	GetEngine().AddSystem(pRender);
+	GetEngine().GetEntityManager()->GetEntities(entities);
+
+	pRender->Start(entities, argc, argv);
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
@@ -23,9 +29,19 @@ int main(int argc, char** argv)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->SetUniqueId<Entity>();
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
+		//GetEngine();
+		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo, pRender->models["sphere"].NumTriangles, glm::vec3(1.f, 0.f, 0.f));
+		//player->AddComponent<MeshRendererComponent>();
 		player->AddComponent<NetworkComponent>(false);
+		player->AddComponent<PlayerControllerComponent>();
 	}
+
+	GetEngine().AddSystem(new PlayerMovementSystem());
+
+	//glutIdleFunc(Engine_Callback(argc, argv));
+	//glutIdleFunc(Engine_Callback);
 
 	GetEngine().Run(argc, argv);
 
