@@ -18,9 +18,12 @@ enum eInputType
     SHOOT = 32      // SPACE
 };
 
+// TODO: Update flags and handle flags should be separate systems
 class PlayerSystem : public iSystem
 {
 public:
+	PlayerSystem(bool hasInput) : m_hasInput(hasInput) {};
+
 	void Execute(const std::vector<Entity*>& entities, float dt) override;
 	void UpdateFlags(PlayerControllerComponent* playerController);
 	void HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity * Bullet);
@@ -29,4 +32,7 @@ public:
 	// Inherited via iSystem
 	bool Start(const std::vector<Entity*>& entities, int argc, char** argv) override;
 	void End() override;
+
+private:
+	bool m_hasInput;
 };

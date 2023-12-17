@@ -90,9 +90,6 @@ void RenderSystem::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	const glm::vec3 up(0.f, 1.f, 0.f);
-	const glm::vec3 forward(0.f, 0.f, -1.f);
-
 	glm::mat4 projectionMatrix = glm::perspective(
 		glm::radians(45.0f),
 		((GLfloat)m_WindowWidth) / ((GLfloat)m_WindowHeight),
@@ -105,10 +102,10 @@ void RenderSystem::Render()
 
 	TransformComponent* cameraTransform = m_CameraEntity->GetComponent<TransformComponent>();
 	glm::vec3 cameraPosition = cameraTransform->position;
-	glm::vec3 cameraForward = cameraTransform->orientation * forward;
+	glm::vec3 cameraForward = cameraTransform->orientation * FORWARD_VECTOR;
 
 	glm::vec3 toOrigin = glm::normalize(-cameraPosition);
-	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, toOrigin, up);
+	glm::mat4 viewMatrix = glm::lookAt(cameraPosition, toOrigin, UP_VECTOR);
 
 	glUniformMatrix4fv(m_ViewMatrixUL, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	CheckGLError();

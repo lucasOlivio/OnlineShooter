@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 
 	// Setup systems
 	ServerSystem* pServer = new ServerSystem();
-	PlayerSystem* pPlayerSystem = new PlayerSystem();
+	PlayerSystem* pPlayerSystem = new PlayerSystem(false);
 	BulletSystem* pBulletSystem = new BulletSystem();
 	PhysicsSystem* pPhysicsSystem = new PhysicsSystem(true);
 

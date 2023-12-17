@@ -33,11 +33,11 @@ public:
 
 	glm::vec3 GetRightVector()
 	{
-		return orientation * glm::vec3(1, 0, 0);
+		return orientation * RIGHT_VECTOR;
 	}
 
 	glm::vec3 GetForwardVector()
 	{
-		return orientation * glm::vec3(0, 1, 0);
+		return orientation * FORWARD_VECTOR;
 	}
 };

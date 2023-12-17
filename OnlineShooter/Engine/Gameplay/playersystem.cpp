@@ -25,15 +25,23 @@ void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
 }
 
 void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity* Bullet) {
+	bool isMoving = false;
 	// If input forward, apply velocity forward to the entity direction
 	if (playerController->moveForward) {
 		rBody->velocity = playerController->movementSpeed * transformConponent->GetForwardVector();
-
+		isMoving = true;
 	}
 	// If input backward, apply velocity backwards to the entity direction
 	if (playerController->moveBackward) {
 		rBody->velocity = playerController->movementSpeed * -(transformConponent->GetForwardVector());
+		isMoving = true;
 	}
+
+	if (!isMoving)
+	{
+		rBody->velocity = glm::vec3(0);
+	}
+
 	// If input turn left, rotate entity to the left
 	if (playerController->moveRight) {
 		glm::vec3 velocity = playerController->rotationSpeed * -(transformConponent->GetRightVector());
@@ -101,7 +109,10 @@ void PlayerSystem::Execute(const std::vector<Entity*>& entities, float dt)
 		TransformComponent* transformConponent = entity->GetComponent<TransformComponent>();
 		Entity* bullet = findBullet(entities);
 
-		UpdateFlags(playerController);
+		if (m_hasInput)
+		{
+			UpdateFlags(playerController);
+		}
 		HandleFlags(rBody, playerController, transformConponent, bullet);
 	}
 }

@@ -281,7 +281,5 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
     // Update next request id for this player
     m_nextRequestIds[playerId] = newInput.requestid();
 
-    printf("Next request id for player %d: %d", playerId, m_nextRequestIds[playerId]);
-
     return true;
 }
