@@ -41,7 +41,7 @@ void BulletSystem::Execute(const std::vector<Entity*>& entities, float dt)
 
 bool BulletSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
-    return false;
+    return true;
 }
 
 void BulletSystem::End()
