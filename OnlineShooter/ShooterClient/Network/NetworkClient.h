@@ -14,6 +14,15 @@ enum eEntityState
 	IS_DEAD
 };
 
+enum ePlayerActions
+{
+	FORWARD, 
+	BACKWARD, 
+	TURN_LEFT, 
+	TURN_RIGHT, 
+	FIRE
+};
+
 class ClientSystem : public iSystem
 {
 public:
@@ -38,14 +47,6 @@ private:
 	int m_nextAvailableId = 0;
 	std::chrono::high_resolution_clock::time_point m_nextSendTime;
 
-	std::map<int /*key*/, int /*protobuffer input*/> m_keyInput = {
-		{119, 0},    // W
-		{115, 1},    // S
-		{97, 2},     // A
-		{100, 3},    // D
-		{32, 4}      // SPACE
-	};
-
 	void m_HandleMsgs(const std::vector<Entity*>& entities, float dt);
 	void m_SendUserInput(const std::vector<Entity*>& entities, float dt);
 
@@ -54,5 +55,8 @@ private:
 	bool m_HandleGameScene(const std::vector<Entity*>& entities, 
 						   float dt, 
 						   const std::string& dataIn);
+
+	void m_GetSerializedUserInputProto(int requestid, int playerid, 
+									   int input, std::string& serializedOut);
 
 };

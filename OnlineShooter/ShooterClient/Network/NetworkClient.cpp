@@ -90,27 +90,70 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
     // 5Hz
     m_nextSendTime = currentTime + std::chrono::milliseconds(200);
 
-    eInputType lastInput = GetEngine().GetInput().GetLastInput();
-    if (lastInput == eInputType::NONE)
+    if (m_playerId < 0 || m_playerId > entities.size())
     {
         return;
     }
 
-    int input = m_keyInput[lastInput];
+    Entity* pEntity = entities[m_playerId];
+    
+    if (!pEntity->HasComponent<PlayerControllerComponent>())
+    {
+        return;
+    }
 
-    // Build user input proto
-    shooter::UserInput userinput;
-    userinput.set_playerid(m_playerId);
-    userinput.set_requestid(m_nextRequestId);
-    userinput.set_input(input);
+    PlayerControllerComponent* pPlayer = pEntity->GetComponent<PlayerControllerComponent>();
 
-    std::string serializedInput;
-    userinput.SerializeToString(&serializedInput);
+    std::vector<std::string> inputsToSend = {};
+    if (pPlayer->moveForward)
+    {
+        // Build user input proto
+        std::string serializedInput;
+        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
+                                      ePlayerActions::FORWARD, serializedInput);
+        inputsToSend.push_back(serializedInput);
+    }
+    if (pPlayer->moveBackward)
+    {
+        // Build user input proto
+        std::string serializedInput;
+        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
+                                      ePlayerActions::BACKWARD, serializedInput);
+        inputsToSend.push_back(serializedInput);
+    }
+    if (pPlayer->moveLeft)
+    {
+        // Build user input proto
+        std::string serializedInput;
+        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
+                                      ePlayerActions::TURN_LEFT, serializedInput);
+        inputsToSend.push_back(serializedInput);
+    }
+    if (pPlayer->moveRight)
+    {
+        // Build user input proto
+        std::string serializedInput;
+        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+                                      ePlayerActions::TURN_RIGHT, serializedInput);
+        inputsToSend.push_back(serializedInput);
+    }
+    if (pPlayer->shoot)
+    {
+        // Build user input proto
+        std::string serializedInput;
+        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+                                      ePlayerActions::FIRE, serializedInput);
+        inputsToSend.push_back(serializedInput);
+    }
 
     // Send to server
     sockaddr_in addrServer = m_pUDPClient->GetInfo();
-    m_pUDPClient->SendRequest("userinput", serializedInput, 
-                              addrServer, sizeof(addrServer));
+    int addrLen = sizeof(addrServer);
+    for (std::string serializedInput : inputsToSend)
+    {
+        m_pUDPClient->SendRequest("userinput", serializedInput,
+                                  addrServer, addrLen);
+    }
 
     // Request id update
     m_nextRequestId += 1;
@@ -146,4 +189,17 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
     // Go in each entity updating its position, orientation, velocity and state
 
     return true;
+}
+
+void ClientSystem::m_GetSerializedUserInputProto(int requestid, int playerid, 
+                                                 int input, std::string& serializedOut)
+{
+    shooter::UserInput userinput;
+    userinput.set_playerid(m_playerId);
+    userinput.set_requestid(m_nextRequestId);
+    userinput.set_input(input);
+
+    userinput.SerializeToString(&serializedOut);
+
+    return;
 }

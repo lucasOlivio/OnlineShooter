@@ -180,11 +180,7 @@ bool ServerSystem::m_HandleUserInput(const std::string& dataIn)
         return false;
     }
 
-    eInputType input = (eInputType)newInput.input();
-    if (input == eInputType::NONE)
-    {
-        return true;
-    }
+    ePlayerActions playerInput = (ePlayerActions)newInput.input();
 
     // If input forward, apply velocity forward to the entity direction
 

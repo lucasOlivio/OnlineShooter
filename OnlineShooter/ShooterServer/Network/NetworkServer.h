@@ -14,6 +14,15 @@ enum eEntityState
 	IS_DEAD
 };
 
+enum ePlayerActions
+{
+	FORWARD, 
+	BACKWARD, 
+	TURN_LEFT, 
+	TURN_RIGHT, 
+	FIRE
+};
+
 class ServerSystem : public iSystem
 {
 public:

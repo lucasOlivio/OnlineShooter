@@ -100,3 +100,8 @@ EntityManager* Engine::GetEntityManager()
 {
 	return m_pEntityManager;
 }
+
+void Engine::SetRunning(bool isRunning)
+{
+	m_Running = isRunning;
+}

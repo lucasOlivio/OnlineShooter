@@ -52,6 +52,7 @@ void RenderSystem::InitGlut(int argc, char** argv)
 	glutReshapeFunc(Reshape_Callback);
 	glutDisplayFunc(Render_Callback);
 	glutIdleFunc(Idle_Callback);
+	glutCloseFunc(Close_Callback);
 }
 
 bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
@@ -220,5 +221,10 @@ void Render_Callback()
 void Idle_Callback()
 {
 
+}
+
+void Close_Callback()
+{
+	GetEngine().SetRunning(false);
 }
 
