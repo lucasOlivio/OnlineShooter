@@ -18,4 +18,6 @@ public:
 
 	float movementSpeed = 10.0f;
 	float rotationSpeed = 0.5f;
+
+	int bulletId = -1;
 };

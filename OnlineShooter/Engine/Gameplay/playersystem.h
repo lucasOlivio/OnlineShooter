@@ -26,8 +26,9 @@ public:
 
 	void Execute(const std::vector<Entity*>& entities, float dt) override;
 	void UpdateFlags(PlayerControllerComponent* playerController);
-	void HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity * Bullet);
+	void HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity * Bullet, bool bulletActive);
 	Entity* findBullet(const std::vector<Entity*>& entities);
+	bool isBulletActiveById(const std::vector<Entity*>& entities, int id);
 
 	// Inherited via iSystem
 	bool Start(const std::vector<Entity*>& entities, int argc, char** argv) override;

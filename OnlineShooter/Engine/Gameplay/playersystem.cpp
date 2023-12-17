@@ -24,7 +24,7 @@ void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
 		playerController->shoot = keyInput.IsKeyPressed(eInputType::SHOOT);
 }
 
-void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity* Bullet) {
+void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity* Bullet , bool bulletActive) {
 	bool isMoving = false;
 	// If input forward, apply velocity forward to the entity direction
 	if (playerController->moveForward) {
@@ -68,8 +68,14 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerCompon
 		transBullet->position = direction * (rBody->radius + rBullet->radius + 1);
 
 		playerController->hasammo = false;
+		playerController->bulletId = bulletController->bulletId;
+
 		Bullet->state = StatetType::IS_ACTIVE;
 	}
+	else if (!playerController->hasammo && !bulletActive) {
+		playerController->hasammo = true;
+	}
+
 
 }
 
@@ -84,6 +90,24 @@ Entity* PlayerSystem::findBullet(const std::vector<Entity*>& entities)
 		}
 	}
 	return nullptr;
+}
+
+bool PlayerSystem::isBulletActiveById(const std::vector<Entity*>& entities, int id)
+{
+	Entity* entity;
+	for (int i = 0; i < entities.size(); i++)
+	{
+		entity = entities[i];
+		if (entity->tag == "bullet" && entity->GetComponent<BulletControllerComponent>()->bulletId) {
+			if (entity->state = StatetType::NOT_ACTIVE) {
+				return false;
+			}
+			else if (entity->state = StatetType::IS_ACTIVE) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void PlayerSystem::Execute(const std::vector<Entity*>& entities, float dt)
@@ -113,7 +137,8 @@ void PlayerSystem::Execute(const std::vector<Entity*>& entities, float dt)
 		{
 			UpdateFlags(playerController);
 		}
-		HandleFlags(rBody, playerController, transformConponent, bullet);
+		bool active = isBulletActiveById(entities, playerController->bulletId);
+		HandleFlags(rBody, playerController, transformConponent, bullet, active);
 	}
 }
 
