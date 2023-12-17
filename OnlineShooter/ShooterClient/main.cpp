@@ -31,6 +31,7 @@ int main(int argc, char** argv)
 	const glm::vec3 unscaled(1.f);
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
 	const glm::vec3 playerColor = glm::vec3(1.f, 0.f, 0.f);
+	const glm::vec3 bulletColor = glm::vec3(1.f, 0.5f, 0.5f);
 	const float radius = 5;
 	EntityManager* pEntityManager = GetEngine().GetEntityManager();
 	for (int i = 0; i < MAX_PLAYERS; i++)
@@ -44,6 +45,19 @@ int main(int argc, char** argv)
 		player->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
 													pRenderSystem->models["sphere"].NumTriangles,
 													playerColor);
+	}
+
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		// Player #i
+		Entity* bullet = pEntityManager->CreateEntity();
+		bullet->tag = "bullet";
+		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 2);
+		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
+		bullet->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
+			pRenderSystem->models["sphere"].NumTriangles,
+			bulletColor);
+		bullet->state = StatetType::NOT_ACTIVE;
 	}
 
 	GetEngine().Run(argc, argv);
