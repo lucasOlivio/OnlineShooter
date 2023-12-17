@@ -26,7 +26,7 @@
     <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\ShaderProgram.h" />
     <ClInclude Include="Physics\PhysicsSystem.h" />
-    <ClInclude Include="System\playermovementsystem.h" />
+    <ClInclude Include="Gameplay\playersystem.h" />
     <ClInclude Include="System\Component.h" />
     <ClInclude Include="System\components.h" />
     <ClInclude Include="System\Components\Bullet.h" />
@@ -47,7 +47,7 @@
     <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Physics\PhysicsSystem.cpp" />
-    <ClCompile Include="System\playermovementsystem.cpp" />
+    <ClCompile Include="Gameplay\playersystem.cpp" />
     <ClCompile Include="System\EntityManager.cpp" />
     <ClCompile Include="System\Input.cpp" />
   </ItemGroup>

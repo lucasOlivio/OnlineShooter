@@ -2,11 +2,11 @@
 
 #include <common.h>
 
-#include "System.h"
-#include "Entity.h"
+#include "System/System.h"
+#include "System/Entity.h"
 
 
-class PlayerMovementSystem : public iSystem
+class PlayerSystem : public iSystem
 {
 public:
 	void Execute(const std::vector<Entity*>& entities, float dt) override;
