@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="common.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Gameplay\BulletSystem.h" />
     <ClInclude Include="Graphics\Model.h" />
     <ClInclude Include="Graphics\RenderSystem.h" />
     <ClInclude Include="Graphics\Shader.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Gameplay\PlayerSystem.h" />
     <ClInclude Include="System\Component.h" />
     <ClInclude Include="System\components.h" />
+    <ClInclude Include="System\Components\BulletController.h" />
     <ClInclude Include="System\Components\MeshRenderer.h" />
     <ClInclude Include="System\Components\Network.h" />
     <ClInclude Include="System\Components\PlayerController.h" />
@@ -42,6 +44,7 @@
   <ItemGroup>
     <ClCompile Include="common.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Gameplay\BulletSystem.cpp" />
     <ClCompile Include="Graphics\Model.cpp" />
     <ClCompile Include="Graphics\RenderSystem.cpp" />
     <ClCompile Include="Graphics\ShaderProgram.cpp" />

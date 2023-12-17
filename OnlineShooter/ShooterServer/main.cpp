@@ -3,6 +3,7 @@
 #include "Graphics/RenderSystem.h"
 #include "Physics/PhysicsSystem.h"
 #include "Gameplay/PlayerSystem.h"
+#include "Gameplay/BulletSystem.h"
 
 #include <Engine/Engine.h>
 
@@ -13,10 +14,12 @@ int main(int argc, char** argv)
 	// Setup systems
 	ServerSystem* pServer = new ServerSystem();
 	PlayerSystem* pPlayerSystem = new PlayerSystem();
+	BulletSystem* pBulletSystem = new BulletSystem();
 	PhysicsSystem* pPhysicsSystem = new PhysicsSystem(true);
 
 	GetEngine().AddSystem(pServer);
 	GetEngine().AddSystem(pPlayerSystem);
+	GetEngine().AddSystem(pBulletSystem);
 	GetEngine().AddSystem(pPhysicsSystem);
 
 	// Setup all players
