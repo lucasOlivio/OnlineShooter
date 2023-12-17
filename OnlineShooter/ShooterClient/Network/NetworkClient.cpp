@@ -78,6 +78,7 @@ void ClientSystem::m_HandleMsgs(const std::vector<Entity*>& entities, float dt)
 
 void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float dt)
 {
+    // Check if enough time has passed
     std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
     if (m_nextSendTime > currentTime)
     {
@@ -87,9 +88,8 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
     // 5Hz
     m_nextSendTime = currentTime + std::chrono::milliseconds(200);
 
-    // Check if enough time has passed
-
     // Build user input proto
+    shooter::UserInput userinput;
 
     // Send to server
 
