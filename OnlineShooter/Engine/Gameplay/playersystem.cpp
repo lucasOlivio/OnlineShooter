@@ -48,12 +48,15 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerCompon
 	// with a velocity relative to the forward direction of entity, 
 	// then set player ammo to false
 	if (playerController->shoot && Bullet != nullptr) {
-		glm::vec3 direction = transformConponent->GetForwardVector();
-		//glm::vec3 velocity = ;
-		//transformConponent->AdjustOrientation(velocity);
 
-		//Bullet->state = StatetType::IS_ACTIVE;
-		//Bullet->GetComponent<TransformComponent>()->position(transformConponent->position);
+		glm::vec3 direction = transformConponent->GetForwardVector();
+		RigidBodyComponent* rBullet = Bullet->GetComponent<RigidBodyComponent>();
+		TransformComponent* transBullet = Bullet->GetComponent<TransformComponent>();
+		//TODO: hehe: replace playercontroller with bullet conntroler
+		glm::vec3 velocity = playerController->movementSpeed * -(transBullet->GetForwardVector());;
+
+		Bullet->state = StatetType::IS_ACTIVE;
+		transBullet->position = direction * (rBody->radius + rBullet->radius + 1);
 	}
 
 }
