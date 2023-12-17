@@ -27,6 +27,7 @@ int main(int argc, char** argv)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->SetUniqueId<Entity>();
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		//GetEngine();
 		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo, pRender->models["sphere"].NumTriangles, glm::vec3(1.f, 0.f, 0.f));

@@ -23,7 +23,8 @@ void PlayerMovementSystem::Execute(const std::vector<Entity*>& entities, float d
 			glm::vec3 direction = glm::vec3(0.f);
 
 			direction.z += controller->moveLeft ? -1.f : 0.f;
-			direction.z += controller->moveRight ? 1.f : 0.f;
+			//direction.z += controller->moveRight ? 1.f : 0.f;
+			direction.z += controller->moveRight ? 1.0f : 0.0f;
 			direction.x += controller->moveForward ? 1.f : 0.f;
 			direction.x += controller->moveBackward ? -1.f : 0.f;
 			transform->position += direction * speed * dt;

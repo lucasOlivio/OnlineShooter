@@ -77,6 +77,8 @@ void Engine::Update()
 
 void Engine::PressKey(unsigned char key)
 {
+	std::vector<Entity*> entities;
+	m_pEntityManager->GetEntities(entities);
 	m_Input.PressKey(key);
 }
 

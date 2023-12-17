@@ -7,7 +7,10 @@
 class Entity
 {
 public:
-	Entity() { }
+	Entity() { 
+		//this->nextUniqueId = startinguniqueId;
+		//std::cout << uniqueid << std::endl;
+	}
 	~Entity() {}
 
 	template<typename T>
@@ -26,6 +29,7 @@ public:
 
 		T* newComponent = new T(std::forward<Args>(args)...);
 		m_Components[&typeid(T)] = newComponent;
+		//Entity::nextUniqueId++;
 		return newComponent;
 	}
 
@@ -50,6 +54,15 @@ public:
 		}
 		return nullptr;
 	}
+
+	template <typename T>
+	void SetUniqueId()
+	{
+		this->uniqueid = nextUniqueId++;;
+	}
 private:
 	std::map<const std::type_info*, Component*> m_Components;
+	int uniqueid = 0;
+	//static const unsigned int startinguniqueId = 100;
+	//static unsigned int nextUniqueId = 100;
 };
