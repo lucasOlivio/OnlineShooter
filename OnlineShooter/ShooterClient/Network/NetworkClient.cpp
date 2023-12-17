@@ -108,46 +108,44 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
     m_nextRequestId += 1;
 
     std::vector<std::string> inputsToSend = {};
-    if (pPlayer->moveForward)
-    {
-        // Build user input proto
-        std::string serializedInput;
-        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      shooter::UserInput::FORWARD, serializedInput);
-        inputsToSend.push_back(serializedInput);
-    }
-    if (pPlayer->moveBackward)
-    {
-        // Build user input proto
-        std::string serializedInput;
-        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      shooter::UserInput::BACKWARD, serializedInput);
-        inputsToSend.push_back(serializedInput);
-    }
-    if (pPlayer->moveLeft)
-    {
-        // Build user input proto
-        std::string serializedInput;
-        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId, 
-                                      shooter::UserInput::TURN_LEFT, serializedInput);
-        inputsToSend.push_back(serializedInput);
-    }
-    if (pPlayer->moveRight)
-    {
-        // Build user input proto
-        std::string serializedInput;
-        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
-                                      shooter::UserInput::TURN_RIGHT, serializedInput);
-        inputsToSend.push_back(serializedInput);
-    }
-    if (pPlayer->shoot)
-    {
-        // Build user input proto
-        std::string serializedInput;
-        m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
-                                      shooter::UserInput::FIRE, serializedInput);
-        inputsToSend.push_back(serializedInput);
-    }
+
+    // HACK: We should keep a before state of the inputs so we could send only the changes,
+    // but no time now
+  
+    // Build forward input
+    std::string serializedInput;
+    m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+                                  shooter::UserInput::FORWARD, pPlayer->moveForward, 
+                                  serializedInput);
+    inputsToSend.push_back(serializedInput);
+
+    // Build backward input
+    m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+                                  shooter::UserInput::BACKWARD, pPlayer->moveBackward,
+                                  serializedInput);
+
+    inputsToSend.push_back(serializedInput);
+
+    // Build left input
+    m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+                                  shooter::UserInput::TURN_LEFT, pPlayer->moveLeft,
+                                  serializedInput);
+
+    inputsToSend.push_back(serializedInput);
+
+    // Build right input
+    m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+        shooter::UserInput::TURN_RIGHT, pPlayer->moveRight,
+        serializedInput);
+
+    inputsToSend.push_back(serializedInput);
+
+    // Build shoot input
+    m_GetSerializedUserInputProto(m_nextRequestId, m_playerId,
+        shooter::UserInput::FIRE, pPlayer->shoot,
+        serializedInput);
+
+    inputsToSend.push_back(serializedInput);
 
     if (inputsToSend.size() == 0)
     {
@@ -257,12 +255,14 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
 }
 
 void ClientSystem::m_GetSerializedUserInputProto(int requestid, int playerid, 
-                                                 int input, std::string& serializedOut)
+                                                 int input, bool isPressed,
+                                                 std::string& serializedOut)
 {
     shooter::UserInput userinput;
     userinput.set_playerid(m_playerId);
     userinput.set_requestid(m_nextRequestId);
     userinput.set_input((shooter::UserInput::InputType)input);
+    userinput.set_ispressed(isPressed);
 
     userinput.SerializeToString(&serializedOut);
 

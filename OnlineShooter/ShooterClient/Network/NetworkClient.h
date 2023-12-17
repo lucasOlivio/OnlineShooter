@@ -40,6 +40,7 @@ private:
 						   std::string& data);
 
 	void m_GetSerializedUserInputProto(int requestid, int playerid, 
-									   int input, std::string& serializedOut);
+									   int input, bool isPressed,
+									   std::string& serializedOut);
 
 };

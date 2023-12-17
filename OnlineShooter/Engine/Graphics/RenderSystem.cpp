@@ -210,7 +210,6 @@ void RenderSystem::LoadMeshes()
 
 void PressKey_Callback(unsigned char key, int x, int y)
 {
-	std::cout << "keypressed" << std::endl;
 	GetEngine().PressKey(key);
 }
 
