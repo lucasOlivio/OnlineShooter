@@ -104,6 +104,9 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
 
     PlayerControllerComponent* pPlayer = pEntity->GetComponent<PlayerControllerComponent>();
 
+    // Request id update
+    m_nextRequestId += 1;
+
     std::vector<std::string> inputsToSend = {};
     if (pPlayer->moveForward)
     {
@@ -149,6 +152,8 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
     if (inputsToSend.size() == 0)
     {
         // No inputs to send
+        // reset request id 
+        m_nextRequestId -= 1;
         return;
     }
 
@@ -160,9 +165,6 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
         m_pUDPClient->SendRequest("userinput", serializedInput,
                                   addrServer, addrLen);
     }
-
-    // Request id update
-    m_nextRequestId += 1;
 }
 
 void ClientSystem::m_UpdatePlayerId(const std::vector<Entity*>& entities, 
@@ -199,7 +201,6 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
                                      float dt,
                                      std::string& data)
 {
-
     shooter::GameScene gamescene;
     bool isDeserialized = gamescene.ParseFromString(data);
     if (!isDeserialized)
@@ -213,7 +214,21 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
     for (shooter::Entity entity : gamescene.entities())
     {
         int entityId = entity.entityid();
+        int requestId = entity.requestid();
         int state = entity.state();
+
+        Entity* pLocalEntity = entities[entityId];
+
+        // Update state
+        pLocalEntity->state = (StatetType)state;
+
+        // Reconciliation
+        // only update trivial info if the requestid is not previous (already calculated)
+        if (requestId < m_nextRequestId)
+        {
+            continue;
+        }
+
         glm::vec3 position = glm::vec3(entity.position().x(),
                                        entity.position().y(),
                                        entity.position().z());
@@ -223,11 +238,6 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
         glm::vec3 velocity = glm::vec3(entity.velocity().x(),
                                        entity.velocity().y(),
                                        entity.velocity().z());
-
-        Entity* pLocalEntity = entities[entityId];
-
-        // Update state
-        pLocalEntity->state = (StatetType)state;
 
         // Update transform
         TransformComponent* pTransform = pLocalEntity->GetComponent<TransformComponent>();

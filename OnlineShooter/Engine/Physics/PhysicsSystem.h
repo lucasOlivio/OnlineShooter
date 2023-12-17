@@ -7,7 +7,7 @@
 class PhysicsSystem : public iSystem
 {
 public:
-	PhysicsSystem() {};
+	PhysicsSystem(bool resolveCollision) : m_resolveCollision(resolveCollision) {};
 	virtual ~PhysicsSystem() { };
 
 	virtual bool Start(const std::vector<Entity*>& entities, int argc, char** argv);
@@ -35,4 +35,8 @@ private:
 	// Keep track of visited entities on the frame 
 	// to avoid checking same collision twice
 	std::vector<int> m_visitedEntities;
+
+	// Should deal with the collision detected or not
+	// to avoid player dying on the client side
+	bool m_resolveCollision;
 };

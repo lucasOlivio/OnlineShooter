@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	ClientSystem* pClientSystem = new ClientSystem();
 	RenderSystem* pRenderSystem = GetRenderSystem();
 	PlayerSystem* pPlayerSystem = new PlayerSystem();
-	PhysicsSystem* pPhysicsSystem = new PhysicsSystem();
+	PhysicsSystem* pPhysicsSystem = new PhysicsSystem(false);
 
 	GetEngine().AddSystem(pClientSystem);
 	GetEngine().AddSystem(pRenderSystem);
