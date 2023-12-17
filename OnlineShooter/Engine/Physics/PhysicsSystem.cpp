@@ -10,6 +10,13 @@ void PhysicsSystem::Execute(const std::vector<Entity*>& entities, float dt)
     for (int i = 0; i < entities.size(); i++)
     {
         Entity* pEntity = entities[i];
+
+        if (pEntity->state == StatetType::NOT_ACTIVE ||
+            pEntity->state == StatetType::IS_DEAD)
+        {
+            continue;
+        }
+
         if (!pEntity->HasComponent<TransformComponent>() ||
             !pEntity->HasComponent<RigidBodyComponent>())
         {
@@ -21,16 +28,18 @@ void PhysicsSystem::Execute(const std::vector<Entity*>& entities, float dt)
 
         ApplyForce(pTransform, pBody, dt);
 
-        Entity* pEntityBOut = nullptr;
+        Entity entityBOut;
         bool isColliding = CheckCollision(entities, i,
 						                  pTransform, 
 						                  pBody,
-						                  pEntityBOut);
+						                  entityBOut);
         if (isColliding)
         {
-            ResolveCollision(pEntity, pEntityBOut);
+            ResolveCollision(pEntity, &entityBOut);
         }
     }
+
+    m_visitedEntities.clear();
 }
 
 void PhysicsSystem::End()
@@ -54,7 +63,7 @@ bool PhysicsSystem::CheckCollision(const std::vector<Entity*>& entities,
 						           int entityId,
 						           TransformComponent* pTransformA, 
 						           RigidBodyComponent* pBodyB,
-						           Entity* pEntityBOut)
+						           Entity& entityBOut)
 {
     bool isColliding = false;
     for (int entityBId : m_visitedEntities)
@@ -68,7 +77,7 @@ bool PhysicsSystem::CheckCollision(const std::vector<Entity*>& entities,
 
         if (isColliding)
         {
-            pEntityBOut = pEntityB;
+            entityBOut = *pEntityB;
             // Only deal with one collision for now
             break;
         }

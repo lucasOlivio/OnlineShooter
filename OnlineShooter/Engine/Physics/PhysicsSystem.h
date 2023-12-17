@@ -4,7 +4,7 @@
 #include "System/Components/RigidBody.h"
 #include "System/Components/Transform.h"
 
-class PhysicsSystem : iSystem
+class PhysicsSystem : public iSystem
 {
 public:
 	PhysicsSystem() {};
@@ -23,7 +23,7 @@ public:
 						int entityId,
 						TransformComponent* pTransformA,
 						RigidBodyComponent* pBodyA,
-						Entity* pEntityBOut);
+						Entity& entityBOut);
 
 	// Changes the entity state based on what it collided
 	void ResolveCollision(Entity* entityA, Entity* entityB);

@@ -1,7 +1,8 @@
 #include "Network/NetworkClient.h"
 #include "System/components.h"
 #include "Graphics/RenderSystem.h"
-#include "Gameplay/playersystem.h"
+#include "Gameplay/PlayerSystem.h"
+#include "Physics/PhysicsSystem.h"
 #include "System/Components/PlayerController.h"
 
 #include <Engine/Engine.h>
@@ -11,17 +12,19 @@ int main(int argc, char** argv)
 	GetEngine().Initialize();
 
 	// Setup systems
-	ClientSystem* pClient = new ClientSystem();
-	RenderSystem* pRender = GetRenderSystem();
-	PlayerSystem* pPSystem = new PlayerSystem();
+	ClientSystem* pClientSystem = new ClientSystem();
+	RenderSystem* pRenderSystem = GetRenderSystem();
+	PlayerSystem* pPlayerSystem = new PlayerSystem();
+	PhysicsSystem* pPhysicsSystem = new PhysicsSystem();
 
-	GetEngine().AddSystem(pClient);
-	GetEngine().AddSystem(pRender);
-	GetEngine().AddSystem(pPSystem);
+	GetEngine().AddSystem(pClientSystem);
+	GetEngine().AddSystem(pRenderSystem);
+	GetEngine().AddSystem(pPlayerSystem);
+	GetEngine().AddSystem(pPhysicsSystem);
 
 	// Setup meshes
-	pRender->InitGlut(argc, argv);
-	pRender->LoadMeshes();
+	pRenderSystem->InitGlut(argc, argv);
+	pRenderSystem->LoadMeshes();
 
 	// Setup all players
 	const glm::vec3 origin(0.f);
@@ -37,8 +40,8 @@ int main(int argc, char** argv)
 		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<NetworkComponent>(false);
-		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo,
-													pRender->models["sphere"].NumTriangles,
+		player->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
+													pRenderSystem->models["sphere"].NumTriangles,
 													playerColor);
 	}
 
@@ -50,5 +53,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-//TODO: put input in the render system form th engine
