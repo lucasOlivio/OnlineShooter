@@ -139,10 +139,11 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
         velocity->set_z(enttVel.z);
 
         // Setup orientation
-        shooter::Vector3* orientation = entity->mutable_orientation();
+        shooter::Vector4* orientation = entity->mutable_orientation();
         orientation->set_x(pTransform->orientation.x);
         orientation->set_y(pTransform->orientation.y);
         orientation->set_z(pTransform->orientation.z);
+        orientation->set_w(pTransform->orientation.w);
     }
 
     if (gamescene.entities_size() == 0)

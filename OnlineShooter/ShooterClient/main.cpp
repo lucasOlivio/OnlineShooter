@@ -53,9 +53,9 @@ int main(int argc, char** argv)
 		// Bullet #i
 		Entity* bullet = pEntityManager->CreateEntity();
 		bullet->tag = "bullet";
-		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 1);
+		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), 0.5f);
 		bullet->AddComponent<BulletControllerComponent>(i);
-		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
+		bullet->AddComponent<TransformComponent>(origin, glm::vec3(0.5), identity);
 		bullet->AddComponent<NetworkComponent>(false);
 		bullet->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
 			pRenderSystem->models["sphere"].NumTriangles,

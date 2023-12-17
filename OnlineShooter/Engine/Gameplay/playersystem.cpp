@@ -24,7 +24,12 @@ void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
 		playerController->shoot = keyInput.IsKeyPressed(eInputType::SHOOT);
 }
 
-void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity* Bullet , bool bulletActive) {
+void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, 
+							   PlayerControllerComponent* playerController, 
+							   TransformComponent* transformConponent, 
+							   Entity* Bullet,
+							   bool bulletActive,
+							   float dt) {
 	bool isMoving = false;
 	// If input forward, apply velocity forward to the entity direction
 	if (playerController->moveForward) {
@@ -44,12 +49,12 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerCompon
 
 	// If input turn left, rotate entity to the left
 	if (playerController->moveRight) {
-		glm::vec3 velocity = playerController->rotationSpeed * -(transformConponent->GetRightVector());
+		glm::vec3 velocity = playerController->rotationSpeed * -(glm::vec3(0, 1.0,0) * dt);
 		transformConponent->AdjustOrientation(velocity);
 	}
 	// If input turn right, rotate entity to the right
 	if (playerController->moveLeft) {
-		glm::vec3 velocity = playerController->rotationSpeed * transformConponent->GetRightVector();
+		glm::vec3 velocity = playerController->rotationSpeed * glm::vec3(0, 1.0, 0) * dt;
 		transformConponent->AdjustOrientation(velocity);
 	}
 
@@ -63,9 +68,9 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody, PlayerControllerCompon
 		TransformComponent* transBullet = Bullet->GetComponent<TransformComponent>();
 		BulletControllerComponent* bulletController = Bullet->GetComponent<BulletControllerComponent>();
 
-		glm::vec3 velocity = bulletController->movementSpeed * -(transBullet->GetForwardVector());
+		glm::vec3 velocity = bulletController->movementSpeed * direction;
 		rBullet->velocity = velocity;
-		transBullet->position = direction * (rBody->radius + rBullet->radius + 1);
+		transBullet->position = transformConponent->position + (direction * (rBody->radius + rBullet->radius + 0.2f));
 
 		playerController->hasammo = false;
 		playerController->bulletId = bulletController->bulletId;
@@ -138,7 +143,7 @@ void PlayerSystem::Execute(const std::vector<Entity*>& entities, float dt)
 			UpdateFlags(playerController);
 		}
 		bool active = isBulletActiveById(entities, playerController->bulletId);
-		HandleFlags(rBody, playerController, transformConponent, bullet, active);
+		HandleFlags(rBody, playerController, transformConponent, bullet, active, dt);
 	}
 }
 

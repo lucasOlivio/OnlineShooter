@@ -26,7 +26,12 @@ public:
 
 	void Execute(const std::vector<Entity*>& entities, float dt) override;
 	void UpdateFlags(PlayerControllerComponent* playerController);
-	void HandleFlags(RigidBodyComponent* rBody, PlayerControllerComponent* playerController, TransformComponent* transformConponent, Entity * Bullet, bool bulletActive);
+	void HandleFlags(RigidBodyComponent* rBody,
+					 PlayerControllerComponent* playerController,
+					 TransformComponent* transformConponent,
+					 Entity* Bullet,
+					 bool bulletActive,
+					 float dt);
 	Entity* findBullet(const std::vector<Entity*>& entities);
 	bool isBulletActiveById(const std::vector<Entity*>& entities, int id);
 

@@ -10,7 +10,7 @@ public:
 	BulletControllerComponent() { }
 	BulletControllerComponent(int Id): bulletId(Id) { }
 
-	float movementSpeed = 50.0f;
+	float movementSpeed = 15.0f;
 
 	float maxX = 600;
 	float maxY = 400;

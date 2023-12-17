@@ -26,6 +26,13 @@ message Vector3 {
   required float z = 3;
 }
 
+message Vector4 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+  required float w = 4;
+}
+
 message Entity {
   enum StatetType {
     NOT_ACTIVE = 0;
@@ -39,7 +46,7 @@ message Entity {
   required StatetType state = 3;
   required Vector3 position = 4;
   required Vector3 velocity = 5;
-  required Vector3 orientation = 6;
+  required Vector4 orientation = 6;
 }
 
 message GameScene {

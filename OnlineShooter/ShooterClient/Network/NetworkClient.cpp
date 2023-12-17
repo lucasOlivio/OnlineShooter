@@ -222,7 +222,7 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
 
         // Reconciliation
         // only update trivial info if the requestid is not previous (already calculated)
-        if (requestId < m_nextRequestId)
+        if (requestId <= m_nextRequestId)
         {
             continue;
         }
@@ -230,9 +230,11 @@ bool ClientSystem::m_HandleGameScene(const std::vector<Entity*>& entities,
         glm::vec3 position = glm::vec3(entity.position().x(),
                                        entity.position().y(),
                                        entity.position().z());
-        glm::vec3 orientation = glm::vec3(entity.orientation().x(),
-                                          entity.orientation().y(),
-                                          entity.orientation().z());
+        glm::quat orientation = glm::quat(0.0f, 0.0f, 0.0f, 0.0f);
+        orientation.x = entity.orientation().x();
+        orientation.y = entity.orientation().y();
+        orientation.z = entity.orientation().z();
+        orientation.w = entity.orientation().w();
         glm::vec3 velocity = glm::vec3(entity.velocity().x(),
                                        entity.velocity().y(),
                                        entity.velocity().z());

@@ -17,7 +17,7 @@ public:
 	bool hasammo = true;
 
 	float movementSpeed = 10.0f;
-	float rotationSpeed = 0.5f;
+	float rotationSpeed = 100.0f;
 
 	int bulletId = -1;
 };

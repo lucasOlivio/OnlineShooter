@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	const glm::vec3 origin(0.f);
 	const glm::vec3 unscaled(1.f);
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
-	const float radius = 5;
+	const float radius = 1;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		// Player #i
@@ -44,9 +44,9 @@ int main(int argc, char** argv)
 		// Bullet #i
 		Entity* bullet = GetEngine().GetEntityManager()->CreateEntity();
 		bullet->tag = "bullet";
-		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, -190, 0), 2);
+		bullet->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), 0.5f);
 		bullet->AddComponent<BulletControllerComponent>();
-		bullet->AddComponent<TransformComponent>(origin, unscaled, identity);
+		bullet->AddComponent<TransformComponent>(origin, glm::vec3(0.5), identity);
 		bullet->state = StatetType::NOT_ACTIVE;
 	}
 
