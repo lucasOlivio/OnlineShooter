@@ -116,7 +116,7 @@ void ServerSystem::m_BroadcastGameScene(const std::vector<Entity*>& entities, fl
         // We have one requestid follow for each player
         entity->set_requestid(m_nextRequestIds[i]);
 
-        entity->set_state((shooter::Entity::StatetType)pNetwork->state);
+        entity->set_state((shooter::Entity::StatetType)pEntity->state);
 
         // Setup Position
         shooter::Vector3* position = entity->mutable_position();

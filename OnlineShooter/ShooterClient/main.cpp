@@ -27,14 +27,17 @@ int main(int argc, char** argv)
 	const glm::vec3 origin(0.f);
 	const glm::vec3 unscaled(1.f);
 	const glm::quat identity(1.f, 0.f, 0.f, 0.f);
+	const glm::vec3 playerColor = glm::vec3(1.f, 0.f, 0.f);
+	const float radius = 5;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		// Player #i
 		Entity* player = GetEngine().GetEntityManager()->CreateEntity();
+		player->AddComponent<RigidBodyComponent>(glm::vec3(0, 0, 0), radius);
 		player->AddComponent<TransformComponent>(origin, unscaled, identity);
 		player->AddComponent<MeshRendererComponent>(pRender->models["sphere"].Vbo,
 													pRender->models["sphere"].NumTriangles,
-													glm::vec3(1.f, 0.f, 0.f));
+													playerColor);
 		player->AddComponent<NetworkComponent>(false);
 	}
 
