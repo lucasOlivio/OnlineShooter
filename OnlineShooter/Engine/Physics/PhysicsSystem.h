@@ -16,7 +16,23 @@ public:
 
 	virtual void End();
 
-	void ApplyForce(TransformComponent* pTransform, RigidBodyComponent* pBody);
+	void ApplyForce(TransformComponent* pTransform, RigidBodyComponent* pBody, float dt);
 
-	bool CheckCollision(TransformComponent* pTransform, RigidBodyComponent* pBody);
+	// If collision true returns the entity that collided with on "pEntityBOut" 
+	bool CheckCollision(const std::vector<Entity*>& entities, 
+						int entityId,
+						TransformComponent* pTransformA,
+						RigidBodyComponent* pBodyA,
+						Entity* pEntityBOut);
+
+	// Changes the entity state based on what it collided
+	void ResolveCollision(Entity* entityA, Entity* entityB);
+
+	static bool SphereSphereCollision(glm::vec3 positionA, float radiusA, 
+									  glm::vec3 positionB, float radiusB);
+
+private:
+	// Keep track of visited entities on the frame 
+	// to avoid checking same collision twice
+	std::vector<int> m_visitedEntities;
 };
