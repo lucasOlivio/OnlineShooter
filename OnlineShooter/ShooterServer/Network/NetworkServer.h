@@ -14,8 +14,6 @@ enum eEntityState
 	IS_DEAD
 };
 
-const int MAX_PLAYERS = 4;
-
 class ServerSystem : public iSystem
 {
 public:

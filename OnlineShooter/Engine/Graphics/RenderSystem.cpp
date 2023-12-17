@@ -64,8 +64,8 @@ bool RenderSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 
 void RenderSystem::Execute(const std::vector<Entity*>& entities, float dt)
 {
-	//Render();
 	Render();
+	glutMainLoopEvent();
 }
 
 void RenderSystem::End()

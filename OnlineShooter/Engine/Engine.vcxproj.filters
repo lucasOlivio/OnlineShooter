@@ -63,9 +63,6 @@
     <ClInclude Include="System\Components\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="System\Components\Bullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\RenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>

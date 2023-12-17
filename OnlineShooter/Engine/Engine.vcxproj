@@ -29,7 +29,6 @@
     <ClInclude Include="Gameplay\playersystem.h" />
     <ClInclude Include="System\Component.h" />
     <ClInclude Include="System\components.h" />
-    <ClInclude Include="System\Components\Bullet.h" />
     <ClInclude Include="System\Components\MeshRenderer.h" />
     <ClInclude Include="System\Components\Network.h" />
     <ClInclude Include="System\Components\PlayerController.h" />

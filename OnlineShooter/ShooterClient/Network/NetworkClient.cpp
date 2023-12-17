@@ -7,6 +7,7 @@
 #include <System/Components/PlayerController.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
+#include <Engine/Engine.h>
 
 bool ClientSystem::Start(const std::vector<Entity*>& entities, int argc, char** argv)
 {
@@ -38,6 +39,7 @@ bool ClientSystem::Start(const std::vector<Entity*>& entities, int argc, char** 
 void ClientSystem::Execute(const std::vector<Entity*>& entities, float dt)
 {
     m_HandleMsgs(entities, dt);
+    m_SendUserInput(entities, dt);
 }
 
 void ClientSystem::End()
@@ -88,10 +90,27 @@ void ClientSystem::m_SendUserInput(const std::vector<Entity*>& entities, float d
     // 5Hz
     m_nextSendTime = currentTime + std::chrono::milliseconds(200);
 
+    eInputType lastInput = GetEngine().GetInput().GetLastInput();
+    if (lastInput == eInputType::NONE)
+    {
+        return;
+    }
+
+    int input = m_keyInput[lastInput];
+
     // Build user input proto
     shooter::UserInput userinput;
+    userinput.set_playerid(m_playerId);
+    userinput.set_requestid(m_nextRequestId);
+    userinput.set_input(input);
+
+    std::string serializedInput;
+    userinput.SerializeToString(&serializedInput);
 
     // Send to server
+    sockaddr_in addrServer = m_pUDPClient->GetInfo();
+    m_pUDPClient->SendRequest("userinput", serializedInput, 
+                              addrServer, sizeof(addrServer));
 
     // Request id update
     m_nextRequestId += 1;
