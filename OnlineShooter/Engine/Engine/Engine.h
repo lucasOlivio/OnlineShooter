@@ -36,6 +36,8 @@ public:
 
 	void SetRunning(bool isRunning);
 
+	void* GetSystem(int id);
+
 private:
 	// Singleton
 	Engine();

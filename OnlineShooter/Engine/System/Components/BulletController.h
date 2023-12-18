@@ -12,10 +12,10 @@ public:
 
 	float movementSpeed = 15.0f;
 
-	float maxX = 600;
-	float maxY = 400;
-	float minX = -600;
-	float minY = -400;
+	float maxX = 60;
+	float maxY = 70;
+	float minX = -60;
+	float minY = -70;
 
 	int bulletId = -1;
 };

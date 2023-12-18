@@ -1,5 +1,6 @@
 #include "PlayerSystem.h"
 #include "System/Components/BulletController.h"
+#include "System/Components/MeshRenderer.h"
 
 
 void PlayerSystem::UpdateFlags(PlayerControllerComponent* playerController) {
@@ -67,6 +68,12 @@ void PlayerSystem::HandleFlags(RigidBodyComponent* rBody,
 		RigidBodyComponent* rBullet = Bullet->GetComponent<RigidBodyComponent>();
 		TransformComponent* transBullet = Bullet->GetComponent<TransformComponent>();
 		BulletControllerComponent* bulletController = Bullet->GetComponent<BulletControllerComponent>();
+		//GetRenderSystem();
+		//RenderSystem* pRender = GetEngine().GetSystem(1);
+		//const glm::vec3 bulletColor = glm::vec3(1.f, 0.5f, 0.5f);
+		//Bullet->AddComponent<MeshRendererComponent>(pRenderSystem->models["sphere"].Vbo,
+		//pRenderSystem->models["sphere"].NumTriangles,
+		//bulletColor);
 
 		glm::vec3 velocity = bulletController->movementSpeed * direction;
 		rBullet->velocity = velocity;

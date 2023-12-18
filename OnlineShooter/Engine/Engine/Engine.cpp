@@ -103,3 +103,11 @@ void Engine::SetRunning(bool isRunning)
 {
 	m_Running = isRunning;
 }
+
+void* Engine::GetSystem(int id)
+{
+	if (id < 0 || id > m_Systems.size() - 1) {
+		return nullptr;
+	}
+	return m_Systems[id];
+}

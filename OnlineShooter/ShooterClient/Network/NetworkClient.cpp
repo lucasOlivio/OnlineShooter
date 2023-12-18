@@ -5,6 +5,7 @@
 #include <System/Components/Transform.h>
 #include <System/Components/Network.h>
 #include <System/Components/PlayerController.h>
+#include <System/Components/BulletController.h>
 #include <shooter.pb.h>
 #include <UDP/utils/common.h>
 #include <Engine/Engine.h>

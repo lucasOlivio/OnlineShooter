@@ -30,11 +30,12 @@ void BulletSystem::Execute(const std::vector<Entity*>& entities, float dt)
 
 		glm::vec3 position = transformComponent->position;
 		if (position.x > bulletController->maxX ||
-			position.y > bulletController->maxY ||
+			position.z > bulletController->maxY ||
 			position.x < bulletController->minX ||
-			position.y < bulletController->minY)
+			position.z < bulletController->minY)
 		{
 			entity->state = StatetType::NOT_ACTIVE;
+			std::cout << "reload" << std::endl;
 		}
 	}
 }

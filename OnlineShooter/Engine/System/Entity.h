@@ -25,6 +25,7 @@ public:
 
 	StatetType state;
 	std::string tag;
+	int id; // player and bullet will have matching ids
 
 	template<typename T>
 	bool HasComponent() const
